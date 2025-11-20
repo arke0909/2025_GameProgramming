@@ -12,10 +12,7 @@ void SceneManager::Init()
 	// dynamic_cast<>
 	// std::dynamic_pointer_cast<>
 
-	RegisterScene(L"DevScene", std::make_shared<DevScene>());
-	RegisterScene(L"TestScene", std::make_shared<TestScene>());
 
-	LoadScene(L"DevScene");
 
 }
 
