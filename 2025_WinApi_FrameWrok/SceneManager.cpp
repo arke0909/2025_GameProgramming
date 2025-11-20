@@ -1,7 +1,5 @@
 #include "pch.h"
 #include "SceneManager.h"
-#include "DevScene.h"
-#include "TestScene.h"
 #include "Object.h"
 #include "Collider.h"
 
