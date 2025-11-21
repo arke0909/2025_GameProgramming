@@ -4,6 +4,7 @@ enum class Layer
 {
 	DEFAULT,
 	BACKGROUND,
+	UI,
 	PLAYER,
 	ENEMY,
 	PROJECTILE,
