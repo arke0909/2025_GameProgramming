@@ -30,3 +30,8 @@ enum class PlayMode
 {
 	Once, Loop, Counted
 };
+
+enum class ButtonEvent
+{
+	Click, Hover, END
+};

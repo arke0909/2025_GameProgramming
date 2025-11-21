@@ -171,6 +171,7 @@
     <ClInclude Include="Enums.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GDISelector.h" />
+    <ClInclude Include="Image.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="pch.h" />
@@ -183,6 +184,8 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="UI.h" />
+    <ClInclude Include="UIManager.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +197,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="GDISelector.cpp" />
+    <ClCompile Include="Image.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Object.cpp" />
@@ -204,6 +208,8 @@
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="UI.cpp" />
+    <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2025_WinApi_FrameWrok.rc" />

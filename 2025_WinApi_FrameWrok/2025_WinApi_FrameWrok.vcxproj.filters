@@ -55,6 +55,9 @@
     <Filter Include="Engine\02.Manager\Framework">
       <UniqueIdentifier>{1cbcb6c8-a822-4b06-ba1d-947618e784a5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\06.Component\SpriteRenderer">
+      <UniqueIdentifier>{738316a3-3aa6-49ad-ad6c-d42ece9b4d1e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2025_WinApi_FrameWrok.h">
@@ -132,6 +135,15 @@
     <ClInclude Include="Rigidbody.h">
       <Filter>Engine\06.Component\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="UIManager.h">
+      <Filter>Engine\02.Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>Engine\07.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>Engine\07.UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2025_WinApi_FrameWrok.rc">
@@ -200,6 +212,15 @@
     </ClCompile>
     <ClCompile Include="Rigidbody.cpp">
       <Filter>Engine\06.Component\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="UIManager.cpp">
+      <Filter>Engine\02.Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>Engine\07.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>Engine\07.UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
