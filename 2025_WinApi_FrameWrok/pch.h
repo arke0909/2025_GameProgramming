@@ -62,5 +62,3 @@ using std::wstring;
 using std::cout;
 using std::endl;
 
-#undef max;
-#undef min;
