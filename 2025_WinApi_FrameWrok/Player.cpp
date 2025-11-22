@@ -9,10 +9,34 @@
 Player::Player()
 {
 	_pTex = GET_SINGLE(ResourceManager)
-		->GetTexture(L"Player");
+		->GetTexture(L"Player_96");
 	_rigidBody = AddComponent<Rigidbody>();
 	_rigidBody->SetUseGravity(false);
 	AddComponent<Collider>();
+
+	Vec2 animSize;
+
+	switch (_pTex->GetHeight())
+	{
+	case 16:
+		animSize = { 16.f,16.f };
+		break;
+	case 32:
+		animSize = { 32.f,32.f };
+		break;
+	case 48:
+		animSize = { 48.f,48.f };
+		break;
+	case 64:
+		animSize = { 64.f,64.f };
+		break;
+	case 96:
+		animSize = { 96.f,96.f };
+		break;
+	case 128:
+		animSize = { 128.f,128.f };
+		break;
+	}
 
 	auto* animator = AddComponent<Animator>();
 	animator->CreateAnimation
@@ -20,7 +44,7 @@ Player::Player()
 		L"Idle",
 		_pTex,
 		{0.f,0.f},
-		{1024.f,1024.f},
+		animSize,//{1024.f,1024.f},
 		{0.f,0.f},
 		1,1
 	);

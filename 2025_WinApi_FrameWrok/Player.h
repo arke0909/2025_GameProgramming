@@ -16,6 +16,6 @@ public:
 private:
     Rigidbody* _rigidBody;
     Texture* _pTex;
-    float _moveSpeed = 100;
+    float _moveSpeed = 150;
 };
 
