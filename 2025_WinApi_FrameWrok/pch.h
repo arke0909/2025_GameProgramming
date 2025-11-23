@@ -72,5 +72,3 @@ using uint64 = unsigned __int64;
 using std::cout;
 using std::endl;
 
-#undef max;
-#undef min;
