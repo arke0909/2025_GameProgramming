@@ -17,6 +17,7 @@
 #include<format>
 #include<assert.h>
 #include<filesystem>
+#include <functional>
 
 namespace fs = std::filesystem;
 
@@ -62,5 +63,3 @@ using std::wstring;
 using std::cout;
 using std::endl;
 
-#undef max;
-#undef min;

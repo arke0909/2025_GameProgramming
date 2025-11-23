@@ -3,6 +3,7 @@
 #include "Object.h"
 #include "CollisionManager.h"
 #include "Rigidbody.h"
+#include "UIManager.h"
 
 Scene::Scene()
 {
@@ -62,6 +63,8 @@ void Scene::Render(HDC hdc)
 			if(!obj->GetIsDead())
 			obj->Render(hdc);
 	}
+
+	GET_SINGLE(UIManager)->Render(hdc);
 }
 
 void Scene::Release()
@@ -74,6 +77,7 @@ void Scene::Release()
 		vec.clear();
 	}
 	GET_SINGLE(CollisionManager)->CheckReset();
+	GET_SINGLE(UIManager)->Clear();
 }
 
 void Scene::RequestDestroy(Object* obj)
