@@ -32,7 +32,7 @@ public:
     void setPosition(Vector2 pos) { _x = pos.x; _y = pos.y; }
 
     // 스프라이트 크기 설정
-    void setSize(Vector2 size) { _cx = size.x; _cy = size.y; } // (수정)
+    void setSize(Vector2 size) { _cx = size.x; _cy = size.y; } 
 
 private:
     Texture* _texture = nullptr;   // 원본 텍스처
