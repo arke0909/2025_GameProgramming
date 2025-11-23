@@ -17,6 +17,8 @@
 #include<format>
 #include<assert.h>
 #include<filesystem>
+#define _USE_MATH_DEFINES
+#include<math.h>
 
 namespace fs = std::filesystem;
 
@@ -36,6 +38,14 @@ using std::vector;
 using std::list;
 using std::map;
 using std::wstring;
+using int8 = __int8;
+using int16 = __int16;
+using int32 = __int32;
+using int64 = __int64;
+using uint8 = unsigned __int8;
+using uint16 = unsigned __int16;
+using uint32 = unsigned __int32;
+using uint64 = unsigned __int64;
 
 // °¢Á¾ define°ª
 #define PI 3.14159265358979f

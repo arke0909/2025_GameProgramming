@@ -10,7 +10,7 @@ Sprite::Sprite(Texture* texture, int32 x, int32 y, int32 cx, int32 cy)
 	, _cx(cx)
 	, _cy(cy)
 {
-	HDC textureDC = _texture->getTextureDC();
+	HDC textureDC = _texture->GetTextureDC();
 	_hSpriteDC = CreateCompatibleDC(textureDC);
 	_hSpriteBitmap = CreateCompatibleBitmap(textureDC, _cx, _cy);
 	SelectObject(_hSpriteDC, _hSpriteBitmap);
