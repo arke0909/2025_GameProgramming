@@ -1,12 +1,14 @@
 #pragma once
+#include "UIElement.h"
 class UIManager
 {
+DECLARE_SINGLE(UIManager);
 public:
-	UIManager();
-	~UIManager();
-public:
-	void CreateImage();
-	void CreateButton();
-	void CreateText(wstring text);
+	void Add(UIElement* elem);
+	void Render(HDC hdc);
+	void HandleInput(UINT msg, WPARAM wParam, LPARAM lParam);
+	void Clear();
+private:
+	std::vector<UIElement*> _elements;
 };
 

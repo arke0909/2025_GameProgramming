@@ -20,6 +20,7 @@ bool ResourceManager::Init()
     FMOD::System_Create(&m_pSoundSystem); // 시스템 생성
     if (m_pSoundSystem != nullptr)
         m_pSoundSystem->init(64, FMOD_INIT_NORMAL, nullptr);
+    GET_SINGLE(ResourceManager)->LoadTexture(L"Test", L"Texture\\plane.bmp");
 
     RegisterSound();
 

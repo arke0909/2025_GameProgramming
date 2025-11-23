@@ -2,6 +2,7 @@
 #include "SceneManager.h"
 #include "Object.h"
 #include "Collider.h"
+#include "Test.h"
 
 void SceneManager::Init()
 {
@@ -9,8 +10,6 @@ void SceneManager::Init()
 	// 다이나믹 캐스트 : 다운캐스팅할 때 보통 사용함
 	// dynamic_cast<>
 	// std::dynamic_pointer_cast<>
-
-
 
 }
 
