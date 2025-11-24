@@ -21,7 +21,7 @@ private:
     Rigidbody* _rigidbody;
     Texture* _pTex;
     Weapon* _weapon;
-    float _moveSpeed = 150;
+    float _moveSpeed = 250;
     float _weaponCreateRadius = 150;
     float _fireInterval = 1.5f;
     float _lastFireTime = 0.f;
