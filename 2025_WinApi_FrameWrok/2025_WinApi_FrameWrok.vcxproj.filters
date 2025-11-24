@@ -147,6 +147,9 @@
     <ClInclude Include="Test.h">
       <Filter>Engine\04.Scene</Filter>
     </ClInclude>
+    <ClInclude Include="UILabel.h">
+      <Filter>Engine\07.UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2025_WinApi_FrameWrok.rc">
@@ -224,6 +227,9 @@
     </ClCompile>
     <ClCompile Include="Test.cpp">
       <Filter>Engine\04.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="UILabel.cpp">
+      <Filter>Engine\07.UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

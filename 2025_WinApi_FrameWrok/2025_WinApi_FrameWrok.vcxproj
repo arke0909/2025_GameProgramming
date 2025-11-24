@@ -186,6 +186,7 @@
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="UIElement.h" />
     <ClInclude Include="UIImage.h" />
+    <ClInclude Include="UILabel.h" />
     <ClInclude Include="UIManager.h" />
     <ClInclude Include="Vec2.h" />
   </ItemGroup>
@@ -210,6 +211,7 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="UIImage.cpp" />
+    <ClCompile Include="UILabel.cpp" />
     <ClCompile Include="UIManager.cpp" />
   </ItemGroup>
   <ItemGroup>
