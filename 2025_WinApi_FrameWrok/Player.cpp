@@ -1,40 +1,35 @@
 #include "pch.h"
 #include "Player.h"
+#include "Weapon.h"
+#include "Projectile.h"
 #include "Rigidbody.h"
 #include "Collider.h"
 #include "Animator.h"
 #include "InputManager.h"
 #include "ResourceManager.h"
+#include "SceneManager.h"
 
 Player::Player()
 {
 	_pTex = GET_SINGLE(ResourceManager)
-		->GetTexture(L"Player_96");
-	_rigidBody = AddComponent<Rigidbody>();
-	_rigidBody->SetUseGravity(false);
+		->GetTexture(L"Player_64");
+	_rigidbody = AddComponent<Rigidbody>();
+	_rigidbody->SetUseGravity(false);
 	AddComponent<Collider>();
 
 	Vec2 animSize;
 
 	switch (_pTex->GetHeight())
 	{
-	case 16:
-		animSize = { 16.f,16.f };
 		break;
 	case 32:
 		animSize = { 32.f,32.f };
-		break;
-	case 48:
-		animSize = { 48.f,48.f };
 		break;
 	case 64:
 		animSize = { 64.f,64.f };
 		break;
 	case 96:
 		animSize = { 96.f,96.f };
-		break;
-	case 128:
-		animSize = { 128.f,128.f };
 		break;
 	}
 
@@ -50,11 +45,14 @@ Player::Player()
 	);
 
 	animator->Play(L"Idle");
+
+	_weapon = CreateWeapon();
+
+	_lastFireTime = -_fireInterval;
 }
 
 Player::~Player()
 {
-	SAFE_DELETE(_rigidBody);
 }
 
 void Player::Update()
@@ -70,11 +68,59 @@ void Player::Update()
 	if (GET_KEY(KEY_TYPE::D))
 		velocity.x += 1;
 
+#pragma region Pull Attack
+	if (GET_KEYDOWN(KEY_TYPE::SPACE))
+		_weapon->PullWeapon();
+
 	velocity.Normalize();
-	_rigidBody->SetVelocity(velocity * _moveSpeed);
+	_rigidbody->SetVelocity(velocity * _moveSpeed);
+#pragma endregion
+
+#pragma region Shot Attack
+
+	if (GET_KEYDOWN(KEY_TYPE::SPACE))
+		ShotProjectile();
+#pragma endregion
+
 }
 
 void Player::Render(HDC hdc)
 {
 	ComponentRender(hdc);
+}
+
+Weapon* Player::CreateWeapon()
+{
+	Weapon* weapon = new Weapon;
+	weapon->SetPlayer(this);
+	
+	int x = rand() % 150 + 100;
+	int y = rand() % 150 + 100;
+
+	weapon->SetPos({_pos.x + x, _pos.y + y});
+	weapon->SetSize({50.f, 50.f});
+
+	GET_SINGLE(SceneManager)->GetCurScene()
+		->AddObject(weapon, Layer::PROJECTILE);
+
+	return weapon;
+}
+
+void Player::ShotProjectile()
+{
+	// 현재 시간
+	float time = GET_SINGLE(TimeManager)->GetTime();
+	float currentLapse = time - _lastFireTime;
+
+	if (currentLapse < _fireInterval)
+		return;
+
+	_lastFireTime = time;
+	Projectile* proj = new Projectile;
+	Vec2 mousePos = GET_SINGLE(InputManager)->GetMousePos();
+	Vec2 dir = mousePos - _pos;
+
+	proj->SetPos(_pos);
+	proj->SetDir(dir * 250);
+	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(proj,Layer::PROJECTILE);
 }
