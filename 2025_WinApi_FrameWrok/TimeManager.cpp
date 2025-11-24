@@ -20,6 +20,7 @@ void TimeManager::Update()
 	_llPrevCnt = _llCurCnt;
 
 	_frameCnt++;
+	_time += _deltaTime;
 	_frameTime += _deltaTime;
 
 	if (_frameTime >= 1.f)
