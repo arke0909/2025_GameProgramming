@@ -55,9 +55,6 @@
     <Filter Include="Engine\02.Manager\Framework">
       <UniqueIdentifier>{1cbcb6c8-a822-4b06-ba1d-947618e784a5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\03.Object\CommonEnemy">
-      <UniqueIdentifier>{0f3b1d57-6615-4f26-875c-28881824427a}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2025_WinApi_FrameWrok.h">
@@ -135,11 +132,20 @@
     <ClInclude Include="Rigidbody.h">
       <Filter>Engine\06.Component\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Engine\03.Object\CommonEnemy</Filter>
+    <ClInclude Include="PlayerDevScene.h">
+      <Filter>Engine\04.Scene</Filter>
     </ClInclude>
-    <ClInclude Include="EnemySpawnManager.h">
-      <Filter>Engine\02.Manager</Filter>
+    <ClInclude Include="Player.h">
+      <Filter>Engine\03.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Engine\03.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleCollider.h">
+      <Filter>Engine\06.Component\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Engine\03.Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -210,11 +216,20 @@
     <ClCompile Include="Rigidbody.cpp">
       <Filter>Engine\06.Component\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Engine\03.Object\CommonEnemy</Filter>
+    <ClCompile Include="PlayerDevScene.cpp">
+      <Filter>Engine\04.Scene</Filter>
     </ClCompile>
-    <ClCompile Include="EnemySpawnManager.cpp">
-      <Filter>Engine\02.Manager</Filter>
+    <ClCompile Include="Player.cpp">
+      <Filter>Engine\03.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Engine\03.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleCollider.cpp">
+      <Filter>Engine\06.Component\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Engine\03.Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
