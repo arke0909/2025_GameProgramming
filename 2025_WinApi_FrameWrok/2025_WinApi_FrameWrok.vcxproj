@@ -175,11 +175,13 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="GDISelector.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="MeleeEnemy.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerDevScene.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="RangedEnemy.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="ResourceBase.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -206,10 +208,12 @@
     <ClCompile Include="GDISelector.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MeleeEnemy.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerDevScene.cpp" />
     <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="RangedEnemy.cpp" />
     <ClCompile Include="ResourceBase.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
