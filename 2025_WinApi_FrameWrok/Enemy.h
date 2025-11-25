@@ -1,20 +1,30 @@
 #pragma once
 #include "Object.h"
+#include "Player.h"
+#include "Collider.h"
 class Enemy :
     public Object
 {
 public:
-	Enemy();
-	~Enemy();
-	void Death();
-	void SetDirection();
-	void MoveToTarget();
-public:
-	virtual void Attack();
-public:
-    Vec2 _targetPos;
+    Enemy();
+    virtual ~Enemy();
+
+    void SetTarget(Player* player);
+    void Update() override;
+    void Render(HDC hdc) override;
+    void EnterCollision(Collider* _other)override;
+protected:
+    virtual void Attack() = 0;
+    virtual float GetAttackRange() = 0;
+
+    void MoveToTarget();
+    void SetDirection();
+    bool IsInAttackRange();
+protected:
+    Player* _target;
+    Texture* m_pTex;
+    float _speed;
+    float _direction;
 private:
-	float _speed;
-	float _attackDamage;
-	float _direction;
+	Vec2 _centerPos; //ÀÓ½Ã°ª
 };
