@@ -11,7 +11,6 @@ public:
     virtual ~UIElement() = default;
 
     virtual void Render(HDC hdc) = 0;
-    virtual void HandleInput(UINT msg, WPARAM wParam, LPARAM lParam) = 0;
 
     RECT GetRect() const { return _rect; }
     void SetVisible(bool visible) { _visible = visible; }
