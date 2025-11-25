@@ -26,6 +26,8 @@ void Scene::Update()
 				obj->Update();
 		}
 	}
+
+	GET_SINGLE(UIManager)->Update();
 }
 
 void Scene::FixedUpdate(float _fixedDT)

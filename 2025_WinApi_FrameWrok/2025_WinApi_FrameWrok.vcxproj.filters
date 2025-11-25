@@ -150,6 +150,9 @@
     <ClInclude Include="UILabel.h">
       <Filter>Engine\07.UI</Filter>
     </ClInclude>
+    <ClInclude Include="UIButton.h">
+      <Filter>Engine\07.UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2025_WinApi_FrameWrok.rc">
@@ -229,6 +232,9 @@
       <Filter>Engine\04.Scene</Filter>
     </ClCompile>
     <ClCompile Include="UILabel.cpp">
+      <Filter>Engine\07.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UIButton.cpp">
       <Filter>Engine\07.UI</Filter>
     </ClCompile>
   </ItemGroup>
