@@ -4,6 +4,8 @@
 #include "Scene.h"
 #include "Object.h"
 #include "Collider.h"
+#include "BoxCollider.h"
+#include "CircleCollider.h"
 void CollisionManager::Update()
 {
 	for (UINT Row = 0; Row < (UINT)Layer::END; ++Row)
@@ -128,6 +130,23 @@ void CollisionManager::CollisionLayerUpdate(Layer _left, Layer _right)
 
 bool CollisionManager::IsCollision(Collider* _left, Collider* _right)
 {
+	auto* circle1 = dynamic_cast<CircleCollider*>(_left);
+	auto* circle2 = dynamic_cast<CircleCollider*>(_right);
+
+	if (circle1 && circle2)
+		return IsCircleCircle(circle1, circle2);
+
+	if (circle1 && !circle2)
+		return IsCircleAABB((BoxCollider*)_right, circle1);
+
+	if(!circle1 && circle2)
+		return IsCircleAABB((BoxCollider*)_left, circle2);
+
+	return IsAABBAABB((BoxCollider*)_left, (BoxCollider*)_right);
+}
+
+bool CollisionManager::IsAABBAABB(BoxCollider* _left, BoxCollider* _right)
+{
 	Vec2 leftPos = _left->GetUpdatedPos();
 	Vec2 rightPos = _right->GetUpdatedPos();
 	Vec2 leftSize = _left->GetSize();
@@ -135,6 +154,43 @@ bool CollisionManager::IsCollision(Collider* _left, Collider* _right)
 
 	return (fabsf(rightPos.x - leftPos.x) < (leftSize.x + rightSize.x) / 2.f
 		&& fabsf(rightPos.y - leftPos.y) < (leftSize.y + rightSize.y) / 2.f);
+}
+
+bool CollisionManager::IsCircleAABB(BoxCollider* aabb, CircleCollider* circle)
+{
+	Vec2 circlePos = circle->GetUpdatedPos();
+	float radius = circle->GetRadius();
+
+	Vec2 boxPos = aabb->GetUpdatedPos();
+	Vec2 boxSize = aabb->GetSize();
+
+	float boxX1 = boxPos.x - (boxSize.x / 2);
+	float boxX2 = boxPos.x + (boxSize.x / 2);
+	float boxY1 = boxPos.y + (boxSize.y / 2);
+	float boxY2 = boxPos.y - (boxSize.y / 2);
+
+	float closestX = std::clamp(circlePos.x, boxX1, boxX2);
+	float closestY = std::clamp(circlePos.y, boxY1, boxY2);
+
+	float x = circlePos.x - closestX;
+	float y = circlePos.y - closestY;
+
+	float dist = sqrt((x * x) + (y * y));
+
+	return dist < radius;
+}
+
+bool CollisionManager::IsCircleCircle(CircleCollider* _left, CircleCollider* _right)
+{
+	// 반지름 반지름 원의 거리 반지름보다 작으면 충돌
+
+	Vec2 leftPos = _left->GetUpdatedPos();
+	Vec2 rightPos = _right->GetUpdatedPos();
+	float leftRadius = _left->GetRadius();
+	float rightRadius = _right->GetRadius();
+	float dist = (leftPos - rightPos).Length();
+
+	return dist <= leftRadius + rightRadius;
 }
 
 ULONGLONG CollisionManager::MakePairKey(UINT a, UINT b)
