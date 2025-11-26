@@ -138,17 +138,20 @@
     <ClInclude Include="UIManager.h">
       <Filter>Engine\02.Manager</Filter>
     </ClInclude>
-    <ClInclude Include="UI.h">
+    <ClInclude Include="UIElement.h">
       <Filter>Engine\07.UI</Filter>
     </ClInclude>
-    <ClInclude Include="Image.h">
+    <ClInclude Include="UIImage.h">
       <Filter>Engine\07.UI</Filter>
     </ClInclude>
-    <ClInclude Include="SpriteRenderer.h">
-      <Filter>Engine\06.Component\SpriteRenderer</Filter>
+    <ClInclude Include="Test.h">
+      <Filter>Engine\04.Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>Engine\06.Component\SpriteRenderer</Filter>
+    <ClInclude Include="UILabel.h">
+      <Filter>Engine\07.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UIButton.h">
+      <Filter>Engine\07.UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -222,17 +225,17 @@
     <ClCompile Include="UIManager.cpp">
       <Filter>Engine\02.Manager</Filter>
     </ClCompile>
-    <ClCompile Include="UI.cpp">
+    <ClCompile Include="UIImage.cpp">
       <Filter>Engine\07.UI</Filter>
     </ClCompile>
-    <ClCompile Include="Image.cpp">
+    <ClCompile Include="Test.cpp">
+      <Filter>Engine\04.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="UILabel.cpp">
       <Filter>Engine\07.UI</Filter>
     </ClCompile>
-    <ClCompile Include="SpriteRenderer.cpp">
-      <Filter>Engine\06.Component\SpriteRenderer</Filter>
-    </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>Engine\06.Component\SpriteRenderer</Filter>
+    <ClCompile Include="UIButton.cpp">
+      <Filter>Engine\07.UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

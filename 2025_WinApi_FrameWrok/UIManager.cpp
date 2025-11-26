@@ -9,10 +9,9 @@ void UIManager::Render(HDC hdc) {
     for (auto elem : _elements)
         if (elem->IsVisible()) elem->Render(hdc);
 }
-
-void UIManager::HandleInput(UINT msg, WPARAM wParam, LPARAM lParam) {
+void UIManager::Update() {
     for (auto elem : _elements)
-        elem->HandleInput(msg, wParam, lParam);
+        elem->Update();
 }
 
 void UIManager::Clear() {

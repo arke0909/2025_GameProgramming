@@ -11,6 +11,9 @@ void SceneManager::Init()
 	// dynamic_cast<>
 	// std::dynamic_pointer_cast<>
 
+	RegisterScene(L"DevScene", std::make_shared<Test>());
+
+	LoadScene(L"DevScene");
 }
 
 void SceneManager::Update()
