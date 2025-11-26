@@ -190,8 +190,14 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Test.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="UIButton.h" />
+    <ClInclude Include="UIElement.h" />
+    <ClInclude Include="UIImage.h" />
+    <ClInclude Include="UILabel.h" />
+    <ClInclude Include="UIManager.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
@@ -221,8 +227,13 @@
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Test.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="UIButton.cpp" />
+    <ClCompile Include="UIImage.cpp" />
+    <ClCompile Include="UILabel.cpp" />
+    <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
