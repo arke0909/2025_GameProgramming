@@ -3,7 +3,7 @@
 #include "Weapon.h"
 #include "Projectile.h"
 #include "Rigidbody.h"
-#include "Collider.h"
+#include "CircleCollider.h"
 #include "Animator.h"
 #include "InputManager.h"
 #include "ResourceManager.h"
@@ -15,7 +15,8 @@ Player::Player()
 		->GetTexture(L"Player_64");
 	_rigidbody = AddComponent<Rigidbody>();
 	_rigidbody->SetUseGravity(false);
-	AddComponent<Collider>();
+	auto* col = AddComponent<CircleCollider>();
+	col->SetName(L"Player");
 
 	Vec2 animSize;
 
@@ -78,8 +79,8 @@ void Player::Update()
 
 #pragma region Shot Attack
 
-	if (GET_KEYDOWN(KEY_TYPE::SPACE))
-		ShotProjectile();
+	//if (GET_KEYDOWN(KEY_TYPE::SPACE))
+	//	ShotProjectile();
 #pragma endregion
 
 }
@@ -87,6 +88,18 @@ void Player::Update()
 void Player::Render(HDC hdc)
 {
 	ComponentRender(hdc);
+}
+
+void Player::EnterCollision(Collider* _other)
+{
+}
+
+void Player::StayCollision(Collider* _other)
+{
+}
+
+void Player::ExitCollision(Collider* _other)
+{
 }
 
 Weapon* Player::CreateWeapon()

@@ -67,7 +67,7 @@ void Core::MainUpdate()
 void Core::MainRender()
 {
 	//::Rectangle(_hBackDC, -1, -1, WINDOW_WIDTH + 1, WINDOW_HEIGHT + 1);
-	::PatBlt(_hBackDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, WHITENESS);
+	::PatBlt(_hBackDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, BLACKNESS);
 
 	GET_SINGLE(SceneManager)->Render(_hBackDC);
 
