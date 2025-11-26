@@ -8,7 +8,10 @@ union COLLIDER_ID
     };
     ULONGLONG ID;
 };
+
 class Collider;
+class BoxCollider;
+class CircleCollider;
 class CollisionManager
 {
     DECLARE_SINGLE(CollisionManager);
@@ -19,6 +22,9 @@ public:
 private:
     void CollisionLayerUpdate(Layer _left, Layer _right);
     bool IsCollision(Collider* _left, Collider* _right);
+    bool IsAABBAABB(BoxCollider* _left, BoxCollider* _right);
+    bool IsCircleAABB(BoxCollider* aabb, CircleCollider* circle);
+    bool IsCircleCircle(CircleCollider* _left, CircleCollider* _right);
     ULONGLONG MakePairKey(UINT a, UINT b);
 private:
     // 그룹 간의 충돌체크 배열

@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "Rigidbody.h"
 #include "ResourceManager.h"
-#include "Collider.h"
+#include "CircleCollider.h"
 #include "Animator.h"
 
 Weapon::Weapon()
@@ -12,7 +12,8 @@ Weapon::Weapon()
 		->GetTexture(L"Player_32");
 	_rigidbody = AddComponent<Rigidbody>();
 	_rigidbody->SetUseGravity(false);
-	AddComponent<Collider>();
+	auto* col = AddComponent<CircleCollider>();
+	col->SetName(L"Weapon");
 
 	Vec2 animSize;
 

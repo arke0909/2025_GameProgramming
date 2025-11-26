@@ -11,9 +11,11 @@ public:
     LONG GetWidth() const { return _bitInfo.bmWidth; }
     LONG GetHeight() const { return _bitInfo.bmHeight; }
     const HDC& GetTextureDC() const { return _hdc; }
+    const COLORREF& getTransparent() { return _transparent; }
 private:
     HBITMAP _hBit;
     HDC _hdc;
     BITMAP _bitInfo;
+    COLORREF _transparent = RGB(255, 0, 255);
 };
 

@@ -17,6 +17,7 @@
 #include<format>
 #include<assert.h>
 #include<filesystem>
+#include <functional>
 
 namespace fs = std::filesystem;
 

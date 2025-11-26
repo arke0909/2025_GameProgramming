@@ -12,14 +12,15 @@ bool ResourceManager::Init()
 	fs::path resourceDir = exeDir.parent_path() / L"build" / L"Resource\\"; // release모드일때 build 한번더 붙이는거 무시
 	_resourcePath = resourceDir.native();
 
-    //if (!RegisterFontFile(L"Font\\나눔손글씨 암스테르담.ttf"))
-    //    return false;
+    if (!RegisterFontFile(L"Font\\나눔손글씨 암스테르담.ttf"))
+       return false;
     RegisterTexture();
     RegisterGDI();
     
     FMOD::System_Create(&m_pSoundSystem); // 시스템 생성
     if (m_pSoundSystem != nullptr)
         m_pSoundSystem->init(64, FMOD_INIT_NORMAL, nullptr);
+   LoadTexture(L"Test", L"Texture\\plane.bmp");
 
     RegisterSound();
 
@@ -136,8 +137,7 @@ void ResourceManager::RegisterGDI()
     m_Pens[(UINT)PenType::RED] = ::CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
     m_Pens[(UINT)PenType::GREEN] = ::CreatePen(PS_SOLID, 1, RGB(0, 255, 0));
 
-    // 폰트 등록
-    //RegisterFont(FontType::TITLE, L"나눔손글씨 암스테르담", 0);
+    RegisterFont(FontType::TITLE, L"나눔손글씨 암스테르담", 0);
 
 }
 
