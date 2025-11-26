@@ -10,10 +10,6 @@ void SceneManager::Init()
 	// 다이나믹 캐스트 : 다운캐스팅할 때 보통 사용함
 	// dynamic_cast<>
 	// std::dynamic_pointer_cast<>
-
-	RegisterScene(L"DevScene", std::make_shared<Test>());
-
-	LoadScene(L"DevScene");
 }
 
 void SceneManager::Update()
