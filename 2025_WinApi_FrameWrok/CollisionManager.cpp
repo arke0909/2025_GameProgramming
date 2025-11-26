@@ -166,8 +166,8 @@ bool CollisionManager::IsCircleAABB(BoxCollider* aabb, CircleCollider* circle)
 
 	float boxX1 = boxPos.x - (boxSize.x / 2);
 	float boxX2 = boxPos.x + (boxSize.x / 2);
-	float boxY1 = boxPos.y + (boxSize.y / 2);
-	float boxY2 = boxPos.y - (boxSize.y / 2);
+	float boxY1 = boxPos.y - (boxSize.y / 2);
+	float boxY2 = boxPos.y + (boxSize.y / 2);
 
 	float closestX = std::clamp(circlePos.x, boxX1, boxX2);
 	float closestY = std::clamp(circlePos.y, boxY1, boxY2);

@@ -2,8 +2,7 @@
 #include "Collider.h"
 #include "Object.h"
 UINT Collider::m_nextID = 0;
-Collider::Collider() : m_size{ 30.f,30.f }
-, m_updatedPos{ 0.f,0.f }, m_offsetPos{ 0.f, 0.f }, m_ID(m_nextID++),
+Collider::Collider() : m_updatedPos{ 0.f,0.f }, m_offsetPos{ 0.f, 0.f }, m_ID(m_nextID++),
 _showDebug()
 {
 
@@ -32,8 +31,9 @@ void Collider::Render(HDC hDC)
 	GDISelector pen(hDC, colorPen);
 	GDISelector brush(hDC, BrushType::HOLLOW);
 
-	RECT_RENDER(hDC, m_updatedPos.x, m_updatedPos.y, m_size.x, m_size.y);
+	(this->*fp)(hDC);
 }
+
 
 void Collider::EnterCollision(Collider* _other)
 {

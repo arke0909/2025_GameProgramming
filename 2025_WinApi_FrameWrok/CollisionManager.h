@@ -8,6 +8,8 @@ union COLLIDER_ID
     };
     ULONGLONG ID;
 };
+
+class Collider;
 class BoxCollider;
 class CircleCollider;
 class CollisionManager
