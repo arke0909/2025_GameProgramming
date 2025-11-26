@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "Projectile.h"
 #include "ResourceManager.h"
-#include "Collider.h"
+#include "CircleCollider.h"
 #include "Animator.h"
 
 Projectile::Projectile() : _angle(0.f), _dir(1.f, 1.f)
 {
 	_projecTex = GET_SINGLE(ResourceManager)->GetTexture(L"Player_32");
-	auto* col = AddComponent<Collider>();
+	auto* col = AddComponent<CircleCollider>();
 	col->SetName(L"PlayerBullet");
 	col->SetTrigger(true);
 

@@ -17,8 +17,6 @@ public:
     void ExitCollision(Collider* _other); // 충돌해제
 public:
     UINT GetID() const { return m_ID; }
-    void SetSize(Vec2 _size) { m_size = _size; }
-    const Vec2& GetSize() const { return m_size; }
     void SetOffSetPos(Vec2 _OffsetPos)
     {
         m_offsetPos = _OffsetPos;
@@ -33,8 +31,7 @@ public:
 
     void SetTrigger(bool t) { m_isTrigger = t; }
     bool IsTrigger() const { return m_isTrigger; }
-private:
-    Vec2 m_size; // 콜라이더 크기
+protected:
     // Object로부터 상대적인 위치
     Vec2 m_offsetPos;
     // LateUpdate에서 매 프레임마다 오브젝트로부터 계산되는 위치
@@ -44,5 +41,6 @@ private:
     bool _showDebug;
     bool m_isTrigger = false;
     std::wstring m_name;   // 콜라이더 식별용 이름
+    void (Collider::*fp)(HDC);
 };
 

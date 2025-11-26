@@ -15,6 +15,9 @@ public:
     void Update() override;
     void Render(HDC hdc) override;
 private:
+    void EnterCollision(Collider* _other) override; //충돌진입
+    void StayCollision(Collider* _other) override; // 충돌중
+    void ExitCollision(Collider* _other) override;
     Weapon* CreateWeapon();
     void ShotProjectile();
 private:
