@@ -5,6 +5,10 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
     <Filter Include="리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -50,13 +54,6 @@
     </Filter>
     <Filter Include="Engine\02.Manager\Framework">
       <UniqueIdentifier>{1cbcb6c8-a822-4b06-ba1d-947618e784a5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\06.Component\SpriteRenderer">
-      <UniqueIdentifier>{738316a3-3aa6-49ad-ad6c-d42ece9b4d1e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -135,23 +132,20 @@
     <ClInclude Include="Rigidbody.h">
       <Filter>Engine\06.Component\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="UIManager.h">
-      <Filter>Engine\02.Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="UIElement.h">
-      <Filter>Engine\07.UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UIImage.h">
-      <Filter>Engine\07.UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Test.h">
+    <ClInclude Include="PlayerDevScene.h">
       <Filter>Engine\04.Scene</Filter>
     </ClInclude>
-    <ClInclude Include="UILabel.h">
-      <Filter>Engine\07.UI</Filter>
+    <ClInclude Include="Player.h">
+      <Filter>Engine\03.Object</Filter>
     </ClInclude>
-    <ClInclude Include="UIButton.h">
-      <Filter>Engine\07.UI</Filter>
+    <ClInclude Include="Weapon.h">
+      <Filter>Engine\03.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleCollider.h">
+      <Filter>Engine\06.Component\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Engine\03.Object</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -222,20 +216,20 @@
     <ClCompile Include="Rigidbody.cpp">
       <Filter>Engine\06.Component\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="UIManager.cpp">
-      <Filter>Engine\02.Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="UIImage.cpp">
-      <Filter>Engine\07.UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Test.cpp">
+    <ClCompile Include="PlayerDevScene.cpp">
       <Filter>Engine\04.Scene</Filter>
     </ClCompile>
-    <ClCompile Include="UILabel.cpp">
-      <Filter>Engine\07.UI</Filter>
+    <ClCompile Include="Player.cpp">
+      <Filter>Engine\03.Object</Filter>
     </ClCompile>
-    <ClCompile Include="UIButton.cpp">
-      <Filter>Engine\07.UI</Filter>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Engine\03.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleCollider.cpp">
+      <Filter>Engine\06.Component\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Engine\03.Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
