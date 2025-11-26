@@ -21,8 +21,8 @@ bool ResourceManager::Init()
     if (m_pSoundSystem != nullptr)
         m_pSoundSystem->init(64, FMOD_INIT_NORMAL, nullptr);
    LoadTexture(L"Test", L"Texture\\plane.bmp");
-   LoadTexture(L"Player", L"Texture\\Player.bmp");
-   LoadTexture(L"CloseEnemy", L"Texture\\MeleeEnemy.bmp");
+   LoadTexture(L"CloseEnemy", L"Texture\\MeleeEnemy_24.bmp");
+   LoadTexture(L"Player", L"Texture\\Player_24.bmp"); 
 
     RegisterSound();
 
