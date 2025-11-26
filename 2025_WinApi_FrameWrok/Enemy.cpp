@@ -7,13 +7,14 @@
 #include "Player.h"
 
 Enemy::Enemy()
-    :
-    m_pTex(nullptr), 
+    : m_pTex(nullptr), 
     _speed(100.f),
     _direction(0.f),
-	_centerPos(400.f, 300.f) //임시값
+	_centerPos(500.f, 500.f) //임시값
 {
-
+    auto* col = AddComponent<Collider>();
+    col->SetName(L"Enemy");
+    col->SetTrigger(true);
 }
 
 Enemy::~Enemy()
@@ -39,10 +40,17 @@ void Enemy::SetDirection()
 
 bool Enemy::IsInAttackRange()
 {
-    if (_target == nullptr)
+    /*if (_target == nullptr)
         return false;
 
     Vec2 target = _target->GetPos();
+    float dx = target.x - _pos.x;
+    float dy = target.y - _pos.y;
+    float dist = sqrtf(dx * dx + dy * dy);
+
+    return dist <= GetAttackRange();*/
+
+    Vec2 target = _centerPos;
     float dx = target.x - _pos.x;
     float dy = target.y - _pos.y;
     float dist = sqrtf(dx * dx + dy * dy);
@@ -52,7 +60,7 @@ bool Enemy::IsInAttackRange()
 
 void Enemy::MoveToTarget()
 {
-    if (_target == nullptr)
+    /*if (_target == nullptr)
         return;
 
     Vec2 target = _target->GetPos();
@@ -65,8 +73,8 @@ void Enemy::MoveToTarget()
     float nx = dx / len;
     float ny = dy / len;
 
-    Translate(Vec2(nx * _speed * fDT, ny * _speed * fDT));
-    /*float dx = _centerPos.x - _pos.x;
+    Translate(Vec2(nx * _speed * fDT, ny * _speed * fDT));*/
+    float dx = _centerPos.x - _pos.x;
     float dy = _centerPos.y - _pos.y;
 
     float len = sqrtf(dx * dx + dy * dy);
@@ -75,7 +83,7 @@ void Enemy::MoveToTarget()
     float nx = dx / len;
     float ny = dy / len;
 
-    Translate(Vec2(nx * _speed * fDT, ny * _speed * fDT));*/
+    Translate(Vec2(nx * _speed * fDT, ny * _speed * fDT));
 }
 
 void Enemy::Update()
@@ -96,12 +104,14 @@ void Enemy::Render(HDC hdc)
 
 void Enemy::EnterCollision(Collider* _other)
 {
+    cout << "Enter" << endl;
     if (_other->IsTrigger())
     {
-        if (_other->GetName() == L"Player")
+        if (_other->GetName() == L"DevObject")
         {
-            GET_SINGLE(SceneManager)->RequestDestroy(this);
-            GET_SINGLE(SceneManager)->RequestDestroy(_other->GetOwner());
+			cout << "Enemy collided with DevObject. Destroying both." << endl;
+            /*GET_SINGLE(SceneManager)->RequestDestroy(this);
+            GET_SINGLE(SceneManager)->RequestDestroy(_other->GetOwner());*/
         }
     }
 }

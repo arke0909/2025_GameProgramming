@@ -7,16 +7,13 @@
 #include "RangedEnemy.h"
 
 
-EnemySpawnManager::EnemySpawnManager() :
-    _mapWidth(800.0f),
-    _mapHeight(600.0f),
-    _spawnInterval(2.0f),
-    _elapsedTime(0.0f)
-{
-}
 
-EnemySpawnManager::~EnemySpawnManager()
+void EnemySpawnManager::Init()
 {
+    _mapWidth = 800.0f;
+    _mapHeight = 600.0f;
+    _spawnInterval = 2.0f;
+    _elapsedTime = 0.0f;
 }
 
 void EnemySpawnManager::SetMapSize(float width, float height)
@@ -38,23 +35,37 @@ void EnemySpawnManager::Update()
 
 void EnemySpawnManager::SpawnEnemy()
 {
-    Enemy* enemy = CreateRandomEnemy();
-    if (!enemy)
-        return;
+    Enemy * enemy = CreateRandomEnemy();
+    
+    srand((unsigned int)time(nullptr));
 
-    float x = rand() / RAND_MAX * _mapWidth;
-    float y = rand() / RAND_MAX * _mapHeight;
+    float x = rand() % _mapWidth + 1;
+    float y = rand() % _mapHeight + 1;
 
-    enemy->SetPos(Vec2(x, y));
+    Vec2 pos(x, y);
+    Vec2 size(50.f, 50.f);
+
+	enemy->SetPos(pos);
     //Spawn<Enemy>(Layer::ENEMY, { WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 }, { 100.f,100.f });
 }
 
 Enemy* EnemySpawnManager::CreateRandomEnemy()
 {
-    int type = rand() % 2;
+    srand((unsigned int)time(nullptr));
 
-    //if (type == 0)
-        //return new MeleeEnemy();
-    
-        return new RangedEnemy();
+    int type = rand() % 2;
+	Enemy* enemy = nullptr;
+    if (type == 0)
+    {
+        enemy = new MeleeEnemy();
+        GET_SINGLE(SceneManager)->GetCurScene()
+            ->AddObject(enemy, Layer::ENEMY);
+    }
+    else
+    {
+        enemy = new RangedEnemy();
+        GET_SINGLE(SceneManager)->GetCurScene()
+            ->AddObject(enemy, Layer::ENEMY);
+    }
+	return enemy;
 }

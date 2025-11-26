@@ -2,21 +2,19 @@
 #include "Enemy.h"
 class EnemySpawnManager
 {
+    DECLARE_SINGLE(EnemySpawnManager);
 public:
-    EnemySpawnManager();
-    ~EnemySpawnManager();
-
+    void Init();
     void Update();
     void SetMapSize(float width, float height);
+    void SpawnEnemy();
 
 private:
-    void SpawnEnemy();
     Enemy* CreateRandomEnemy();
 
 private:
-    float _mapWidth;
-    float _mapHeight;
+    int _mapWidth;
+    int _mapHeight;
     float _spawnInterval;
     float _elapsedTime;
 };
-
