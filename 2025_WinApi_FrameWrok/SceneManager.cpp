@@ -2,6 +2,7 @@
 #include "SceneManager.h"
 #include "Object.h"
 #include "Collider.h"
+#include "Test.h"
 
 void SceneManager::Init()
 {
@@ -10,8 +11,9 @@ void SceneManager::Init()
 	// dynamic_cast<>
 	// std::dynamic_pointer_cast<>
 
+	RegisterScene(L"DevScene", std::make_shared<Test>());
 
-
+	LoadScene(L"DevScene");
 }
 
 void SceneManager::Update()

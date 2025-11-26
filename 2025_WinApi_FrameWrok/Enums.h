@@ -4,6 +4,7 @@ enum class Layer
 {
 	DEFAULT,
 	BACKGROUND,
+	UI,
 	PLAYER,
 	ENEMY,
 	PROJECTILE,
@@ -28,4 +29,9 @@ enum class FontType
 enum class PlayMode
 {
 	Once, Loop, Counted
+};
+
+enum class ButtonEvent
+{
+	Click, Hover, END
 };
