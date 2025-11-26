@@ -9,7 +9,7 @@
 void Test::Init()
 {
     RECT imgRect = { 100, 100, 356, 228 };
-    Texture* tex = GET_SINGLE(ResourceManager)->GetTexture(L"Test");
+    Texture* tex = GET_SINGLE(ResourceManager)->GetTexture(L"CloseEnemy");
     UIImage* img = new UIImage(tex, imgRect);
 
 	GET_SINGLE(UIManager)->Add(img);
