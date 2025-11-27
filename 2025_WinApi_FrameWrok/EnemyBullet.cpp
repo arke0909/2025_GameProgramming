@@ -2,10 +2,42 @@
 #include "EnemyBullet.h"
 #include "BoxCollider.h"
 #include "SceneManager.h"
+#include "ResourceManager.h"
 
 EnemyBullet::EnemyBullet(const Vec2& startPos, const Vec2& targetPos)
 {
     AddComponent<BoxCollider>();
+	_pTex = GET_SINGLE(ResourceManager)
+		->GetTexture(L"Player");
+
+	Vec2 animSize;
+
+	switch (_pTex->GetHeight())
+	{
+		break;
+	case 32:
+		animSize = { 32.f,32.f };
+		break;
+	case 64:
+		animSize = { 64.f,64.f };
+		break;
+	case 96:
+		animSize = { 96.f,96.f };
+		break;
+	}
+
+	auto* animator = AddComponent<Animator>();
+	animator->CreateAnimation
+	(
+		L"Idle",
+		_pTex,
+		{ 0.f,0.f },
+		animSize,//{1024.f,1024.f},
+		{ 0.f,0.f },
+		1, 1
+	);
+
+	animator->Play(L"Idle");
     SetPos(startPos);
 
     Vec2 dir;
@@ -30,22 +62,14 @@ void EnemyBullet::Update()
 
 void EnemyBullet::Render(HDC hdc)
 {
-    Vec2 pos = GetPos();
-    Vec2 size = GetSize();
-    RECT_RENDER(hdc, pos.x, pos.y, size.x, size.y);
     ComponentRender(hdc);
 }
 
 void EnemyBullet::EnterCollision(Collider* _other)
 {
-    cout << "Enter" << endl;
-    if (_other->IsTrigger())
+    if (_other->GetName() == L"Player")
     {
-        if (_other->GetName() == L"Player")
-        {
-            cout << "Enemy collided with DevObject. Destroying both." << endl;
-            GET_SINGLE(SceneManager)->RequestDestroy(this);
-            GET_SINGLE(SceneManager)->RequestDestroy(_other->GetOwner());
-        }
+        GET_SINGLE(SceneManager)->RequestDestroy(this);
+        GET_SINGLE(SceneManager)->RequestDestroy(_other->GetOwner());
     }
 }
