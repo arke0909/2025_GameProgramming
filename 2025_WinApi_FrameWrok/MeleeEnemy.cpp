@@ -4,7 +4,8 @@
 
 MeleeEnemy::MeleeEnemy()
 {
-	//m_pTex = GET_SINGLE(ResourceManager)->GetTexture(L"MeleeEnemy");
+	m_pTex = GET_SINGLE(ResourceManager)
+		->GetTexture(L"CloseEnemy");
 	_attackRange = 0;
 	_speed = 150.f;
 }

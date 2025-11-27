@@ -8,7 +8,7 @@ RangedEnemy::RangedEnemy()
     :_attackCooldown(1.f),
     _canAttack(true)
 {
-    //m_pTex = GET_SINGLE(ResourceManager)->GetTexture(L"RangedEnemy");
+    m_pTex = GET_SINGLE(ResourceManager)->GetTexture(L"CloseEnemy");
     _speed = 100.f;
     _attackRange = 200.0f;
 }
