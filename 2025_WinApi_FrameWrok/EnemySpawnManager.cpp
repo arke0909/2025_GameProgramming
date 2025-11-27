@@ -17,12 +17,8 @@ void EnemySpawnManager::Init(Player* player)
 
     _spawnInterval = 3.0f;
     _elapsedTime = 0.0f;
-}
-
-void EnemySpawnManager::SetMapSize(float width, float height)
-{
-    _mapWidth = static_cast<int>(width);
-    _mapHeight = static_cast<int>(height);
+    _mapWidth = WINDOW_WIDTH;
+    _mapHeight = WINDOW_HEIGHT;
 }
 
 void EnemySpawnManager::Update()

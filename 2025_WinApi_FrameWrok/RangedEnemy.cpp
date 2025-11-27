@@ -33,7 +33,7 @@ RangedEnemy::RangedEnemy()
 		L"Idle",
 		m_pTex,
 		{ 0.f,0.f },
-		animSize,//{1024.f,1024.f},
+		animSize,
 		{ 0.f,0.f },
 		1, 1
 	);
@@ -67,7 +67,6 @@ void RangedEnemy::Attack()
     if (_canAttack)
     {
         _canAttack = false;
-        // 플레이어 위치를 받아서 총알 생성
         Vec2 playerPos = _target->GetPos();
 		EnemyBullet* bullet = new EnemyBullet(_pos, playerPos);
         GET_SINGLE(SceneManager)->GetCurScene()->AddObject(bullet, Layer::PROJECTILE);

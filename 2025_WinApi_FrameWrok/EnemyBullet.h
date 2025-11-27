@@ -16,5 +16,5 @@ public:
 private:
     Texture* _pTex;
     Vec2 _dir;
-    float _speed = 100.f;
+    float _speed;
 };

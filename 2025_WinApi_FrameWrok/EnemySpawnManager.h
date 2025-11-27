@@ -6,7 +6,6 @@ class EnemySpawnManager
 public:
     void Init(Player* player);
     void Update();
-    void SetMapSize(float width, float height);
     void SpawnEnemy();
 
 private:

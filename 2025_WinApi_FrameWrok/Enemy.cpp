@@ -80,6 +80,8 @@ void Enemy::EnterCollision(Collider* _other)
 {
     if (_other->GetName() == L"Player")
     {
+		_other->GetOwner()->SetDead();
         GET_SINGLE(SceneManager)->RequestDestroy(_other->GetOwner());
+        GET_SINGLE(SceneManager)->RequestDestroy(this);
     }
 }
