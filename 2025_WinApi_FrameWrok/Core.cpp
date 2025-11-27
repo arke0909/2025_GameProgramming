@@ -6,9 +6,10 @@
 #include "ResourceManager.h"
 #include "CollisionManager.h"
 
-bool Core::Init(HWND hWnd)
+bool Core::Init(HWND hWnd, HINSTANCE hInstance)
 {
 	_hWnd = hWnd;
+	_hInstance = hInstance;
 	_hdc = ::GetDC(_hWnd);
 	_hBackBit = 0;
 	_hBackDC = 0;

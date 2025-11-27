@@ -1,5 +1,6 @@
 #pragma once
 #include "Object.h"
+#include "Animator.h"
 
 class EnemyBullet 
     : public Object
@@ -13,6 +14,7 @@ public:
 	void EnterCollision(Collider* _other) override;
 
 private:
+    Texture* _pTex;
     Vec2 _dir;
     float _speed = 100.f;
 };

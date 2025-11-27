@@ -11,6 +11,7 @@ void EnemyTestScene::Init()
 	player->SetPos({ WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2});
 	player->SetSize({ 75, 75 });
 
+
 	_spawn = GET_SINGLE(EnemySpawnManager);
 	_spawn->Init(player);
 	_spawn->SetMapSize((float)WINDOW_WIDTH, (float)WINDOW_HEIGHT);

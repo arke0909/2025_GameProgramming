@@ -2,6 +2,8 @@
 #include "Object.h"
 #include "Player.h"
 #include "Collider.h"
+#include "Animator.h"
+
 class Enemy :
     public Object
 {
