@@ -28,5 +28,6 @@ private:
     float _weaponCreateRadius = 150;
     float _fireInterval = 1.5f;
     float _lastFireTime = 0.f;
+    float _circleColRadius;
 };
 

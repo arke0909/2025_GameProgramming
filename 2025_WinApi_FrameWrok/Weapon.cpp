@@ -5,6 +5,7 @@
 #include "ResourceManager.h"
 #include "CircleCollider.h"
 #include "Animator.h"
+#include "Wall.h"
 
 Weapon::Weapon()
 {
@@ -14,6 +15,7 @@ Weapon::Weapon()
 	_rigidbody->SetUseGravity(false);
 	auto* col = AddComponent<CircleCollider>();
 	col->SetName(L"Weapon");
+	col->SetTrigger(false);
 
 	Vec2 animSize;
 
@@ -51,11 +53,52 @@ Weapon::~Weapon()
 
 void Weapon::Update()
 {
+
 }
 
 void Weapon::Render(HDC hdc)
 {
 	ComponentRender(hdc);
+}
+
+void Weapon::EnterCollision(Collider* _other)
+{
+	if (_other->GetName() == L"Wall")
+	{
+		auto* wall = dynamic_cast<Wall*>(_other->GetOwner());
+		if (!wall) return;
+		WallSet set = wall->GetWall();
+
+		Vec2 normal = {};
+
+		if (set.isVertical)
+		// 세로다
+			normal = { 1, 0 };
+		else
+		// 가로다
+			normal = { 0, -1 };
+
+		if (!set.isStart)
+			normal *= -1;
+
+		Vec2 velocity = _rigidbody->GetVelocity();
+
+		float dot = normal.Dot(-velocity);
+
+		Vec2 reflection = velocity + ((normal * 2) * dot);
+
+		reflection *= 0.5f;
+
+		_rigidbody->SetVelocity(reflection);
+	}
+}
+
+void Weapon::StayCollision(Collider* _other)
+{
+}
+
+void Weapon::ExitCollision(Collider* _other)
+{
 }
 
 void Weapon::PullWeapon()
