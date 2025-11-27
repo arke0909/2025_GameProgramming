@@ -5,67 +5,69 @@
 #include "Object.h"
 #include "MeleeEnemy.h"
 #include "RangedEnemy.h"
+#include <cstdlib>
+#include <ctime>
+#include <iostream>
 
-
-
-void EnemySpawnManager::Init()
+void EnemySpawnManager::Init(Player* player)
 {
-    _mapWidth = 800.0f;
-    _mapHeight = 600.0f;
-    _spawnInterval = 2.0f;
+    _player = player;
+
+    srand(unsigned int(time(nullptr)));
+
+    _spawnInterval = 3.0f;
     _elapsedTime = 0.0f;
 }
 
 void EnemySpawnManager::SetMapSize(float width, float height)
 {
-    _mapWidth = width;
-    _mapHeight = height;
+    _mapWidth = static_cast<int>(width);
+    _mapHeight = static_cast<int>(height);
 }
 
 void EnemySpawnManager::Update()
 {
     _elapsedTime += fDT;
 
-    if (_elapsedTime >= _spawnInterval)
+    while (_elapsedTime >= _spawnInterval)
     {
         SpawnEnemy();
-        _elapsedTime = 0.0f;
+        _elapsedTime -= _spawnInterval;
     }
 }
 
 void EnemySpawnManager::SpawnEnemy()
 {
-    Enemy * enemy = CreateRandomEnemy();
-    
-    srand((unsigned int)time(nullptr));
+    Enemy* enemy = CreateRandomEnemy();
 
-    float x = rand() % _mapWidth + 1;
-    float y = rand() % _mapHeight + 1;
+    // 랜덤 위치 계산, 윈도우 범위 안
+    float x = rand() % _mapWidth;
+    float y = rand() % _mapHeight;
 
     Vec2 pos(x, y);
     Vec2 size(50.f, 50.f);
 
-	enemy->SetPos(pos);
-    //Spawn<Enemy>(Layer::ENEMY, { WINDOW_WIDTH / 2, WINDOW_HEIGHT / 4 }, { 100.f,100.f });
+    enemy->SetPos(pos);
+    enemy->SetSize(size);
 }
 
 Enemy* EnemySpawnManager::CreateRandomEnemy()
 {
-    srand((unsigned int)time(nullptr));
-
     int type = rand() % 2;
-	Enemy* enemy = nullptr;
+    Enemy* enemy = nullptr;
+
     if (type == 0)
     {
         enemy = new MeleeEnemy();
-        GET_SINGLE(SceneManager)->GetCurScene()
-            ->AddObject(enemy, Layer::ENEMY);
     }
     else
     {
         enemy = new RangedEnemy();
-        GET_SINGLE(SceneManager)->GetCurScene()
-            ->AddObject(enemy, Layer::ENEMY);
     }
-	return enemy;
+
+    enemy->SetTarget(_player);
+
+    GET_SINGLE(SceneManager)->GetCurScene()->AddObject(enemy, Layer::ENEMY);
+
+    return enemy;
 }

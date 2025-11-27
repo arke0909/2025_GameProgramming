@@ -1,13 +1,18 @@
 #pragma once
 #include "Object.h"
-class EnemyBullet
-	: public Object
+
+class EnemyBullet 
+    : public Object
 {
 public:
-	EnemyBullet();
-	~EnemyBullet();
-	// Object을(를) 통해 상속됨
-	void Update() override;
-	void Render(HDC hdc) override;
-};
+    EnemyBullet(const Vec2& startPos, const Vec2& targetPos);
+    ~EnemyBullet();
 
+    void Update() override;
+    void Render(HDC hdc) override;
+	void EnterCollision(Collider* _other) override;
+
+private:
+    Vec2 _dir;
+    float _speed = 100.f;
+};
