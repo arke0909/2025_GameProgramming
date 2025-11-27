@@ -78,14 +78,8 @@ void Enemy::Render(HDC hdc)
 
 void Enemy::EnterCollision(Collider* _other)
 {
-    cout << "Enter" << endl;
-    if (_other->IsTrigger())
+    if (_other->GetName() == L"Player")
     {
-        if (_other->GetName() == L"Player")
-        {
-			cout << "Enemy collided with DevObject. Destroying both." << endl;
-            GET_SINGLE(SceneManager)->RequestDestroy(this);
-            GET_SINGLE(SceneManager)->RequestDestroy(_other->GetOwner());
-        }
+        GET_SINGLE(SceneManager)->RequestDestroy(_other->GetOwner());
     }
 }
