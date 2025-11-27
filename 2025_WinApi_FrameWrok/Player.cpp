@@ -16,7 +16,9 @@ Player::Player()
 	_rigidbody = AddComponent<Rigidbody>();
 	_rigidbody->SetUseGravity(false);
 	auto* col = AddComponent<CircleCollider>();
+	col->SetTrigger(false);
 	col->SetName(L"Player");
+	_circleColRadius = col->GetRadius();
 
 	Vec2 animSize;
 
@@ -69,12 +71,28 @@ void Player::Update()
 	if (GET_KEY(KEY_TYPE::D))
 		velocity.x += 1;
 
+	velocity.Normalize();
+	_rigidbody->SetVelocity(velocity * _moveSpeed);
+
+	float left = _pos.x - _circleColRadius;
+	float right = _pos.x + _circleColRadius;
+	float top = _pos.y - _circleColRadius;
+	float bottom = _pos.y + _circleColRadius;
+
+	if (left < 0)
+		_pos.x = _circleColRadius;
+	if(right > WINDOW_WIDTH)
+		_pos.x = WINDOW_WIDTH - _circleColRadius;
+	if (top < 0)
+		_pos.y = _circleColRadius;
+	if (bottom > WINDOW_HEIGHT)
+		_pos.y = WINDOW_HEIGHT - _circleColRadius;
+
+
 #pragma region Pull Attack
 	if (GET_KEYDOWN(KEY_TYPE::SPACE))
 		_weapon->PullWeapon();
 
-	velocity.Normalize();
-	_rigidbody->SetVelocity(velocity * _moveSpeed);
 #pragma endregion
 
 #pragma region Shot Attack
