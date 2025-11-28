@@ -40,8 +40,12 @@ using std::wstring;
 
 // 각종 define값
 #define PI 3.14159265358979f
-#define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 720
+#define WINDOW_WIDTH 700
+#define WINDOW_HEIGHT 700
+#define MAX_WINDOW_WIDHEI 1400
+#define CLASS_NAME L"WindowDefence"
+const float SCREEN_WIDTH = ::GetSystemMetrics(SM_CXSCREEN);
+const float SCREEN_HEIGHT = ::GetSystemMetrics(SM_CYSCREEN);
 
 // 메모리 릭
 #ifdef _DEBUG

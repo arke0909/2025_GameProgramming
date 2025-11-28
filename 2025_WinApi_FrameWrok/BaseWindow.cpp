@@ -19,7 +19,7 @@ int BaseWindow::Run(HINSTANCE hInstance, int nCmdShow)
 	MyRegisterClass();
 	createWindow();
 	showWindow(nCmdShow);
-	if (!GET_SINGLE(Core)->Init(_hWnd))
+	if (!GET_SINGLE(Core)->Init(_hWnd, hInstance))
 	{
 		MessageBox(_hWnd, L"Core Init Error", L"ERROR", MB_OK);
 	}
@@ -41,7 +41,7 @@ ATOM BaseWindow::MyRegisterClass()
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wcex.lpszMenuName = nullptr;
-	wcex.lpszClassName = L"Gamep";
+	wcex.lpszClassName = CLASS_NAME;
 	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
 	return ::RegisterClassExW(&wcex);
@@ -49,19 +49,32 @@ ATOM BaseWindow::MyRegisterClass()
 
 void BaseWindow::createWindow()
 {
-	int screenX = ::GetSystemMetrics(SM_CXSCREEN);
-	int screenY = ::GetSystemMetrics(SM_CYSCREEN);
-	int winposx = (screenX - WINDOW_WIDTH) / 2;
-	int winposy = (screenY - WINDOW_HEIGHT) / 2;
+	int winposx = (SCREEN_WIDTH - WINDOW_WIDTH) / 2;
+	int winposy = (SCREEN_HEIGHT - WINDOW_HEIGHT) / 2;
 
-	_hWnd = ::CreateWindowW(L"Gamep", L"내 총끝은 빛나고", WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, _hInstance, nullptr);
+	
 
-	RECT rtWindow = { winposx, winposy, winposx + WINDOW_WIDTH, winposy + WINDOW_HEIGHT };
-	::AdjustWindowRect(&rtWindow, WS_OVERLAPPEDWINDOW, false);
+	/*_hWnd = ::CreateWindowW(CLASS_NAME, L"내 총끝은 빛나고", windowSetting,
+		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, _hInstance, nullptr);*/
+
+	/*RECT rtWindow = { winposx, winposy, winposx + WINDOW_WIDTH, winposy + WINDOW_HEIGHT };
+	::AdjustWindowRect(&rtWindow, windowSetting, false);
 
 	::MoveWindow(_hWnd, winposx, winposy
-		, rtWindow.right - rtWindow.left, rtWindow.bottom - rtWindow.top, true);
+		, rtWindow.right - rtWindow.left, rtWindow.bottom - rtWindow.top, true);*/
+
+	_hWnd = CreateWindowW(
+		CLASS_NAME,
+		L"2025_GameProgramming",
+		WS_POPUP,
+		0,
+		0,
+		SCREEN_WIDTH,             
+		SCREEN_HEIGHT,            
+		nullptr,       
+		nullptr,       
+		_hInstance,     
+		nullptr);      // 자식 윈도우 관련된것 무시
 
 }
 
