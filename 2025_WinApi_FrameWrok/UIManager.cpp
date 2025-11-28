@@ -7,7 +7,7 @@ void UIManager::Add(UIElement* elem) {
 
 void UIManager::Render(HDC hdc) {
     for (auto elem : _elements)
-        if (elem->IsVisible()) elem->Render(hdc);
+        elem->Render(hdc);
 }
 void UIManager::Update() {
     for (auto elem : _elements)

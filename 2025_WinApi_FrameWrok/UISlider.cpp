@@ -2,11 +2,12 @@
 #include "UISlider.h"
 #include "InputManager.h"
 
-
-UISlider::UISlider(RECT barRect)
-    : UIElement(barRect), _barRect(barRect)
+UISlider::UISlider(const Vec2& pos, const Vec2& size)
+    : UIElement(pos, size)
 {
-    SetValue(0.5f);
+    RECT rect = GetRect();
+    _barRect = rect;
+    SetValue(0.5f); 
 }
 
 void UISlider::SetOnValueChanged(std::function<void(float)> callback)
@@ -17,6 +18,8 @@ void UISlider::SetOnValueChanged(std::function<void(float)> callback)
 void UISlider::SetValue(float value)
 {
     _value = std::clamp(value, 0.0f, 1.0f);
+
+    _barRect = GetRect();
 
     int width = _barRect.right - _barRect.left;
     int height = _barRect.bottom - _barRect.top;
@@ -56,22 +59,19 @@ void UISlider::Update()
 
     if (!_dragging)
     {
-        if (press)
+        if (press && (PtInRect(&_handleRect, mouse) || PtInRect(&_barRect, mouse)))
         {
-            if (PtInRect(&_handleRect, mouse) || PtInRect(&_barRect, mouse))
+            _dragging = true;
+
+            int barWidth = _barRect.right - _barRect.left;
+            float newVal = (mouse.x - _barRect.left) / (float)barWidth;
+            newVal = std::clamp(newVal, 0.0f, 1.0f);
+
+            if (newVal != _value)
             {
-                _dragging = true;
-
-                int barWidth = _barRect.right - _barRect.left;
-                float newVal = (mouse.x - _barRect.left) / (float)barWidth;
-                newVal = std::clamp(newVal, 0.0f, 1.0f);
-
-                if (newVal != _value)
-                {
-                    SetValue(newVal);
-                    if (_onValueChanged)
-                        _onValueChanged(_value);
-                }
+                SetValue(newVal);
+                if (_onValueChanged)
+                    _onValueChanged(_value);
             }
         }
     }
@@ -94,4 +94,3 @@ void UISlider::Update()
         _dragging = false;
     }
 }
-
