@@ -23,6 +23,7 @@ bool ResourceManager::Init()
    LoadTexture(L"Test", L"Texture\\plane.bmp");
    LoadTexture(L"CloseEnemy", L"Texture\\MeleeEnemy_24.bmp");
    LoadTexture(L"Player", L"Texture\\Player_24.bmp"); 
+   LoadTexture(L"SoundPanel", L"Texture\\SoundPanel_24 (2).bmp"); 
 
     RegisterSound();
 
