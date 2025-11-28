@@ -203,6 +203,8 @@
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="Weapon.h" />
+    <ClInclude Include="SubWindow.h" />
+    <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
@@ -241,6 +243,8 @@
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="Weapon.cpp" />
+    <ClCompile Include="SubWindow.cpp" />
+    <ClCompile Include="WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2025_WinApi_FrameWrok.rc" />
