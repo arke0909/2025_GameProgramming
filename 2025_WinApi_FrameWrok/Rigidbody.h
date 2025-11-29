@@ -35,6 +35,7 @@ public:
     const Vec2& GetVelocity() const { return m_velocity; }
 
     void SetFriction(float _friction) { m_friction = _friction; }
+    void SetAirDrag(float _airDrag) { m_airDrag = _airDrag; }
 private:
     bool m_grounded;
     bool m_useGravity;
