@@ -58,6 +58,12 @@
     <Filter Include="Engine\03.Object\Enemies">
       <UniqueIdentifier>{7da30f60-289a-47ad-b6ef-e6e0faa4df79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\09.Windows">
+      <UniqueIdentifier>{c03871a1-f318-4721-ae73-db2a787dba71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\10.Interface">
+      <UniqueIdentifier>{4659f19d-d6ec-49f7-b81b-d7d2f3d756dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2025_WinApi_FrameWrok.h">
@@ -195,6 +201,18 @@
     <ClInclude Include="UISlider.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="SubWindow.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Engine\09.Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowManager.h">
+      <Filter>Engine\02.Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="IAfterInit.h">
+      <Filter>Engine\10.Interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2025_WinApi_FrameWrok.rc">
@@ -320,6 +338,15 @@
     </ClCompile>
     <ClCompile Include="UISlider.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SubWindow.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Engine\09.Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>Engine\02.Manager</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
