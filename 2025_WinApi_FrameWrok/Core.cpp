@@ -5,6 +5,7 @@
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "CollisionManager.h"
+#include "WindowManager.h"
 
 bool Core::Init(HWND hWnd, HINSTANCE hInstance)
 {
@@ -16,7 +17,7 @@ bool Core::Init(HWND hWnd, HINSTANCE hInstance)
 
 	// 더블버퍼링
 	// 1. 생성
-	_hBackBit = ::CreateCompatibleBitmap(_hdc, WINDOW_WIDTH, WINDOW_HEIGHT);
+	_hBackBit = ::CreateCompatibleBitmap(_hdc, SCREEN_WIDTH, SCREEN_HEIGHT);
 	_hBackDC = ::CreateCompatibleDC(_hdc);
 
 	// 2. 연결
@@ -44,6 +45,7 @@ void Core::CleanUp()
 	::DeleteDC(_hBackDC);
 	::ReleaseDC(_hWnd, _hdc);
 	GET_SINGLE(ResourceManager)->Release();
+	GET_SINGLE(WindowManager)->Release();
 }
 
 void Core::MainUpdate()
@@ -68,10 +70,11 @@ void Core::MainUpdate()
 void Core::MainRender()
 {
 	//::Rectangle(_hBackDC, -1, -1, WINDOW_WIDTH + 1, WINDOW_HEIGHT + 1);
-	::PatBlt(_hBackDC, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, BLACKNESS);
+	::PatBlt(_hBackDC, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, BLACKNESS);
 
 	GET_SINGLE(SceneManager)->Render(_hBackDC);
+	GET_SINGLE(WindowManager)->Render(_hBackDC);
 
-	::BitBlt(_hdc, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT
+	::BitBlt(_hdc, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT
 		, _hBackDC, 0, 0, SRCCOPY);
 }
