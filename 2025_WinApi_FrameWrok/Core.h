@@ -10,6 +10,7 @@ public:
 	void CleanUp();
 public:
 	const HDC& GetMainDC() const { return _hdc; }
+	const HDC& GetBackDC() const { return _hBackDC; }
 	const HWND& GetHwnd() const { return _hWnd; }
 	const HINSTANCE& GetInstance() const { return _hInstance; }
 private:
