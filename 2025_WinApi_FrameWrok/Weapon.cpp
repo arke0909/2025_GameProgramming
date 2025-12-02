@@ -13,6 +13,7 @@ Weapon::Weapon()
 		->GetTexture(L"Player_32");
 	_rigidbody = AddComponent<Rigidbody>();
 	_rigidbody->SetUseGravity(false);
+	_rigidbody->SetAirDrag(0.3f);
 	auto* col = AddComponent<CircleCollider>();
 	col->SetName(L"Weapon");
 	col->SetTrigger(false);

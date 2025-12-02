@@ -177,6 +177,7 @@
     <ClInclude Include="Enums.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GDISelector.h" />
+    <ClInclude Include="IAfterInit.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="MeleeEnemy.h" />
     <ClInclude Include="Object.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="Wall.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="SubWindow.h" />
+    <ClInclude Include="Window.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -246,6 +248,7 @@
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="SubWindow.cpp" />
+    <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>

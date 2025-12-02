@@ -26,6 +26,6 @@ private:
     Player* _player;
     Rigidbody* _rigidbody;
     Texture* _wTex;
-    float _moveSpeed = 475;
+    float _moveSpeed = 800;
 };
 
