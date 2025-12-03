@@ -201,9 +201,6 @@
     <ClInclude Include="UISlider.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="SubWindow.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Window.h">
       <Filter>Engine\09.Windows</Filter>
     </ClInclude>
@@ -212,6 +209,12 @@
     </ClInclude>
     <ClInclude Include="IAfterInit.h">
       <Filter>Engine\10.Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowUI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="EasingManager.h">
+      <Filter>Engine\02.Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -339,13 +342,16 @@
     <ClCompile Include="UISlider.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="SubWindow.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Engine\09.Windows</Filter>
     </ClCompile>
     <ClCompile Include="WindowManager.cpp">
+      <Filter>Engine\02.Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowUI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="EasingManager.cpp">
       <Filter>Engine\02.Manager</Filter>
     </ClCompile>
   </ItemGroup>

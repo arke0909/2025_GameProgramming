@@ -170,6 +170,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="Defines.h" />
+    <ClInclude Include="EasingManager.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyBullet.h" />
     <ClInclude Include="EnemySpawnManager.h" />
@@ -205,7 +206,6 @@
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Wall.h" />
     <ClInclude Include="Weapon.h" />
-    <ClInclude Include="SubWindow.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
@@ -219,6 +219,7 @@
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Core.cpp" />
+    <ClCompile Include="EasingManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="EnemySpawnManager.cpp" />
@@ -247,7 +248,6 @@
     <ClCompile Include="UISlider.cpp" />
     <ClCompile Include="Wall.cpp" />
     <ClCompile Include="Weapon.cpp" />
-    <ClCompile Include="SubWindow.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowManager.cpp" />
   </ItemGroup>
