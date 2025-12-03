@@ -12,6 +12,7 @@
 
 void TitleScene::Init()
 {
+	GET_SINGLE(ResourceManager)->Play(L"BGM");
     Texture* buttonTex = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
 
     Window* startWindow = GET_SINGLE(WindowManager)->CreateSubWindow(
