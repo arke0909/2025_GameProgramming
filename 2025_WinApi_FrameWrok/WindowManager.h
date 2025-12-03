@@ -16,6 +16,7 @@ public:
 	void Init(HWND hWnd);
 	void Update();
 	void Render(HDC hDC);
+	void CloseAllSubWindows();
 	void Release();
 	Window* CreateSubWindow(LPCWSTR windowName, WindowSet windowSet);
 private:
