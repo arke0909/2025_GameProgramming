@@ -55,6 +55,8 @@ Window::~Window()
 
 void Window::Update()
 {
+	_uiManager.Update(_hWnd);
+
 	if(!_isMoving) return;
 
 	float ratio = _timer / _duration;
@@ -78,6 +80,7 @@ void Window::Render(HDC hDC)
 
 	::BitBlt(_hDC, 0, 0, w, h
 		, hDC, posX, posY, SRCCOPY);
+	_uiManager.Render(_hDC);
 }
 
 void Window::MoveWindow(const Vec2& velocitiy, const float duration)

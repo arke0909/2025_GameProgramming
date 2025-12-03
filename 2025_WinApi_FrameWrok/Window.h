@@ -1,4 +1,6 @@
 #pragma once
+#include "SubUIManager.h"
+
 struct WindowSet;
 
 class Window
@@ -31,6 +33,8 @@ public:
 	}
 	void MoveWindow(const Vec2& velocitiy, const float duration = 10.f);
 	void ChangeWindowSize(const Vec2& targetSize, const float duration = 10.f);
+	SubUIManager* GetUI() { return &_uiManager; }
+
 private:
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	virtual LRESULT HandleWnd(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -44,5 +48,6 @@ private:
 	bool _isMoving = false;
 	float _duration = 2.f;
 	float _timer = 0.f;
+	SubUIManager _uiManager;
 };
 

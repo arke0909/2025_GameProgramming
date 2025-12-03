@@ -42,7 +42,7 @@ void Scene::Update()
 		}
 	}
 
-	GET_SINGLE(UIManager)->Update();
+	
 }
 
 void Scene::FixedUpdate(float _fixedDT)
@@ -81,7 +81,7 @@ void Scene::Render(HDC hdc)
 			obj->Render(hdc);
 	}
 
-	GET_SINGLE(UIManager)->Render(hdc);
+	
 }
 
 void Scene::Release()
