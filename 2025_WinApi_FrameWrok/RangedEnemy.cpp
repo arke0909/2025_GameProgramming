@@ -9,8 +9,6 @@
 
 RangedEnemy::RangedEnemy()
 {
-
-	cout << "RangedEnemy Created" << endl;
     _eTex = GET_SINGLE(ResourceManager)
         ->GetTexture(L"CloseEnemy");
 

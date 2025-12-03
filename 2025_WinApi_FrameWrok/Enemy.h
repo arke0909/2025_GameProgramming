@@ -18,7 +18,7 @@ public:
     void SetTarget(Player* player);
     void Update() override;
     void Render(HDC hdc) override;
-    void EnterCollision(Collider* _other) override;
+    virtual void EnterCollision(Collider* _other) override;
     void ChangeState(std::string state);
 
 public:
