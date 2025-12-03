@@ -5,7 +5,7 @@ class EnemyState :
     public EntityState
 {
 public:
-    EnemyState(Entity* owner, std::wstring animetionName);
+    EnemyState(Enemy* owner, std::wstring animetionName);
 protected:
     Enemy* _enemy;
 };
