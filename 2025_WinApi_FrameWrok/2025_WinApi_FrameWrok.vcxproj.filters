@@ -210,6 +210,12 @@
     <ClInclude Include="IAfterInit.h">
       <Filter>Engine\10.Interface</Filter>
     </ClInclude>
+    <ClInclude Include="WindowUI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="EasingManager.h">
+      <Filter>Engine\02.Manager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2025_WinApi_FrameWrok.rc">
@@ -340,6 +346,12 @@
       <Filter>Engine\09.Windows</Filter>
     </ClCompile>
     <ClCompile Include="WindowManager.cpp">
+      <Filter>Engine\02.Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowUI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="EasingManager.cpp">
       <Filter>Engine\02.Manager</Filter>
     </ClCompile>
   </ItemGroup>
