@@ -3,26 +3,26 @@
 #include "Player.h"
 #include "Collider.h"
 #include "Animator.h"
+#include "Entity.h"
+#include "EntityStateMachine.h"
 
 class Enemy :
-    public Object
+    public Entity
 {
 public:
+
     Enemy();
     virtual ~Enemy();
 
+    void MoveBy(Vec2 delta) { Translate(delta); }
     void SetTarget(Player* player);
     void Update() override;
     void Render(HDC hdc) override;
     void EnterCollision(Collider* _other) override;
-protected:
-    virtual void Attack() = 0;
-    virtual float GetAttackRange() = 0;
+    void ChangeState(std::string state);
 
-    void MoveToTarget();
-    bool IsInAttackRange();
-protected:
+public:
+	EntityStateMachine* _stateMachine; 
     Player* _target;
-    Texture* m_pTex;
     float _speed;
 };
