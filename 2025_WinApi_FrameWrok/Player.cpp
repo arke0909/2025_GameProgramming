@@ -13,7 +13,7 @@
 Player::Player()
 {
 	_pTex = GET_SINGLE(ResourceManager)
-		->GetTexture(L"Player_32");
+		->GetTexture(L"Player");
 	_rigidbody = AddComponent<Rigidbody>();
 	_rigidbody->SetUseGravity(false);
 	auto* col = AddComponent<CircleCollider>();

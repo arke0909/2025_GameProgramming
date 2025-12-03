@@ -10,7 +10,7 @@
 Weapon::Weapon()
 {
 	_wTex = GET_SINGLE(ResourceManager)
-		->GetTexture(L"Player_32");
+		->GetTexture(L"Player");
 	_rigidbody = AddComponent<Rigidbody>();
 	_rigidbody->SetUseGravity(false);
 	_rigidbody->SetAirDrag(1.f);
