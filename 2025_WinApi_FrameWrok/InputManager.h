@@ -29,6 +29,7 @@ class InputManager
 public:
 	void Init();
 	void Update();
+    void UpdateMouse(HWND hWnd);
 private:
     void UpdateKeys();
     void UpdateMouse();

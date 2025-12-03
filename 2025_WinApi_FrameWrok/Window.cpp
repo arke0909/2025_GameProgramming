@@ -52,16 +52,14 @@ Window::~Window()
 {
 }
 
+void Window::Update()
+{
+	_uiManager.Update(_hWnd);
+}
+
 void Window::Render(HDC hDC)
 {
-	int w = _windowSize.x;
-	int h = _windowSize.y;
-
-	int posX = _pos.x;
-	int posY = _pos.y;
-
-	::BitBlt(_hDC, 0, 0, w, h
-		, hDC, posX, posY, SRCCOPY);
+	_uiManager.Render(_hDC);
 }
 
 LRESULT Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

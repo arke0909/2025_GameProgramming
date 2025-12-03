@@ -6,6 +6,7 @@
 #include "ResourceManager.h"
 #include "CollisionManager.h"
 #include "WindowManager.h"
+#include "UIManager.h"
 
 bool Core::Init(HWND hWnd, HINSTANCE hInstance)
 {
@@ -64,7 +65,9 @@ void Core::MainUpdate()
 	}
 	GET_SINGLE(InputManager)->Update();
 	GET_SINGLE(ResourceManager)->FmodUpdate();
+	GET_SINGLE(UIManager)->Update();
 	GET_SINGLE(SceneManager)->Update();
+	GET_SINGLE(WindowManager)->Update();
 }
 
 void Core::MainRender()
@@ -73,6 +76,7 @@ void Core::MainRender()
 	::PatBlt(_hBackDC, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, BLACKNESS);
 
 	GET_SINGLE(SceneManager)->Render(_hBackDC);
+	GET_SINGLE(UIManager)->Render(_hBackDC);
 	GET_SINGLE(WindowManager)->Render(_hBackDC);
 
 	::BitBlt(_hdc, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT

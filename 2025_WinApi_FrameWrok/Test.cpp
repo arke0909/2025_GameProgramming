@@ -2,44 +2,47 @@
 #include "Test.h"
 #include "ResourceManager.h"
 #include "UIManager.h"
-#include "UIImage.h"
-#include "UILabel.h"
 #include "UIButton.h"
+#include "UIImage.h"
 #include "UISlider.h"
 #include "WindowManager.h"
+#include "Window.h"
+#include "SubUIManager.h"
 
 void Test::Init()
 {
     Texture* tex = GET_SINGLE(ResourceManager)->GetTexture(L"Player");
-    Texture* tex2 = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
+    Texture* buttonTex = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
+
 
     UIImage* img = new UIImage(tex, { 100,100 }, { 100,100 });
     GET_SINGLE(UIManager)->Add(img);
 
-    UIButton* button = new UIButton(L"Play", { 400,300 }, { 180,55 }, FontType::TITLE, tex2);
+    UIButton* mainButton = new UIButton(L"Open Window", { 400,300 }, { 180,55 }, FontType::TITLE, buttonTex);
+    GET_SINGLE(UIManager)->Add(mainButton);
 
-  
-
-    GET_SINGLE(UIManager)->Add(button);
-
-    button->SetOnClick([=]() 
+    mainButton->SetOnClick([=]()
         {
-            cout << "버튼클릭됨" << "\n";
+            Window* sub = GET_SINGLE(WindowManager)->CreateSubWindow(L"SubWindow", { {600, 400}, {800, 800} });
+
+            SubUIManager* subUI = sub->GetUI();
+
+            UISlider* slider = new UISlider({ 50, 50 }, { 300, 20 });
+            slider->SetOnValueChanged([](float val) {
+                wprintf(L"[Sub] 슬라이더 값: %.2f\n", val);
+                });
+            subUI->Add(slider);
+
+            UIButton* subBtn = new UIButton(L"Click Me", { 100, 100 }, { 180, 55 }, FontType::TITLE, buttonTex);
+            subBtn->SetOnClick([]() {
+                MessageBox(nullptr, L"서브 창 버튼 클릭됨!", L"Sub UI", MB_OK);
+                });
+            subUI->Add(subBtn);
         });
 
-   
-
-    UISlider* slider = new UISlider({ 150,450 }, { 300,20 });
-    slider->SetOnValueChanged([](float val) {
-        wprintf(L"슬라이더 값: %.2f\n", val);
+    UISlider* mainSlider = new UISlider({ 150, 450 }, { 300, 20 });
+    mainSlider->SetOnValueChanged([](float val) {
+        wprintf(L"[Main] 슬라이더 값: %.2f\n", val);
         });
-    GET_SINGLE(UIManager)->Add(slider);
-
-   GET_SINGLE(WindowManager)
-    ->CreateSubWindow(
-        L"Temp",
-        {
-            {SCREEN_WIDTH / 2 - 500, SCREEN_HEIGHT / 2 -200},
-            {400,400}
-        });
+    GET_SINGLE(UIManager)->Add(mainSlider);
 }
