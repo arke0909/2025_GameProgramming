@@ -72,5 +72,6 @@ void SceneManager::LoadScene(const wstring& name)
 	{
 		_curScene = iter->second;
 		_curScene->Init();
+		_curScene->AfterInit();
 	}
 }

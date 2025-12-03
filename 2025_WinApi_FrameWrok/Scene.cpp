@@ -4,6 +4,7 @@
 #include "CollisionManager.h"
 #include "Rigidbody.h"
 #include "UIManager.h"
+#include "IAfterInit.h"
 
 Scene::Scene()
 {
@@ -12,6 +13,20 @@ Scene::Scene()
 Scene::~Scene()
 {
 	Release();
+}
+
+void Scene::AfterInit()
+{
+	for (UINT i = 0; i < (UINT)Layer::END; ++i)
+	{
+		auto& vec = _vecObj[i];
+		for (auto* obj : vec)
+		{
+			auto afterInit = dynamic_cast<IAfterInit*>(obj);
+			if(afterInit)
+				afterInit->AfterInit();
+		}
+	}
 }
 
 void Scene::Update()

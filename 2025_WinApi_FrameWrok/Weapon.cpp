@@ -13,27 +13,12 @@ Weapon::Weapon()
 		->GetTexture(L"Player_32");
 	_rigidbody = AddComponent<Rigidbody>();
 	_rigidbody->SetUseGravity(false);
-	_rigidbody->SetAirDrag(0.3f);
+	_rigidbody->SetAirDrag(1.f);
 	auto* col = AddComponent<CircleCollider>();
 	col->SetName(L"Weapon");
 	col->SetTrigger(false);
 
-	Vec2 animSize;
-
-	switch (_wTex->GetHeight())
-	{
-		break;
-	case 32:
-		animSize = { 32.f,32.f };
-		break;
-	case 64:
-		animSize = { 64.f,64.f };
-		break;
-	case 96:
-		animSize = { 96.f,96.f };
-		break;
-	}
-
+	Vec2 animSize = { (float)_wTex->GetWidth() , (float)_wTex->GetHeight() };
 	auto* animator = AddComponent<Animator>();
 	animator->CreateAnimation
 	(

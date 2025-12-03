@@ -18,7 +18,7 @@ int BaseWindow::Run(HINSTANCE hInstance, int nCmdShow)
 	this->_hInstance = hInstance;
 	MyRegisterClass();
 	createWindow();
-	showWindow(nCmdShow);
+	showWindow(SW_MINIMIZE);
 	if (!GET_SINGLE(Core)->Init(_hWnd, hInstance))
 	{
 		MessageBox(_hWnd, L"Core Init Error", L"ERROR", MB_OK);
@@ -39,7 +39,7 @@ ATOM BaseWindow::MyRegisterClass()
 	wcex.hInstance = _hInstance;
 	wcex.hIcon = LoadIcon(_hInstance, MAKEINTRESOURCE(IDI_MY2025WINAPIFRAMEWROK));
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	wcex.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 	wcex.lpszMenuName = nullptr;
 	wcex.lpszClassName = CLASS_NAME;
 	wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
@@ -49,20 +49,6 @@ ATOM BaseWindow::MyRegisterClass()
 
 void BaseWindow::createWindow()
 {
-	int winposx = (SCREEN_WIDTH - WINDOW_WIDTH) / 2;
-	int winposy = (SCREEN_HEIGHT - WINDOW_HEIGHT) / 2;
-
-	
-
-	/*_hWnd = ::CreateWindowW(CLASS_NAME, L"³» ÃÑ³¡Àº ºû³ª°í", windowSetting,
-		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, _hInstance, nullptr);*/
-
-	/*RECT rtWindow = { winposx, winposy, winposx + WINDOW_WIDTH, winposy + WINDOW_HEIGHT };
-	::AdjustWindowRect(&rtWindow, windowSetting, false);
-
-	::MoveWindow(_hWnd, winposx, winposy
-		, rtWindow.right - rtWindow.left, rtWindow.bottom - rtWindow.top, true);*/
-
 	_hWnd = CreateWindowW(
 		CLASS_NAME,
 		L"2025_GameProgramming",

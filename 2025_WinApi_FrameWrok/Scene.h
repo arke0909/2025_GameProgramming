@@ -13,6 +13,7 @@ public:
 	virtual ~Scene();
 public:
 	virtual void Init() abstract;
+	virtual void AfterInit();
 	virtual void Update();
 	virtual void FixedUpdate(float _fixedDT);
 	virtual void LateUpdate();
@@ -28,7 +29,7 @@ public:
 		_vecObj[(UINT)type].push_back(obj);
 	}
 	template<typename T>
-	void Spawn(Layer type, Vec2 pos, Vec2 size)
+	T* Spawn(Layer type, Vec2 pos, Vec2 size)
 	{
 		// 실행도 못하게 막아버림
 		static_assert(std::is_base_of<Object, T>::value, "오브젝트를 상속안받음");
@@ -36,6 +37,8 @@ public:
 		obj->SetPos(pos);
 		obj->SetSize(size);
 		AddObject(obj, type);
+
+		return obj;
 	}
 	void RequestDestroy(Object* obj);
 	void RequestSpawn(Object* obj, Layer _type);

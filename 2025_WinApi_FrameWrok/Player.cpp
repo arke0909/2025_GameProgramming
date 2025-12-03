@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Player.h"
 #include "Weapon.h"
+#include "Window.h"
 #include "Projectile.h"
 #include "Rigidbody.h"
 #include "CircleCollider.h"
@@ -12,29 +13,16 @@
 Player::Player()
 {
 	_pTex = GET_SINGLE(ResourceManager)
-		->GetTexture(L"Player_64");
+		->GetTexture(L"Player_32");
 	_rigidbody = AddComponent<Rigidbody>();
 	_rigidbody->SetUseGravity(false);
 	auto* col = AddComponent<CircleCollider>();
 	col->SetTrigger(false);
+	col->SetRadius(19.f);
 	col->SetName(L"Player");
 	_circleColRadius = col->GetRadius();
 
-	Vec2 animSize;
-
-	switch (_pTex->GetHeight())
-	{
-		break;
-	case 32:
-		animSize = { 32.f,32.f };
-		break;
-	case 64:
-		animSize = { 64.f,64.f };
-		break;
-	case 96:
-		animSize = { 96.f,96.f };
-		break;
-	}
+	Vec2 animSize = { (float)_pTex->GetWidth() , (float)_pTex->GetHeight() };
 
 	auto* animator = AddComponent<Animator>();
 	animator->CreateAnimation
@@ -48,10 +36,6 @@ Player::Player()
 	);
 
 	animator->Play(L"Idle");
-
-	_weapon = CreateWeapon();
-
-	_lastFireTime = -_fireInterval;
 }
 
 Player::~Player()
@@ -79,14 +63,19 @@ void Player::Update()
 	float top = _pos.y - _circleColRadius;
 	float bottom = _pos.y + _circleColRadius;
 
-	if (left < 0)
-		_pos.x = _circleColRadius;
-	if(right > WINDOW_WIDTH)
-		_pos.x = WINDOW_WIDTH - _circleColRadius;
-	if (top < 0)
-		_pos.y = _circleColRadius;
-	if (bottom > WINDOW_HEIGHT)
-		_pos.y = WINDOW_HEIGHT - _circleColRadius;
+	int x = _inGameWindow->GetPos().x;
+	int y = _inGameWindow->GetPos().y;
+	int w = _inGameWindow->GetWindowSize().x + x;
+	int h = _inGameWindow->GetWindowSize().y + y;
+
+	if (left < x)
+		_pos.x = x + _circleColRadius;
+	if(right > w)
+		_pos.x = w - _circleColRadius;
+	if (top < y)
+		_pos.y = y + _circleColRadius;
+	if (bottom > h)
+		_pos.y = h - _circleColRadius;
 
 
 #pragma region Pull Attack
@@ -125,8 +114,16 @@ Weapon* Player::CreateWeapon()
 	Weapon* weapon = new Weapon;
 	weapon->SetPlayer(this);
 	
-	int x = rand() % 150 + 100;
-	int y = rand() % 150 + 100;
+	srand(time(NULL));
+
+	// -100 ~ 100;
+	int x = (rand() % 201) - 100;
+	int y = (rand() % 201) - 100;
+
+	x = x < 0 ? std::clamp((float)x, -100.f, -50.f)
+		: std::clamp((float)x, 50.f, 100.f);
+	y = y < 0 ? std::clamp((float)y, -100.f, -50.f)
+		: std::clamp((float)y, 50.f, 100.f);
 
 	weapon->SetPos({_pos.x + x, _pos.y + y});
 	weapon->SetSize({50.f, 50.f});
@@ -154,4 +151,11 @@ void Player::ShotProjectile()
 	proj->SetPos(_pos);
 	proj->SetDir(dir * 250);
 	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(proj,Layer::PROJECTILE);
+}
+
+void Player::AfterInit()
+{
+	_weapon = CreateWeapon();
+
+	_lastFireTime = -_fireInterval;
 }
