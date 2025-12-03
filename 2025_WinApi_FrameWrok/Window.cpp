@@ -75,15 +75,18 @@ void Window::Render(HDC hDC)
 	int w = _windowSize.x;
 	int h = _windowSize.y;
 
-	int posX = _pos.x;
-	int posY = _pos.y;
+	::PatBlt(_hDC, 0, 0, w, h, BLACKNESS);
 
-	::PatBlt(hDC, 0, 0, _windowSize.x, _windowSize.y, BLACKNESS);
+	::BitBlt(
+		_hDC, 0, 0, w, h,
+		hDC, _pos.x, _pos.y,
+		SRCCOPY);
 
-	_uiManager.Render(hDC);
+	_uiManager.Render(_hDC);
 
-	::BitBlt(_hDC, 0, 0, _windowSize.x, _windowSize.y, hDC, 0, 0, SRCCOPY);
+	::BitBlt(hDC, _pos.x, _pos.y, w, h, _hDC, 0, 0, SRCCOPY);
 }
+
 
 
 
