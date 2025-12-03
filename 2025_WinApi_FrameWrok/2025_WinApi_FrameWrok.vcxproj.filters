@@ -201,9 +201,6 @@
     <ClInclude Include="UISlider.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="SubWindow.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Window.h">
       <Filter>Engine\09.Windows</Filter>
     </ClInclude>
@@ -337,9 +334,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="UISlider.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SubWindow.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
