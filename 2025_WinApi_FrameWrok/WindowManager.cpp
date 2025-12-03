@@ -23,6 +23,20 @@ void WindowManager::Render(HDC hDC)
 	}
 }
 
+void WindowManager::CloseAllSubWindows()
+{
+	for (Window* window : _subWindows)
+	{
+		if (window)
+		{
+			::DestroyWindow(window->GetHandle());
+			delete window; 
+		}
+	}
+	_subWindows.clear(); 
+}
+
+
 Window* WindowManager::CreateSubWindow(LPCWSTR windowName, WindowSet windowSet)
 {
 	Window* window = new Window(windowName, windowSet);

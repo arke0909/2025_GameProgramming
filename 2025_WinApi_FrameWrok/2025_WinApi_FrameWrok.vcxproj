@@ -196,8 +196,8 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SubUIManager.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="Test.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TilteScene.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="UIButton.h" />
     <ClInclude Include="UIElement.h" />
@@ -242,8 +242,8 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SubUIManager.cpp" />
-    <ClCompile Include="Test.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TilteScene.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="UIButton.cpp" />
     <ClCompile Include="UIImage.cpp" />

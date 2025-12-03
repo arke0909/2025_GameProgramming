@@ -1,6 +1,8 @@
 #pragma once
 #include "Scene.h"
-class Test : public Scene {
+
+class TitleScene : public Scene
+{
 public:
     virtual void Init() override;
 };

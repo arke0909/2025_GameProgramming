@@ -70,15 +70,17 @@ void Core::MainUpdate()
 	GET_SINGLE(WindowManager)->Update();
 }
 
+
 void Core::MainRender()
 {
-	//::Rectangle(_hBackDC, -1, -1, WINDOW_WIDTH + 1, WINDOW_HEIGHT + 1);
 	::PatBlt(_hBackDC, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, BLACKNESS);
 
 	GET_SINGLE(SceneManager)->Render(_hBackDC);
+
 	GET_SINGLE(UIManager)->Render(_hBackDC);
+
 	GET_SINGLE(WindowManager)->Render(_hBackDC);
 
-	::BitBlt(_hdc, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT
-		, _hBackDC, 0, 0, SRCCOPY);
+	::BitBlt(_hdc, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, _hBackDC, 0, 0, SRCCOPY);
 }
+
