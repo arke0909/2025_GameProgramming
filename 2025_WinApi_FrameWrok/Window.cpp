@@ -78,10 +78,14 @@ void Window::Render(HDC hDC)
 	int posX = _pos.x;
 	int posY = _pos.y;
 
-	::BitBlt(_hDC, 0, 0, w, h
-		, hDC, posX, posY, SRCCOPY);
-	_uiManager.Render(_hDC);
+	::PatBlt(hDC, 0, 0, _windowSize.x, _windowSize.y, BLACKNESS);
+
+	_uiManager.Render(hDC);
+
+	::BitBlt(_hDC, 0, 0, _windowSize.x, _windowSize.y, hDC, 0, 0, SRCCOPY);
 }
+
+
 
 void Window::MoveWindow(const Vec2& velocitiy, const float duration)
 {
@@ -150,9 +154,6 @@ LRESULT Window::HandleWnd(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		//_size.y = rt.bottom - rt.top;
 	}
 	break;
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}

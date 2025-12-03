@@ -2,7 +2,7 @@
 #include "SceneManager.h"
 #include "Object.h"
 #include "Collider.h"
-#include "Test.h"
+#include "TilteScene.h"
 #include "PlayerDevScene.h"
 
 void SceneManager::Init()
@@ -12,8 +12,9 @@ void SceneManager::Init()
 	// dynamic_cast<>
 	// std::dynamic_pointer_cast<>
 
+	RegisterScene(L"TitleScene", std::make_shared<TitleScene>());
 	RegisterScene(L"PlayerDevScene", std::make_shared<PlayerDevScene>());
-	LoadScene(L"PlayerDevScene");
+	LoadScene(L"TitleScene");
 }
 
 void SceneManager::Update()
