@@ -10,7 +10,7 @@ private:
     Texture* _texture = nullptr;
 
 public:
-    UIButton(const wstring& text, RECT rect, FontType fontType, Texture* texture);
+    UIButton(const std::wstring& text, const Vec2& pos, const Vec2& size, FontType fontType, Texture* texture);
 
     void SetFont(FontType type) { _fontType = type; };
     void SetOnClick(std::function<void()> cb) { _onClick = cb; }

@@ -7,8 +7,8 @@ enum class Layer
 	UI,
 	PLAYER,
 	ENEMY,
-	PROJECTILE,
 	WALL,
+	PROJECTILE,
 	END
 };
 

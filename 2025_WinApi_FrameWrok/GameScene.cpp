@@ -1,12 +1,12 @@
 #include "pch.h"
-#include "PlayerDevScene.h"
+#include "GameScene.h"
 #include "CollisionManager.h"
 #include "WindowManager.h"
 #include "Player.h"
 #include "Wall.h"
 #include "Window.h"
 
-void PlayerDevScene::Init()
+void GameScene::Init()
 {
 	_inGameWindow = GET_SINGLE(WindowManager)
 		->CreateSubWindow(
@@ -54,9 +54,7 @@ void PlayerDevScene::Init()
 
 }
 
-void PlayerDevScene::Update()
+void GameScene::Update()
 {
 	Scene::Update();
 }
-
-

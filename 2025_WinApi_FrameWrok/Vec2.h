@@ -51,6 +51,18 @@ public:
         y *= _val;
         return *this;
     }
+    Vec2 operator /= (const Vec2& _vOther)
+    {
+        x /= _vOther.x;
+        y /= _vOther.y;
+        return *this;
+    }
+    Vec2 operator /= (float _val)
+    {
+        x /= _val;
+        y /= _val;
+        return *this;
+    }
     Vec2 operator - ()
     {
         return Vec2(-x, -y);

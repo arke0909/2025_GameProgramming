@@ -1,19 +1,27 @@
 #pragma once
 #include "Object.h"
+#include "IAfterInit.h"
 class Rigidbody;
 class Texture;
 class Weapon;
+class Window;
 
 class Player :
-    public Object
+    public Object, public IAfterInit
 {
 public:
     Player();
     ~Player();
 public:
+    // IInit을(를) 통해 상속됨 
+    void AfterInit() override;
     // Object을(를) 통해 상속됨
     void Update() override;
     void Render(HDC hdc) override;
+    void SetWindow(Window* inGameWindow)
+    {
+        _inGameWindow = inGameWindow;
+    }
 private:
     void EnterCollision(Collider* _other) override; //충돌진입
     void StayCollision(Collider* _other) override; // 충돌중
@@ -29,5 +37,6 @@ private:
     float _fireInterval = 1.5f;
     float _lastFireTime = 0.f;
     float _circleColRadius;
+    Window* _inGameWindow;
 };
 

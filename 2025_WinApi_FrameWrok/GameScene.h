@@ -2,7 +2,7 @@
 #include "Scene.h"
 class Window;
 
-class PlayerDevScene :
+class GameScene :
     public Scene
 {
 public:

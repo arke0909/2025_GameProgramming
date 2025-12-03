@@ -62,6 +62,7 @@ void Rigidbody::FixedUpdate(float _fixedDT)
             // 공중 감속
             float dragAmount = m_airDrag * _fixedDT;
             m_velocity.x = std::lerp(m_velocity.x, 0.f, dragAmount);
+            m_velocity.y = std::lerp(m_velocity.y, 0.f, dragAmount);
         }
     }
 
