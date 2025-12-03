@@ -177,6 +177,7 @@
     <ClInclude Include="EnemyTestScene.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="GameScene.h" />
     <ClInclude Include="GDISelector.h" />
     <ClInclude Include="IAfterInit.h" />
     <ClInclude Include="InputManager.h" />
@@ -225,6 +226,7 @@
     <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="EnemySpawnManager.cpp" />
     <ClCompile Include="EnemyTestScene.cpp" />
+    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GDISelector.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
