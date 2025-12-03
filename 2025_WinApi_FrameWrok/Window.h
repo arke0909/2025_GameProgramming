@@ -1,4 +1,6 @@
 #pragma once
+#include "SubUIManager.h"
+
 struct WindowSet;
 
 class Window
@@ -7,6 +9,7 @@ public:
 	Window(LPCWSTR windowName, const WindowSet& windowSet);
 	~Window();
 public:
+	void Update();
 	void Render(HDC hDC);
 	HWND GetHandle()
 	{
@@ -28,6 +31,7 @@ public:
 	{
 		return _windowSize;
 	}
+	SubUIManager* GetUI() { return &_uiManager; }
 private:
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 private:
@@ -36,5 +40,6 @@ private:
 	Vec2 _pos;
 	Vec2 _size;
 	Vec2 _windowSize;
+	SubUIManager _uiManager;
 };
 

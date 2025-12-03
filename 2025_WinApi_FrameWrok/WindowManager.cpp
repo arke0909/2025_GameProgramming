@@ -7,6 +7,14 @@ void WindowManager::Init(HWND hWnd)
 	_mainHwnd = hWnd;
 }
 
+void WindowManager::Update()
+{
+	for (auto window : _subWindows)
+	{
+		window->Update();
+	}
+}
+
 void WindowManager::Render(HDC hDC)
 {
 	for (auto window : _subWindows)

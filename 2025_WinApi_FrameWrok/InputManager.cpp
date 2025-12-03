@@ -61,6 +61,16 @@ void InputManager::UpdateMouse()
     _prevMousePos = _mousePos;
 }
 
+void InputManager::UpdateMouse(HWND hWnd)
+{
+    ::GetCursorPos(&_mousePos);
+    ::ScreenToClient(hWnd, &_mousePos);
+
+    _mouseDelta.x = _mousePos.x - _prevMousePos.x;
+    _mouseDelta.y = _mousePos.y - _prevMousePos.y;
+    _prevMousePos = _mousePos;
+}
+
 void InputManager::ResetAll()
 {
     for (auto& e : _vecKey)
