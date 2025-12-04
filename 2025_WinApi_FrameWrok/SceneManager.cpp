@@ -4,6 +4,7 @@
 #include "Collider.h"
 #include "TilteScene.h"
 #include "PlayerDevScene.h"
+#include "GameScene.h"
 
 void SceneManager::Init()
 {
@@ -14,6 +15,7 @@ void SceneManager::Init()
 
 	RegisterScene(L"TitleScene", std::make_shared<TitleScene>());
 	RegisterScene(L"PlayerDevScene", std::make_shared<PlayerDevScene>());
+	RegisterScene(L"GameScene", std::make_shared<GameScene>());
 	LoadScene(L"TitleScene");
 }
 
