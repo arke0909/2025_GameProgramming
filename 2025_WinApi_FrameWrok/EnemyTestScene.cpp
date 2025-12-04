@@ -2,11 +2,20 @@
 #include "EnemyTestScene.h"
 #include "CollisionManager.h"
 #include "EnemySpawnManager.h"
+#include "WindowManager.h"
 #include "Player.h"
 #include "Wall.h"
 
 void EnemyTestScene::Init()
 {
+	_inGameWindow = GET_SINGLE(WindowManager)
+		->CreateSubWindow(
+			L"InGame",
+			{
+				{SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2},
+				{400,400}
+			});
+
 	Player* player;
 	AddObject(player = new Player, Layer::PLAYER);
 	player->SetPos({ WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2});
@@ -22,7 +31,7 @@ void EnemyTestScene::Init()
 
 	for (int i = 0; i < 4; ++i)
 	{
-		auto* wall = new Wall();
+		auto* wall = new Wall(_inGameWindow);
 		wall->SetWall(wallSets[i]);
 		AddObject(wall, Layer::WALL);
 	}

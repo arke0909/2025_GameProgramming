@@ -1,6 +1,9 @@
 #pragma once
 #include "Scene.h"
 #include "EnemySpawnManager.h"
+
+class Window;
+
 class EnemyTestScene :
     public Scene
 {
@@ -10,4 +13,5 @@ class EnemyTestScene :
 
 private:
     EnemySpawnManager* _spawn;
+    Window* _inGameWindow;
 };
