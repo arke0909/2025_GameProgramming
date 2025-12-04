@@ -18,10 +18,18 @@ void SubUIManager::Update(HWND hWnd)
 
 void SubUIManager::Render(HDC hdc)
 {
+
+
     for (auto* elem : _elements)
     {
         elem->Render(hdc);
     }
+}
+
+
+int SubUIManager::Count()
+{
+	return static_cast<int>(_elements.size());
 }
 
 void SubUIManager::Clear()

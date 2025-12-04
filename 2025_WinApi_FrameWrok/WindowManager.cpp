@@ -14,7 +14,6 @@ void WindowManager::Update()
 	{
 		GET_SINGLE(InputManager)->UpdateMouse(window->GetHandle());
 		window->Update();
-		window->GetUI()->Update(window->GetHandle());
 	}
 }
 
@@ -23,7 +22,6 @@ void WindowManager::Render(HDC hDC)
 	for (auto window : _subWindows)
 	{
 		window->Render(hDC);
-		window->GetUI()->Render(window->GetHDC());
 	}
 }
 
