@@ -2,26 +2,36 @@
 #include "GameScene.h"
 #include "CollisionManager.h"
 #include "WindowManager.h"
+#include "UIManager.h"
+#include "UILabel.h"
 #include "Player.h"
+#include "GameManager.h"
 #include "Wall.h"
 #include "Window.h"
 
 void GameScene::Init()
 {
-	_inGameWindow = GET_SINGLE(WindowManager)
+	Window* inGameWindow = _inGameWindow = GET_SINGLE(WindowManager)
 		->CreateSubWindow(
 			L"InGame",
 			{
 				{SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2},
 				{400,400}
 			});
-	GET_SINGLE(WindowManager)
+
+	Window* informationWindow = GET_SINGLE(WindowManager)
 		->CreateSubWindow(
-			L"Temp",
+			L"Information",
 			{
-				{SCREEN_WIDTH / 2 - 500, SCREEN_HEIGHT / 2},
-				{400,400}
+				{SCREEN_WIDTH - 200, SCREEN_HEIGHT / 2},
+				{300,400}
 			});
+
+	SubUIManager* gameSceneUI = inGameWindow->GetUI();
+
+	UILabel* waveLabel = new UILabel(L" Wave : " + std::to_wstring(GET_SINGLE(GameManager)->currentWavwe), {200, 20}, {100,50}, FontType::TITLE);
+
+	gameSceneUI->Add(waveLabel);
 
 	int playerPosX = _inGameWindow->GetPos().x + _inGameWindow->GetSize().x / 2;
 	int playerPosY = _inGameWindow->GetPos().y + _inGameWindow->GetSize().y / 2;

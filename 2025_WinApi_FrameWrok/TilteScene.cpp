@@ -24,7 +24,7 @@ void TitleScene::Init()
     startBtn->SetOnClick([]() 
         {
             GET_SINGLE(WindowManager)->CloseAllSubWindows();
-            GET_SINGLE(SceneManager)->LoadScene(L"PlayerDevScene");
+            GET_SINGLE(SceneManager)->LoadScene(L"GameScene");
         });
     startUI->Add(startBtn);
 
@@ -38,6 +38,9 @@ void TitleScene::Init()
 
     UILabel* bgmLabel = new UILabel(L"BGM", { 450, 215 }, { 300,300 }, FontType::TITLE);
     UILabel* sfxLabel = new UILabel(L"SFX", { 450, 375 }, { 300,300 }, FontType::TITLE);
+
+    bgmLabel->SetColor(RGB(0, 0, 0));
+    sfxLabel->SetColor(RGB(0, 0, 0));
 
     UISlider* volumeSlider = new UISlider({ 265, 215 }, { 300, 20 });
     volumeSlider->SetOnValueChanged([](float val) {
