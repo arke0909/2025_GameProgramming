@@ -55,7 +55,7 @@ Window::~Window()
 
 void Window::Update()
 {
-	_uiManager.Update(_hWnd);
+	//_uiManager.Update(_hWnd);
 
 	if(!_isMoving) return;
 
@@ -75,16 +75,16 @@ void Window::Render(HDC hDC)
 	int w = _windowSize.x;
 	int h = _windowSize.y;
 
-	::PatBlt(_hDC, 0, 0, w, h, BLACKNESS);
+	//::PatBlt(_hDC, 0, 0, w, h, BLACKNESS);
 
-	::BitBlt(
+	/*::BitBlt(
 		_hDC, 0, 0, w, h,
 		hDC, _pos.x, _pos.y,
-		SRCCOPY);
+		SRCCOPY);*/
 
-	_uiManager.Render(_hDC);
+	//_uiManager.Render(_hDC);
 
-	::BitBlt(hDC, _pos.x, _pos.y, w, h, _hDC, 0, 0, SRCCOPY);
+	::BitBlt(_hDC, 0, 0, w, h, hDC, _pos.x, _pos.y, SRCCOPY);
 }
 
 

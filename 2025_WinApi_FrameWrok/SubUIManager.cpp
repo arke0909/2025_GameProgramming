@@ -9,7 +9,6 @@ void SubUIManager::Add(UIElement* elem)
 
 void SubUIManager::Update(HWND hWnd)
 {
-    GET_SINGLE(InputManager)->UpdateMouse(hWnd);
 
     for (auto* elem : _elements)
     {
