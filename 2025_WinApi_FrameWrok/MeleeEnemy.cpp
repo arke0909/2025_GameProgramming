@@ -3,10 +3,12 @@
 #include "ResourceManager.h"
 #include "Animator.h"
 #include "EnemyMoveState.h"
+#include "SceneManager.h"
 
 MeleeEnemy::MeleeEnemy()
 {
-    _eTex = GET_SINGLE(ResourceManager)->GetTexture(L"CloseEnemy");
+    _eTex = GET_SINGLE(ResourceManager)
+        ->GetTexture(L"CloseEnemy");
 
     Vec2 animSize;
     switch (_eTex->GetHeight())
@@ -43,4 +45,12 @@ MeleeEnemy::MeleeEnemy()
 
 MeleeEnemy::~MeleeEnemy()
 {
+}
+
+void MeleeEnemy::EnterCollision(Collider* _other)
+{
+    if (_other->GetName()  == L"Weapon") {
+        this->SetDead();
+        GET_SINGLE(SceneManager)->RequestDestroy(this);
+    }
 }

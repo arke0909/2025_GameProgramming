@@ -26,7 +26,7 @@ void EnemyArmorMoveState::Update()
 
 void EnemyArmorMoveState::MoveToTarget()
 {
-    if (_enemy->_target == nullptr) // Enemy 실제 target 사용
+    if (_enemy->_target == nullptr)
         return;
 
     Vec2 currentPos = _enemy->GetPos();

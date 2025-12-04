@@ -6,4 +6,5 @@ class RangedEnemy :
 public:
     RangedEnemy();
     ~RangedEnemy() override;
+	void EnterCollision(Collider* _other) override;
 };
