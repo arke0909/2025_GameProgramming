@@ -31,8 +31,8 @@ public:
 	{
 		return _windowSize;
 	}
-	void MoveWindow(const Vec2& velocitiy, const float duration = 10.f);
-	void ChangeWindowSize(const Vec2& targetSize, const float duration = 10.f);
+	void MoveWindow(const Vec2& velocitiy, const float duration = 0.5f);
+	void ChangeWindowSize(const Vec2& targetSize, const float duration = 0.5f);
 	SubUIManager* GetUI() { return &_uiManager; }
 
 private:
@@ -41,6 +41,7 @@ private:
 private:
 	HWND _hWnd;
 	HDC _hDC;
+	Vec2 _moveStartPos;
 	Vec2 _pos;
 	Vec2 _size;
 	Vec2 _windowSize;

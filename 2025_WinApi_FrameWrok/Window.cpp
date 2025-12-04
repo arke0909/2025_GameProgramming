@@ -61,12 +61,13 @@ void Window::Update()
 
 	float ratio = _timer / _duration;
 	float ease = GET_SINGLE(EasingManager)->OutSine(ratio);
-	float xL = std::lerp(_pos.x, _destination.x, ease);
-	float yL = std::lerp(_pos.y, _destination.y, ease);
+	float xL = std::lerp(_moveStartPos.x, _destination.x, ease);
+	float yL = std::lerp(_moveStartPos.y, _destination.y, ease);
 	xL = std::clamp(xL, 0.f, SCREEN_WIDTH - _size.x);
 	yL = std::clamp(yL, 0.f, SCREEN_HEIGHT - _size.y);
 	_timer += GET_SINGLE(TimeManager)->GetDeletaTime();
 	::MoveWindow(_hWnd, xL, yL, _size.x, _size.y, true);
+	cout << _pos.x << ' ' << _pos.y << '\n';
 	_isMoving = _timer <= _duration;
 }
 void Window::Render(HDC hDC)
@@ -96,6 +97,7 @@ void Window::Render(HDC hDC)
 
 void Window::MoveWindow(const Vec2& velocitiy, const float duration)
 {
+	_moveStartPos = _pos;
 	_destination.x = velocitiy.x + _pos.x;
 	_destination.y = velocitiy.y + _pos.y;
 	_timer = 0.f;
