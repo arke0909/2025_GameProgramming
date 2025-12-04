@@ -9,6 +9,7 @@ void SubUIManager::Add(UIElement* elem)
 
 void SubUIManager::Update(HWND hWnd)
 {
+	if (_elements.empty()) return;
 
     for (auto* elem : _elements)
     {
@@ -18,7 +19,7 @@ void SubUIManager::Update(HWND hWnd)
 
 void SubUIManager::Render(HDC hdc)
 {
-
+    if (_elements.empty()) return;
 
     for (auto* elem : _elements)
     {

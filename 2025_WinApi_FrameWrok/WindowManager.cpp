@@ -34,6 +34,7 @@ void WindowManager::CloseAllSubWindows()
 			::DestroyWindow(window->GetHandle());
 			delete window; 
 		}
+		window->GetUI()->Clear();
 	}
 	_subWindows.clear(); 
 }
