@@ -55,7 +55,7 @@ Window::~Window()
 
 void Window::Update()
 {
-	//_uiManager.Update(_hWnd);
+	_uiManager.Update(_hWnd);
 
 	if(!_isMoving) return;
 
@@ -69,22 +69,26 @@ void Window::Update()
 	::MoveWindow(_hWnd, xL, yL, _size.x, _size.y, true);
 	_isMoving = _timer <= _duration;
 }
-
 void Window::Render(HDC hDC)
 {
 	int w = _windowSize.x;
 	int h = _windowSize.y;
 
-	//::PatBlt(_hDC, 0, 0, w, h, BLACKNESS);
+	HDC memDC = ::CreateCompatibleDC(hDC);
+	HBITMAP memBitmap = ::CreateCompatibleBitmap(hDC, w, h);
+	HBITMAP oldBitmap = (HBITMAP)::SelectObject(memDC, memBitmap);
 
-	/*::BitBlt(
-		_hDC, 0, 0, w, h,
-		hDC, _pos.x, _pos.y,
-		SRCCOPY);*/
+	::BitBlt(memDC, 0, 0, w, h, hDC, _pos.x, _pos.y, SRCCOPY);
 
-	//_uiManager.Render(_hDC);
+	if (_uiManager.Count() > 0)
+	{
+		_uiManager.Render(memDC);
+	}
+	::BitBlt(_hDC, 0, 0, w, h, memDC, 0, 0, SRCCOPY);
 
-	::BitBlt(_hDC, 0, 0, w, h, hDC, _pos.x, _pos.y, SRCCOPY);
+	::SelectObject(memDC, oldBitmap);
+	::DeleteObject(memBitmap);
+	::DeleteDC(memDC);
 }
 
 
