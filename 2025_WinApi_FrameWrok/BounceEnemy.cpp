@@ -2,6 +2,7 @@
 #include "BounceEnemy.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
+#include "EnemySpawnManager.h"
 #include "Rigidbody.h"
 #include "EnemyMoveState.h"
 
@@ -69,7 +70,6 @@ void BounceEnemy::EnterCollision(Collider* _other)
 
         rigidbody->SetVelocity(newVelocity);
 
-		this->SetDead();
-		GET_SINGLE(SceneManager)->RequestDestroy(this);
+        GET_SINGLE(EnemySpawnManager)->DeadEnemy(this);
     }
 }

@@ -1,13 +1,12 @@
 #include "pch.h"
 #include "EnemySpawnManager.h"
-#include "Enemy.h"
 #include "SceneManager.h"
-#include "Object.h"
 #include "MeleeEnemy.h"
 #include "RangedEnemy.h"
+#include "ArmorEnemy.h"
+#include "BounceEnemy.h"
 #include <cstdlib>
 #include <ctime>
-#include <iostream>
 
 void EnemySpawnManager::Init(Player* player)
 {
@@ -15,55 +14,165 @@ void EnemySpawnManager::Init(Player* player)
 
     srand(unsigned int(time(nullptr)));
 
-    _spawnInterval = 3.0f;
-    _elapsedTime = 0.0f;
     _mapWidth = WINDOW_WIDTH;
     _mapHeight = WINDOW_HEIGHT;
+
+    _waveDelay = 2.f;
+    _noSpawnDistance = 150.f;
+
+    _currentWave = 0;
+    _waveActive = false;
+    _waveDelayTimer = 0.f;
+
+    _waves = {
+        { { {EnemyType::Melee, 5} } },
+        { { {EnemyType::Melee, 4}, {EnemyType::Ranged, 2} } },
+        { { {EnemyType::Ranged, 6} } },
+        { { {EnemyType::Melee, 4}, {EnemyType::Armor, 2} } },
+        { { {EnemyType::Bounce, 6} } },
+        { { {EnemyType::Melee, 3}, {EnemyType::Ranged, 3}, {EnemyType::Armor, 2} } },
+        { { {EnemyType::Melee, 4}, {EnemyType::Ranged, 4}, {EnemyType::Bounce, 2} } },
+        { { {EnemyType::Armor, 4}, {EnemyType::Bounce, 4} } },
+        { { {EnemyType::Melee, 5}, {EnemyType::Ranged, 5}, {EnemyType::Armor, 5} } },
+        { { {EnemyType::Melee, 0} } }
+    };
 }
 
 void EnemySpawnManager::Update()
 {
-    _elapsedTime += fDT;
+    UpdateWave();
+}
 
-    while (_elapsedTime >= _spawnInterval)
+void EnemySpawnManager::UpdateWave()
+{
+    if (!_waveActive)
     {
-        SpawnEnemy();
-        _elapsedTime -= _spawnInterval;
+        _waveDelayTimer += fDT;
+        if (_waveDelayTimer >= _waveDelay)
+        {
+            _waveDelayTimer = 0.f;
+            _waveActive = true;
+            TrySpawnWave();
+        }
+        return;
+    }
+
+    if (_spawnedEnemies.empty())
+    {
+        _currentWave++;
+        _waveActive = false;
     }
 }
 
-void EnemySpawnManager::SpawnEnemy()
+void EnemySpawnManager::TrySpawnWave()
 {
-    Enemy* enemy = CreateRandomEnemy();
+    if (_currentWave == 9)
+    {
+        Vec2 pos;
+        if (FindSpawnPosition(pos))
+        {
+            //보스 생성이 들어갈 예정임
+        }
+        return;
+    }
 
-    // 랜덤 위치 계산, 윈도우 범위 안
-    float x = rand() % _mapWidth;
-    float y = rand() % _mapHeight;
-
-    Vec2 pos(x, y);
-    Vec2 size(50.f, 50.f);
-
-    enemy->SetPos(pos);
-    enemy->SetSize(size);
+    for (auto& info : _waves[_currentWave].enemies)
+    {
+        for (int i = 0; i < info.second; i++)
+            SpawnEnemy(info.first);
+    }
 }
 
-Enemy* EnemySpawnManager::CreateRandomEnemy()
+void EnemySpawnManager::SpawnEnemy(EnemyType type)
 {
-    int type = rand() % 2;
-    Enemy* enemy = nullptr;
+    Vec2 pos;
 
-    if (type == 0)
+    if (!FindSpawnPosition(pos))
+        return;
+
+    Enemy* e = CreateEnemy(type);
+    if (!e)
+        return;
+
+    e->SetPos(pos);
+    e->SetTarget(_player);
+
+    GET_SINGLE(SceneManager)->GetCurScene()->AddObject(e, Layer::ENEMY);
+
+    _spawnedEnemies.push_back(e);
+}
+
+
+Enemy* EnemySpawnManager::CreateEnemy(EnemyType type)
+{
+    if (type == EnemyType::Melee) 
+        return new MeleeEnemy();
+
+    if (type == EnemyType::Ranged)
+        return new RangedEnemy();
+
+    if (type == EnemyType::Armor)
+        return new ArmorEnemy();
+
+    if (type == EnemyType::Bounce)
+        return new BounceEnemy();
+
+    return nullptr;
+}
+
+bool EnemySpawnManager::FindSpawnPosition(Vec2& outPos)
+{
+    for (int i = 0; i < 10; i++)
     {
-        enemy = new MeleeEnemy();
+        Vec2 cand = GenerateEdgePosition();
+        if (IsPositionValid(cand))
+        {
+            outPos = cand;
+            return true;
+        }
     }
-    else
+    return false;
+}
+
+bool EnemySpawnManager::IsPositionValid(const Vec2& pos)
+{
+	Vec2 playerPos = _player->GetPos();
+    if ((playerPos - pos).Length() < _noSpawnDistance)
+        return false;
+
+    auto enemies = _spawnedEnemies;
+    for (auto e : enemies)
     {
-        enemy = new RangedEnemy();
+		Vec2 enemyPos = e->GetPos();
+        if ((enemyPos - pos).Length() < _noSpawnDistance)
+            return false;
     }
+    return true;
+}
 
-    enemy->SetTarget(_player);
+Vec2 EnemySpawnManager::GenerateEdgePosition()
+{
+    int side = rand() % 4;
 
-    GET_SINGLE(SceneManager)->GetCurScene()->AddObject(enemy, Layer::ENEMY);
+    if (side == 0)
+        return Vec2((float)(rand() % _mapWidth), 0.f);
 
-    return enemy;
+    if (side == 1)
+        return Vec2((float)(rand() % _mapWidth), (float)_mapHeight);
+
+    if (side == 2)
+        return Vec2(0.f, (float)(rand() % _mapHeight));
+
+    return Vec2((float)_mapWidth, (float)(rand() % _mapHeight));
+}
+
+void EnemySpawnManager::DeadEnemy(Enemy* enemy)
+{
+    auto it = std::find(_spawnedEnemies.begin(), _spawnedEnemies.end(), enemy);
+    if (it != _spawnedEnemies.end())
+    {
+        _spawnedEnemies.erase(it);
+		enemy->SetDead();
+        GET_SINGLE(SceneManager)->RequestDestroy(enemy);
+	}
 }

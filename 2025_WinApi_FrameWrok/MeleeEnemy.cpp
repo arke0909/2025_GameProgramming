@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "Animator.h"
 #include "EnemyMoveState.h"
+#include "EnemySpawnManager.h"
 #include "SceneManager.h"
 
 MeleeEnemy::MeleeEnemy()
@@ -50,7 +51,6 @@ MeleeEnemy::~MeleeEnemy()
 void MeleeEnemy::EnterCollision(Collider* _other)
 {
     if (_other->GetName()  == L"Weapon") {
-        this->SetDead();
-        GET_SINGLE(SceneManager)->RequestDestroy(this);
+        GET_SINGLE(EnemySpawnManager)->DeadEnemy(this);
     }
 }

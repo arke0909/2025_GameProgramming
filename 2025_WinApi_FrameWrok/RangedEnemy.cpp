@@ -5,6 +5,7 @@
 #include "SceneManager.h"
 #include "EnemyAttackState.h"
 #include "EnemyMoveState.h"
+#include "EnemySpawnManager.h"
 #include "Animator.h"
 
 RangedEnemy::RangedEnemy()
@@ -52,7 +53,6 @@ RangedEnemy::~RangedEnemy()
 void RangedEnemy::EnterCollision(Collider* _other)
 {
     if (_other->GetName() == L"Weapon") {
-		this->SetDead();
-        GET_SINGLE(SceneManager)->RequestDestroy(this);
+        GET_SINGLE(EnemySpawnManager)->DeadEnemy(this);
     }
 }
