@@ -4,7 +4,10 @@
 #include "MeleeEnemy.h"
 #include "RangedEnemy.h"
 #include "ArmorEnemy.h"
+#include "NoneMoveEnemy.h"
 #include "BounceEnemy.h"
+#include "WindowManager.h"
+#include "Window.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -25,7 +28,7 @@ void EnemySpawnManager::Init(Player* player)
     _waveDelayTimer = 0.f;
 
     _waves = {
-        { { {EnemyType::Melee, 5} } },
+        { { {EnemyType::Nonemove, 1}, {EnemyType::Bounce, 1} } },
         { { {EnemyType::Melee, 4}, {EnemyType::Ranged, 2} } },
         { { {EnemyType::Ranged, 6} } },
         { { {EnemyType::Melee, 4}, {EnemyType::Armor, 2} } },
@@ -85,14 +88,28 @@ void EnemySpawnManager::TrySpawnWave()
 
 void EnemySpawnManager::SpawnEnemy(EnemyType type)
 {
+    if (type == EnemyType::Nonemove) {
+        NoneMoveEnemy* e = new NoneMoveEnemy();
+        Vec2 pos;
+        float fx = static_cast<float>(rand()) / RAND_MAX;
+        float fy = static_cast<float>(rand()) / RAND_MAX;
+        pos.x = fx * _mapWidth;
+        pos.y = fy * _mapHeight;
+
+        e->SetPos(pos);
+        e->SetTarget(_player);
+        e->CreateEnemyWindow();
+        _spawnedEnemies.push_back(e);
+        GET_SINGLE(SceneManager)->GetCurScene()->AddObject(e, Layer::ENEMY);
+        return;
+    }
+
     Vec2 pos;
 
     if (!FindSpawnPosition(pos))
         return;
 
     Enemy* e = CreateEnemy(type);
-    if (!e)
-        return;
 
     e->SetPos(pos);
     e->SetTarget(_player);
@@ -116,6 +133,9 @@ Enemy* EnemySpawnManager::CreateEnemy(EnemyType type)
 
     if (type == EnemyType::Bounce)
         return new BounceEnemy();
+
+    if (type == EnemyType::Nonemove)
+        return new NoneMoveEnemy();
 
     return nullptr;
 }

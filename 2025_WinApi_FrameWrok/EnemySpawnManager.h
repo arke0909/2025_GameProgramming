@@ -1,6 +1,7 @@
 #pragma once
 #include "Enemy.h"
 #include "Player.h"
+#include "Window.h"
 #include <vector>
 #include <utility>
 
@@ -9,7 +10,8 @@ enum class EnemyType
     Melee,
     Ranged,
     Armor,
-    Bounce
+    Bounce,
+    Nonemove
 };
 
 class EnemySpawnManager

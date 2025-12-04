@@ -71,7 +71,7 @@ void EnemyBullet::Render(HDC hdc)
 
 void EnemyBullet::EnterCollision(Collider* _other)
 {
-	if (_other->GetName() == L"Enemy")
+	if (_other->GetName() == L"Enemy" || _other->GetName() == L"Wall")
 		return;
 
 	if (_other->GetName() == L"Player")
