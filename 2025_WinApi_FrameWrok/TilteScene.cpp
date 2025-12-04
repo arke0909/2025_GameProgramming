@@ -8,6 +8,7 @@
 #include "UILabel.h"
 #include "ResourceManager.h"
 #include "SubUIManager.h"
+#include "UIManager.h"
 #include "SceneManager.h"
 
 void TitleScene::Init()

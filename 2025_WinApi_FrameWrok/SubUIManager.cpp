@@ -9,7 +9,6 @@ void SubUIManager::Add(UIElement* elem)
 
 void SubUIManager::Update(HWND hWnd)
 {
-    GET_SINGLE(InputManager)->UpdateMouse(hWnd);
 
     for (auto* elem : _elements)
     {
@@ -19,10 +18,18 @@ void SubUIManager::Update(HWND hWnd)
 
 void SubUIManager::Render(HDC hdc)
 {
+
+
     for (auto* elem : _elements)
     {
         elem->Render(hdc);
     }
+}
+
+
+int SubUIManager::Count()
+{
+	return static_cast<int>(_elements.size());
 }
 
 void SubUIManager::Clear()

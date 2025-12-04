@@ -58,7 +58,7 @@ void Wall::EnterCollision(Collider* _other)
 	if (rigidbody)
 	{
 		Vec2 velocity = rigidbody->GetVelocity();
-		velocity *= 0.1f;
+		velocity *= 0.01f;
 
 		_inGameWindow->MoveWindow(velocity);
 	}

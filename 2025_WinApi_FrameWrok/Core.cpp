@@ -65,8 +65,8 @@ void Core::MainUpdate()
 	}
 	GET_SINGLE(InputManager)->Update();
 	GET_SINGLE(ResourceManager)->FmodUpdate();
-	GET_SINGLE(UIManager)->Update();
 	GET_SINGLE(SceneManager)->Update();
+	GET_SINGLE(UIManager)->Update();
 	GET_SINGLE(WindowManager)->Update();
 }
 

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "WindowManager.h"
+#include "InputManager.h"
 #include "Window.h"
 
 void WindowManager::Init(HWND hWnd)
@@ -11,6 +12,7 @@ void WindowManager::Update()
 {
 	for (auto window : _subWindows)
 	{
+		GET_SINGLE(InputManager)->UpdateMouse(window->GetHandle());
 		window->Update();
 	}
 }

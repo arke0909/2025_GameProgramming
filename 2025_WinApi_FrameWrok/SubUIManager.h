@@ -7,6 +7,7 @@ public:
     void Add(UIElement* elem);
     void Update(HWND hWnd);
     void Render(HDC hdc);
+    int Count();
     void Clear();
 
 private:
