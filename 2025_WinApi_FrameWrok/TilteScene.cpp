@@ -13,48 +13,70 @@
 
 void TitleScene::Init()
 {
-	GET_SINGLE(ResourceManager)->Play(L"BGM");
+    GET_SINGLE(ResourceManager)->Play(L"BGM");
     Texture* buttonTex = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
+    UIButton* startBtn = new UIButton(L"게임 시작", { 325, 430 }, { 350, 70 }, FontType::TITLE, buttonTex);
+    UIButton* settingBtn = new UIButton(L"사운드 설정", { 325, 515 }, { 350, 70 }, FontType::TITLE, buttonTex);
+    UIButton* exitBtn = new UIButton(L"게임 나가기", { 325, 600 }, { 350, 70 }, FontType::TITLE, buttonTex);
 
-    Window* startWindow = GET_SINGLE(WindowManager)->CreateSubWindow(
-        L"Start Window", { {300, 300}, {220, 100} });
-    SubUIManager* startUI = startWindow->GetUI();
-
-    UIButton* startBtn = new UIButton(L"게임 시작", { 110, 50 }, { 200, 75 }, FontType::TITLE, buttonTex);
-    startBtn->SetOnClick([]() 
+    startBtn->SetOnClick([]()
         {
             GET_SINGLE(WindowManager)->CloseAllSubWindows();
             GET_SINGLE(SceneManager)->LoadScene(L"GameScene");
         });
-    startUI->Add(startBtn);
 
-    Window* soundWindow = GET_SINGLE(WindowManager)->CreateSubWindow(
-        L"Sound Settings", { {900, 500}, {550,550} });
-    SubUIManager* soundUI = soundWindow->GetUI();
-    
-    UIImage* soundImage = new UIImage(
-        GET_SINGLE(ResourceManager)->GetTexture(L"SoundPanel"),
-		{270, 280 }, { 500, 500 });
+    settingBtn->SetOnClick([]()
+        {
+            Texture* buttonTex = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
+            Window* soundWindow = GET_SINGLE(WindowManager)->CreateSubWindow(
+                L"SoundSetting", { {SCREEN_WIDTH / 2 + 450, SCREEN_HEIGHT / 2}, {550,550} });
 
-    UILabel* bgmLabel = new UILabel(L"BGM", { 450, 215 }, { 300,300 }, FontType::TITLE);
-    UILabel* sfxLabel = new UILabel(L"SFX", { 450, 375 }, { 300,300 }, FontType::TITLE);
+            SubUIManager* soudUI = soundWindow->GetUI();
+            UIButton* exitsoundBtn = new UIButton(L"닫기", { 325, 600 }, { 350, 70 }, FontType::TITLE, buttonTex);
+            exitsoundBtn->SetOnClick([soundWindow]() {
+                GET_SINGLE(WindowManager)->CloseSubWindow(soundWindow);
+                });
 
-    bgmLabel->SetColor(RGB(0, 0, 0));
-    sfxLabel->SetColor(RGB(0, 0, 0));
+            UIImage* soundImage = new UIImage(
+                GET_SINGLE(ResourceManager)->GetTexture(L"SoundPanel"),
+                { 270, 280 }, { 500, 500 });
 
-    UISlider* volumeSlider = new UISlider({ 265, 215 }, { 300, 20 });
-    volumeSlider->SetOnValueChanged([](float val) {
-        GET_SINGLE(ResourceManager)->Volume(SOUND_CHANNEL::BGM, val);
+            UILabel* bgmLabel = new UILabel(L"BGM", { 450, 215 }, { 300,300 }, FontType::TITLE);
+            UILabel* sfxLabel = new UILabel(L"SFX", { 450, 375 }, { 300,300 }, FontType::TITLE);
+
+            bgmLabel->SetColor(RGB(0, 0, 0));
+            sfxLabel->SetColor(RGB(0, 0, 0));
+
+            UISlider* volumeSlider = new UISlider({ 265, 215 }, { 300, 20 });
+            volumeSlider->SetOnValueChanged([](float val) {
+                GET_SINGLE(ResourceManager)->Volume(SOUND_CHANNEL::BGM, val);
+                });
+
+            UISlider* sfxSlider = new UISlider({ 265, 375 }, { 300, 20 });
+            sfxSlider->SetOnValueChanged([](float val) {
+                GET_SINGLE(ResourceManager)->Volume(SOUND_CHANNEL::EFFECT, val);
+                });
+
+
+
+            soudUI->Add(soundImage);
+            soudUI->Add(bgmLabel);
+            soudUI->Add(sfxLabel);
+            soudUI->Add(volumeSlider);
+            soudUI->Add(sfxSlider);
+        });
+    exitBtn->SetOnClick([]()
+        {
+            PostQuitMessage(0);
         });
 
-    UISlider* sfxSlider = new UISlider({ 265, 375 }, { 300, 20 });
-    sfxSlider->SetOnValueChanged([](float val) {
-        GET_SINGLE(ResourceManager)->Volume(SOUND_CHANNEL::EFFECT, val);
-        });
+    Window* TitleWindow = GET_SINGLE(WindowManager)->CreateSubWindow(
+        L"TilteWindow", { {SCREEN_WIDTH / 2 - 400, SCREEN_HEIGHT / 2 }, {650,650} });
+    SubUIManager* tilteUI = TitleWindow->GetUI();
+    tilteUI->Add(startBtn);
+    tilteUI->Add(settingBtn);
+    tilteUI->Add(exitBtn);
 
-	soundUI->Add(soundImage);
-    soundUI->Add(volumeSlider);
-    soundUI->Add(sfxSlider);
-	soundUI->Add(bgmLabel);
-	soundUI->Add(sfxLabel);
+
+
 }
