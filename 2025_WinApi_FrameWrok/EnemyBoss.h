@@ -20,7 +20,7 @@ public:
     void ChangeState(std::string state);
     void UpdateHP(int value);
     int GetHP();
-    void EnterCollision(Collider* _other)
+    void EnterCollision(Collider* _other);
 
     int GetCurrentPhase() const { return _currentPhase; } // 현재 페이지
     PhaseData GetCurrentPhaseData() const; // 현재 페이지의 데이터
