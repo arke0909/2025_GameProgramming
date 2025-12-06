@@ -4,19 +4,19 @@
 #include "SceneManager.h"
 #include "ResourceManager.h"
 
-EnemyBullet::EnemyBullet(const Vec2& startPos, const Vec2& targetPos)
+EnemyBullet::EnemyBullet(const Vec2& startPos, const Vec2& targetPos, float speed)
 {
-	_speed = 200.f;
+	_speed = speed;
 	auto* col = AddComponent<BoxCollider>();
 	col->SetName(L"EnemyBullet");
 	col->SetTrigger(true);
 
-	_pTex = GET_SINGLE(ResourceManager)
+	_eTex = GET_SINGLE(ResourceManager)
 		->GetTexture(L"Player");
 
 	Vec2 animSize;
 
-	switch (_pTex->GetHeight())
+	switch (_eTex->GetHeight())
 	{
 		break;
 	case 32:
@@ -34,7 +34,7 @@ EnemyBullet::EnemyBullet(const Vec2& startPos, const Vec2& targetPos)
 	animator->CreateAnimation
 	(
 		L"Idle",
-		_pTex,
+		_eTex,
 		{ 0.f,0.f },
 		animSize,
 		{ 0.f,0.f },
