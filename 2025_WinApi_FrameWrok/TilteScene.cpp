@@ -57,8 +57,6 @@ void TitleScene::Init()
                 GET_SINGLE(ResourceManager)->Volume(SOUND_CHANNEL::EFFECT, val);
                 });
 
-
-
             soudUI->Add(soundImage);
             soudUI->Add(bgmLabel);
             soudUI->Add(sfxLabel);
