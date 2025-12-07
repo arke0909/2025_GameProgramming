@@ -16,7 +16,7 @@ void TitleScene::Init()
 	GET_SINGLE(ResourceManager)->Play(L"BGM");
     Texture* buttonTex = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
 
-    Window* startWindow = GET_SINGLE(WindowManager)->CreateSubWindow(
+    Window* startWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
         L"Start Window", { {300, 300}, {220, 100} });
     SubUIManager* startUI = startWindow->GetUI();
 
@@ -28,7 +28,7 @@ void TitleScene::Init()
         });
     startUI->Add(startBtn);
 
-    Window* soundWindow = GET_SINGLE(WindowManager)->CreateSubWindow(
+    Window* soundWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
         L"Sound Settings", { {900, 500}, {550,550} });
     SubUIManager* soundUI = soundWindow->GetUI();
     
