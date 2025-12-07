@@ -9,6 +9,7 @@ enum class Layer
 	ENEMY,
 	WALL,
 	PROJECTILE,
+	BULLET,
 	END
 };
 

@@ -144,7 +144,7 @@ void Player::ShotProjectile()
 	Vec2 dir = mousePos - _pos;
 	proj->Init(_pos, dir);
 
-	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(proj,Layer::PROJECTILE);
+	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(proj,Layer::BULLET);
 }
 
 void Player::AfterInit()

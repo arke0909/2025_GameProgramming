@@ -142,9 +142,10 @@ LRESULT Window::HandleWnd(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		int left = rt.left;
 		int top = rt.top;
-
 		_topLeft = { left, top };
-		_pos = { left + _size.x * 0.5f, top + _size.y * 0.5f };
+
+		_size.x = rt.right - rt.left;
+		_size.y = rt.bottom - rt.top;
 	}
 	break;
 	default:
