@@ -1,7 +1,7 @@
 #pragma once
 #include "Scene.h"
 class Window;
-
+class HPImage;
 class GameScene :
     public Scene
 {
@@ -10,6 +10,8 @@ public:
     void Init() override;
     void Update();
 private:
-    Window* _inGameWindow;
+    Window* _inGameWindow = nullptr;
+    Window* _informationWindow = nullptr;
+    std::vector<HPImage*> _hearts;
 };
 

@@ -11,6 +11,8 @@ public:
     UIElement(const Vec2& _pos, const Vec2& _size)
         : pos(_pos), size(_size) {
     }
+    void SetVisible(bool v) { _visible = v; }
+    bool IsVisible() const { return _visible; }
 
     virtual void Render(HDC hdc) = 0;
     virtual void Update() = 0;

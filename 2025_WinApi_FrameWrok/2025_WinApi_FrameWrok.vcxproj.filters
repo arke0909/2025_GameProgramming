@@ -270,6 +270,12 @@
     <ClInclude Include="WaveLabel.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="HPImage.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CoinLabel.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2025_WinApi_FrameWrok.rc">
@@ -445,6 +451,12 @@
       <Filter>Engine\04.Scene</Filter>
     </ClCompile>
     <ClCompile Include="WaveLabel.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="HPImage.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CoinLabel.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

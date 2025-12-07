@@ -37,9 +37,11 @@ void SubUIManager::Render(HDC hdc)
 
     for (auto* elem : _elements)
     {
-        elem->Render(hdc);
+        if (elem->IsVisible())
+            elem->Render(hdc);
     }
 }
+
 
 
 int SubUIManager::Count()
