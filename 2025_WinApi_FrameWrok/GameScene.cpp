@@ -20,7 +20,10 @@ void GameScene::Init()
         L"InGame", { {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2}, {400, 400} });
 
     _informationWindow = GET_SINGLE(WindowManager)->CreateSubWindow(
-        L"Information", { {SCREEN_WIDTH - 200, SCREEN_HEIGHT / 2}, {400, 85} });
+        L"Information", { {SCREEN_WIDTH - 300, SCREEN_HEIGHT / 2 - 150}, {400, 85} });
+
+    _storeWindow = GET_SINGLE(WindowManager)->CreateSubWindow
+    (L"Store", { {SCREEN_WIDTH - 300,SCREEN_HEIGHT / 2 + 150},{500,300} });
 
     SubUIManager* inGameUI = _inGameWindow->GetUI();
     SubUIManager* infoUI = _informationWindow->GetUI();
@@ -88,7 +91,7 @@ void GameScene::Update()
     if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::Q))
     {
         if (GET_SINGLE(GameManager)->playerHealth > 0)
-            GET_SINGLE(GameManager)->playerHealth--;
+            GET_SINGLE(GameManager)->playerHealth++;
     }
 
     int curHP = GET_SINGLE(GameManager)->playerHealth;

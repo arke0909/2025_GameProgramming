@@ -12,6 +12,7 @@ public:
 private:
     Window* _inGameWindow = nullptr;
     Window* _informationWindow = nullptr;
+    Window* _storeWindow = nullptr;
     std::vector<HPImage*> _hearts;
 };
 
