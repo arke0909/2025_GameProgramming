@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "Wall.h"
-#include "Window.h"
+#include "GameWindow.h"
 #include "BoxCollider.h"
 #include "Rigidbody.h"
 
-Wall::Wall(Window* inGameWindow)
+Wall::Wall(GameWindow* inGameWindow)
 {
 	_inGameWindow = inGameWindow;
 	boxCol = AddComponent<BoxCollider>();
@@ -25,10 +25,10 @@ void Wall::Update()
 			? Vec2{ 1, h }
 	: Vec2{ w, 1 });
 
-	Vec2 windowPos = _inGameWindow->GetPos();
+	Vec2 windowPos = GET_LT(_inGameWindow->GetSize(), _inGameWindow->GetPos());
 
-	float x = _wallSet.isStart ? 0 : w ;
-	float y = _wallSet.isStart ? 0 : h ;
+	float x = _wallSet.isStart ? 0 : w;
+	float y = _wallSet.isStart ? 0 : h;
 
 	if (_wallSet.isVertical)
 	{
@@ -58,9 +58,18 @@ void Wall::EnterCollision(Collider* _other)
 	if (rigidbody)
 	{
 		Vec2 velocity = rigidbody->GetVelocity();
-		velocity *= 0.01f;
+		velocity.Normalize();
 
-		_inGameWindow->MoveWindow(velocity);
+		Vec2 addPos = velocity * 20.f;
+
+		if (!_wallSet.isStart)
+			addPos *= 2;
+
+		_inGameWindow->
+			WindowMoveAndChangeSize(addPos
+				, {::abs(velocity.x * 20.f),
+				::abs(velocity.y * 20.f)
+				});
 	}
 }
 
