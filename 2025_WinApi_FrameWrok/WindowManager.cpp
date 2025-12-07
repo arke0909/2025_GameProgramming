@@ -12,7 +12,6 @@ void WindowManager::Update()
 {
 	for (auto window : _subWindows)
 	{
-		GET_SINGLE(InputManager)->UpdateMouse(window->GetHandle());
 		window->Update();
 	}
 }
