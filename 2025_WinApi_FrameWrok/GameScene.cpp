@@ -64,10 +64,8 @@ void GameScene::Init()
         infoUI->Add(heart);
     }
 
-    int playerPosX = _inGameWindow->GetPos().x + _inGameWindow->GetSize().x / 2;
-    int playerPosY = _inGameWindow->GetPos().y + _inGameWindow->GetSize().y / 2;
 
-    auto* player = Spawn<Player>(Layer::PLAYER, { playerPosX, playerPosY }, { 75, 75 });
+    auto* player = Spawn<Player>(Layer::PLAYER, _inGameWindow->GetPos(), { 75, 75 });
     player->SetWindow(_inGameWindow);
 
 
