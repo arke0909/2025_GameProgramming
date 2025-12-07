@@ -14,26 +14,29 @@ void TimeManager::Init()
 
 void TimeManager::Update()
 {
-	::QueryPerformanceCounter(&_llCurCnt);
-	_deltaTime = (float)(_llCurCnt.QuadPart - _llPrevCnt.QuadPart)
-		/ (float)_llFrequency.QuadPart;
-	_llPrevCnt = _llCurCnt;
+    ::QueryPerformanceCounter(&_llCurCnt);
+    _deltaTime = (float)(_llCurCnt.QuadPart - _llPrevCnt.QuadPart)
+        / (float)_llFrequency.QuadPart;
+    _llPrevCnt = _llCurCnt;
 
-	_frameCnt++;
-	_time += _deltaTime;
-	_frameTime += _deltaTime;
+    float scaledDT = _deltaTime * _timeScale;
 
-	if (_frameTime >= 1.f)
-	{
-		_fps = (UINT)(_frameCnt / _frameTime);
-		_frameTime = 0.f;
-		_frameCnt = 0;
-		//wstring strDt = std::to_wstring(_deltaTime);
-		//wstring strFps = std::to_wstring(_fps);
-		//wstring str = L"FPS: " + strFps + L" DT: " + strDt;
-		//::TextOut(GET_SINGLE(Core)->GetMainDC(), 0, 0, str.c_str(), str.length());
-		POINT mousePos = GET_MOUSEPOS;
-		wstring str = std::format(L"FPS: {0}, DT: {1:.6f}, Mouse: {2}, {3}", _fps, _deltaTime, mousePos.x, mousePos.y);
-		::SetWindowText(GET_SINGLE(Core)->GetHwnd(), str.c_str());
-	}
+    _frameCnt++;
+    _time += scaledDT;        
+    _frameTime += scaledDT;
+
+    if (_frameTime >= 1.f)
+    {
+        _fps = (UINT)(_frameCnt / _frameTime);
+        _frameTime = 0.f;
+        _frameCnt = 0;
+
+        POINT mousePos = GET_MOUSEPOS;
+        wstring str = std::format(
+            L"FPS: {0}, DT: {1:.6f}, ScaledDT: {2:.6f}, TimeScale: {3}, Mouse: {4}, {5}",
+            _fps, _deltaTime, scaledDT, _timeScale, mousePos.x, mousePos.y
+        );
+        ::SetWindowText(GET_SINGLE(Core)->GetHwnd(), str.c_str());
+    }
 }
+

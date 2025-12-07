@@ -17,8 +17,17 @@ public:
 	void Update();
 	void Render(HDC hDC);
 	void CloseAllSubWindows();
+	void CloseSubWindow(Window* target);
 	void Release();
-	Window* CreateSubWindow(LPCWSTR windowName, WindowSet windowSet);
+	template <typename T>
+	T* CreateSubWindow(LPCWSTR windowName, WindowSet windowSet)
+	{
+		static_assert(std::is_base_of<Window, T>::value, "T must be Window-based");
+		T* window = new T(windowName, windowSet);
+		_subWindows.push_back(window);
+
+		return window;
+	}
 private:
 	HWND _mainHwnd;
 	vector<Window*> _subWindows;

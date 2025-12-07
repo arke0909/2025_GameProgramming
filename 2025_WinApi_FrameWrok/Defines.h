@@ -10,8 +10,9 @@ public:							 \
 	}
 
 #define GET_SINGLE(className) className::GetInst()
-#define fDT GET_SINGLE(TimeManager)->GetDeletaTime()
+#define fDT GET_SINGLE(TimeManager)->GetDeltaTime()
 #define SAFE_DELETE(ptr) if(ptr !=nullptr){    delete ptr;     ptr = nullptr; }                    
+#define GET_LT(size, pos) {pos.x - size.x / 2, pos.y - size.y / 2}
 
 #define GET_KEYUP(key) GET_SINGLE(InputManager)->IsUp(key)
 #define GET_KEYDOWN(key) GET_SINGLE(InputManager)->IsDown(key)

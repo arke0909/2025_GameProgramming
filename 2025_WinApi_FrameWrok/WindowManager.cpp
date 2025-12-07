@@ -12,7 +12,6 @@ void WindowManager::Update()
 {
 	for (auto window : _subWindows)
 	{
-		GET_SINGLE(InputManager)->UpdateMouse(window->GetHandle());
 		window->Update();
 	}
 }
@@ -32,21 +31,25 @@ void WindowManager::CloseAllSubWindows()
 		if (window)
 		{
 			::DestroyWindow(window->GetHandle());
-			delete window; 
+			delete window;
 		}
 		window->GetUI()->Clear();
 	}
-	_subWindows.clear(); 
+	_subWindows.clear();
 }
 
-
-Window* WindowManager::CreateSubWindow(LPCWSTR windowName, WindowSet windowSet)
+void WindowManager::CloseSubWindow(Window* target)
 {
-	Window* window = new Window(windowName, windowSet);
+	if (!target) return;
 
-	_subWindows.push_back(window);
-
-	return window;
+	auto it = std::find(_subWindows.begin(), _subWindows.end(), target);
+	if (it != _subWindows.end())
+	{
+		::DestroyWindow(target->GetHandle());
+		target->GetUI()->Clear();
+		delete target;
+		_subWindows.erase(it);
+	}
 }
 
 void WindowManager::Release()

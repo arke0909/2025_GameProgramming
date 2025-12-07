@@ -3,18 +3,20 @@
 #include "CollisionManager.h"
 #include "EnemySpawnManager.h"
 #include "WindowManager.h"
+#include "GameWindow.h"
 #include "Player.h"
 #include "Wall.h"
 
 void EnemyTestScene::Init()
 {
-    _inGameWindow = GET_SINGLE(WindowManager)
-        ->CreateSubWindow(
-            L"InGame",
-            {
-                {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2},
-                {400,400}
-            });
+	_inGameWindow = (GameWindow*)GET_SINGLE(WindowManager)
+		->CreateSubWindow<GameWindow>(
+			L"InGame",
+			{
+				{SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2},
+				{400,400}
+			});
+    
 
     int playerPosX = _inGameWindow->GetPos().x + _inGameWindow->GetSize().x / 2;
     int playerPosY = _inGameWindow->GetPos().y + _inGameWindow->GetSize().y / 2;

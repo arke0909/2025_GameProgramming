@@ -19,27 +19,16 @@ Window::Window(LPCWSTR windowName, const WindowSet& windowSet)
 
 	::RegisterClass(&wcex);
 
-	auto windowSetting = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
+	_originSize = windowSet.size;
 
-	RECT rect = { 0, 0, windowSet.size.x , windowSet.size.y };
-	::AdjustWindowRect(&rect, windowSetting, false);
-
-	int w = rect.right - rect.left;
-	int h = rect.bottom - rect.top;
-
-	int posX = windowSet.pos.x - (w / 2);
-	int posY = windowSet.pos.y - (h / 2);
-
-	_windowSize = windowSet.size;
-	_pos = { posX, posY };
-	_size = { w, h };
+	SetSizeAndPos(windowSet.size, windowSet.pos);
 
 	_hWnd = ::CreateWindowW(
 		L"Window",
 		windowName,
-		windowSetting,
-		posX, posY,
-		w, h,
+		WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU,
+		_topLeft.x, _topLeft.y,
+		_size.x, _size.y,
 		nullptr,
 		nullptr,
 		GET_SINGLE(Core)->GetInstance(),
@@ -56,88 +45,75 @@ Window::~Window()
 void Window::Update()
 {
 	_uiManager.Update(_hWnd);
-
-	if(!_isMoving) return;
-
-	float ratio = _timer / _duration;
-	float ease = GET_SINGLE(EasingManager)->OutSine(ratio);
-	float xL = std::lerp(_moveStartPos.x, _destination.x, ease);
-	float yL = std::lerp(_moveStartPos.y, _destination.y, ease);
-	xL = std::clamp(xL, 0.f, SCREEN_WIDTH - _size.x);
-	yL = std::clamp(yL, 0.f, SCREEN_HEIGHT - _size.y);
-	_timer += GET_SINGLE(TimeManager)->GetDeletaTime();
-	::MoveWindow(_hWnd, xL, yL, _size.x, _size.y, true);
-	cout << _pos.x << ' ' << _pos.y << '\n';
-	_isMoving = _timer <= _duration;
 }
+
 void Window::Render(HDC hDC)
 {
-	int w = _windowSize.x;
-	int h = _windowSize.y;
+    int w = _windowSize.x;
+    int h = _windowSize.y;
 
-	HDC memDC = ::CreateCompatibleDC(hDC);
-	HBITMAP memBitmap = ::CreateCompatibleBitmap(hDC, w, h);
-	HBITMAP oldBitmap = (HBITMAP)::SelectObject(memDC, memBitmap);
+    HDC memDC = ::CreateCompatibleDC(hDC);
+    HBITMAP memBitmap = ::CreateCompatibleBitmap(hDC, w, h);
+    HBITMAP oldBitmap = (HBITMAP)::SelectObject(memDC, memBitmap);
 
-	::BitBlt(memDC, 0, 0, w, h, hDC, _pos.x, _pos.y, SRCCOPY);
+    ::BitBlt(memDC, 0, 0, w, h, hDC, _topLeft.x, _topLeft.y, SRCCOPY);
 
-	if (_uiManager.Count() > 0)
-	{
-		_uiManager.Render(memDC);
-	}
-	::BitBlt(_hDC, 0, 0, w, h, memDC, 0, 0, SRCCOPY);
+    if (_uiManager.Count() > 0)
+        _uiManager.Render(memDC);
+    ::BitBlt(_hDC, 0, 0, w, h, memDC, 0, 0, SRCCOPY);
 
-	::SelectObject(memDC, oldBitmap);
-	::DeleteObject(memBitmap);
-	::DeleteDC(memDC);
-}
-
-
-
-
-void Window::MoveWindow(const Vec2& velocitiy, const float duration)
-{
-	_moveStartPos = _pos;
-	_destination.x = velocitiy.x + _pos.x;
-	_destination.y = velocitiy.y + _pos.y;
-	_timer = 0.f;
-	_isMoving = true;
-	_duration = duration;
-}
-
-void Window::ChangeWindowSize(const Vec2& targetSize, const float duration)
-{
+    ::SelectObject(memDC, oldBitmap);
+    ::DeleteObject(memBitmap);
+    ::DeleteDC(memDC);
 }
 
 LRESULT Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	Window* window;
+    Window* window;
 
-	if (message == WM_CREATE)
-	{
-		CREATESTRUCT* cs = (CREATESTRUCT*)lParam;
-		window = (Window*)cs->lpCreateParams;
+    if (message == WM_CREATE)
+    {
+        CREATESTRUCT* cs = (CREATESTRUCT*)lParam;
+        window = (Window*)cs->lpCreateParams;
 
-		SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)window);
+        SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)window);
+        window->_hWnd = hWnd;
+    }
+    else
+    {
+        window = (Window*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+    }
 
-		window->_hWnd = hWnd;
-	}
-	else
-	{
-		window = (Window*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
-	}
+    if (window)
+        return window->HandleWnd(hWnd, message, wParam, lParam);
 
-	if (window)
-		window->HandleWnd(hWnd, message, wParam, lParam);
-
-	return DefWindowProc(hWnd, message, wParam, lParam);
+    return DefWindowProc(hWnd, message, wParam, lParam);
 }
+
 
 LRESULT Window::HandleWnd(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 
 	switch (message)
 	{
+	case WM_NCHITTEST:
+	{
+		LRESULT hit = DefWindowProc(hWnd, message, wParam, lParam);
+		if (hit == HTCAPTION)
+			return HTCLIENT;   // 마우스 드래그 차단
+		return hit;
+	}
+	case WM_SYSCOMMAND:
+
+		switch (wParam & 0xFFF0)
+		{
+		case SC_MOVE:
+		case SC_SIZE:
+		case SC_MAXIMIZE:
+			return 0;
+		}
+
+		break;
 	case WM_PAINT:
 	{
 		PAINTSTRUCT ps;
@@ -150,20 +126,50 @@ LRESULT Window::HandleWnd(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		RECT rt;
 		::GetWindowRect(hWnd, &rt);
 
-		_pos.x = rt.left;
-		_pos.y = rt.top;
+		int left = rt.left;
+		int top = rt.top;
+
+		// 중앙 기준 저장
+		_topLeft = { left, top };
+		_pos = { left + _size.x * 0.5f, top + _size.y * 0.5f };
 	}
 	break;
+
 	case WM_SIZE:
 	{
 		RECT rt;
-		::GetClientRect(hWnd, &rt);
+		::GetWindowRect(hWnd, &rt);
 
-		//_size.x = rt.right - rt.left;
-		//_size.y = rt.bottom - rt.top;
+		int left = rt.left;
+		int top = rt.top;
+		_topLeft = { left, top };
+
+		_size.x = rt.right - rt.left;
+		_size.y = rt.bottom - rt.top;
 	}
 	break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
+}
+
+void Window::SetSizeAndPos(const Vec2& size, const Vec2& centerPos)
+{
+	auto windowSetting = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
+
+	RECT rect = { 0, 0, size.x, size.y };
+	::AdjustWindowRect(&rect, windowSetting, false);
+
+	int w = rect.right - rect.left;
+	int h = rect.bottom - rect.top;
+
+	int left = centerPos.x - w * 0.5f;
+	int top = centerPos.y - h * 0.5f;
+
+	_windowSize = size;
+	_size = { w, h };
+	_pos = centerPos;
+	_topLeft = { left, top };
+
+	::MoveWindow(_hWnd, left, top, w, h, true);
 }

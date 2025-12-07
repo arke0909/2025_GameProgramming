@@ -3,10 +3,13 @@
 #include "ResourceManager.h"
 #include "CircleCollider.h"
 #include "Animator.h"
+#include "Rigidbody.h"
 
 Projectile::Projectile() : _angle(0.f), _dir(1.f, 1.f)
 {
-	_projecTex = GET_SINGLE(ResourceManager)->GetTexture(L"Player_32");
+	_projecTex = GET_SINGLE(ResourceManager)->GetTexture(L"Player");
+	_rigidbody = AddComponent<Rigidbody>();
+	_rigidbody->SetUseGravity(false);
 	auto* col = AddComponent<CircleCollider>();
 	col->SetName(L"PlayerBullet");
 	col->SetTrigger(true);
@@ -47,14 +50,29 @@ Projectile::~Projectile()
 
 void Projectile::Update()
 {
-	Translate({ _dir.x * 500.f * fDT, _dir.y * 500.f * fDT });
 }
 
 void Projectile::Render(HDC hdc)
 {
-	LONG width = _projecTex->GetWidth();
-	LONG height = _projecTex->GetHeight();
-
-	//ELLIPSE_RENDER(hdc, _pos.x, _pos.y, _size.x, _size.y);
 	ComponentRender(hdc);
+}
+
+void Projectile::EnterCollision(Collider* _other)
+{
+	SetDead();
+}
+
+void Projectile::StayCollision(Collider* _other)
+{
+}
+
+void Projectile::ExitCollision(Collider* _other)
+{
+}
+
+void Projectile::Init(Vec2 pos, Vec2 dir)
+{
+	SetPos(pos);
+	SetDir(dir);
+	_rigidbody->SetVelocity(_dir * _moveSpeed);
 }

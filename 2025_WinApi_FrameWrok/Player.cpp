@@ -63,8 +63,10 @@ void Player::Update()
 	float top = _pos.y - _circleColRadius;
 	float bottom = _pos.y + _circleColRadius;
 
-	int x = _inGameWindow->GetPos().x;
-	int y = _inGameWindow->GetPos().y;
+	Vec2 lt = GET_LT(_inGameWindow->GetSize(), _inGameWindow->GetPos());
+
+	int x = lt.x;
+	int y = lt.y;
 	int w = _inGameWindow->GetWindowSize().x + x;
 	int h = _inGameWindow->GetWindowSize().y + y;
 
@@ -78,18 +80,11 @@ void Player::Update()
 		_pos.y = h - _circleColRadius;
 
 
-#pragma region Pull Attack
 	if (GET_KEYDOWN(KEY_TYPE::SPACE))
-		_weapon->PullWeapon();
-
-#pragma endregion
-
-#pragma region Shot Attack
-
-	//if (GET_KEYDOWN(KEY_TYPE::SPACE))
-	//	ShotProjectile();
-#pragma endregion
-
+	{
+		ShotProjectile();
+		//_weapon->PullWeapon();
+	}
 }
 
 void Player::Render(HDC hdc)
@@ -147,15 +142,14 @@ void Player::ShotProjectile()
 	Projectile* proj = new Projectile;
 	Vec2 mousePos = GET_SINGLE(InputManager)->GetMousePos();
 	Vec2 dir = mousePos - _pos;
+	proj->Init(_pos, dir);
 
-	proj->SetPos(_pos);
-	proj->SetDir(dir * 250);
-	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(proj,Layer::PROJECTILE);
+	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(proj,Layer::BULLET);
 }
 
 void Player::AfterInit()
 {
-	_weapon = CreateWeapon();
+	//_weapon = CreateWeapon();
 
 	_lastFireTime = -_fireInterval;
 }

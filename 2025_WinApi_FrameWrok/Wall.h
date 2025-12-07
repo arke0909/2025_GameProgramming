@@ -1,7 +1,7 @@
 #pragma once
 #include "Object.h"
 class BoxCollider;
-class Window;
+class GameWindow;
 
 struct WallSet
 {
@@ -13,7 +13,7 @@ class Wall :
     public Object
 {
 public:
-    Wall(Window* inGameWindow);
+    Wall(GameWindow* inGameWindow);
     ~Wall();
 public:
     // Object을(를) 통해 상속됨
@@ -35,6 +35,6 @@ public:
 private:
     WallSet _wallSet;
     BoxCollider* boxCol;
-    Window* _inGameWindow;
+    GameWindow* _inGameWindow;
 };
 

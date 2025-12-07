@@ -9,7 +9,7 @@ public:
 	Window(LPCWSTR windowName, const WindowSet& windowSet);
 	~Window();
 public:
-	void Update();
+	virtual void Update();
 	void Render(HDC hDC);
 	HWND GetHandle()
 	{
@@ -31,24 +31,20 @@ public:
 	{
 		return _windowSize;
 	}
-	void MoveWindow(const Vec2& velocitiy, const float duration = 0.5f);
-	void ChangeWindowSize(const Vec2& targetSize, const float duration = 0.5f);
 	SubUIManager* GetUI() { return &_uiManager; }
 
-private:
+protected:
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	virtual LRESULT HandleWnd(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-private:
+	void SetSizeAndPos(const Vec2& size, const Vec2& pos);
+protected:
 	HWND _hWnd;
 	HDC _hDC;
-	Vec2 _moveStartPos;
 	Vec2 _pos;
+	Vec2 _topLeft;
+	Vec2 _originSize;
 	Vec2 _size;
 	Vec2 _windowSize;
-	Vec2 _destination;
-	bool _isMoving = false;
-	float _duration = 2.f;
-	float _timer = 0.f;
 	SubUIManager _uiManager;
 };
 

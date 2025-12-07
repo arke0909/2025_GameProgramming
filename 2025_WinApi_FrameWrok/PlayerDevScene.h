@@ -1,6 +1,6 @@
 #pragma once
 #include "Scene.h"
-class Window;
+class GameWindow;
 
 class PlayerDevScene :
     public Scene
@@ -10,6 +10,6 @@ public:
     void Init() override;
     void Update();
 private:
-    Window* _inGameWindow;
+    GameWindow* _inGameWindow;
 };
 

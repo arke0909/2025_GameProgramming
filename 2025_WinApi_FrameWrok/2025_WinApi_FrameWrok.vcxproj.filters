@@ -213,6 +213,30 @@
     <ClInclude Include="EasingManager.h">
       <Filter>Engine\02.Manager</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyArmorMoveState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAttackState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyIdleState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyMoveState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityStateMachine.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
     <ClInclude Include="GameManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -224,6 +248,9 @@
     </ClInclude>
     <ClInclude Include="TilteScene.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GameWindow.h">
+      <Filter>Engine\09.Windows</Filter>
     </ClInclude>
     <ClInclude Include="EntityStateMachine.h">
       <Filter>Engine\11.FSM\Entity</Filter>
@@ -266,6 +293,15 @@
     </ClInclude>
     <ClInclude Include="EnemyTestScene.h">
       <Filter>Engine\04.Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="WaveLabel.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="HPImage.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="CoinLabel.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -393,6 +429,27 @@
     <ClCompile Include="EasingManager.cpp">
       <Filter>Engine\02.Manager</Filter>
     </ClCompile>
+    <ClCompile Include="EnemyArmorMoveState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAttackState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyIdleState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyMoveState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="GameManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -404,6 +461,9 @@
     </ClCompile>
     <ClCompile Include="TilteScene.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GameWindow.cpp">
+      <Filter>Engine\09.Windows</Filter>
     </ClCompile>
     <ClCompile Include="EntityState.cpp">
       <Filter>Engine\11.FSM\Entity</Filter>
@@ -440,6 +500,15 @@
     </ClCompile>
     <ClCompile Include="EnemyTestScene.cpp">
       <Filter>Engine\04.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="WaveLabel.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="HPImage.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CoinLabel.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -8,63 +8,107 @@
 #include "GameManager.h"
 #include "Wall.h"
 #include "Window.h"
+#include "WaveLabel.h"
+#include "HPImage.h"
+#include "CoinLabel.h"
+#include "InputManager.h"
+#include "ResourceManager.h"
+#include "GameWindow.h"
 
 void GameScene::Init()
 {
-	Window* inGameWindow = _inGameWindow = GET_SINGLE(WindowManager)
-		->CreateSubWindow(
+	_inGameWindow = GET_SINGLE(WindowManager)
+		->CreateSubWindow<GameWindow>(
 			L"InGame",
 			{
 				{SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2},
 				{400,400}
 			});
-
-	Window* informationWindow = GET_SINGLE(WindowManager)
-		->CreateSubWindow(
-			L"Information",
+	GET_SINGLE(WindowManager)
+		->CreateSubWindow<GameWindow>(
+			L"Temp",
 			{
-				{SCREEN_WIDTH - 200, SCREEN_HEIGHT / 2},
-				{300,400}
+				{SCREEN_WIDTH / 2 - 500, SCREEN_HEIGHT / 2},
+				{400,400}
 			});
 
-	SubUIManager* gameSceneUI = inGameWindow->GetUI();
+    _informationWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
+        L"Information", { {SCREEN_WIDTH - 300, SCREEN_HEIGHT / 2 - 150}, {400, 85} });
 
-	UILabel* waveLabel = new UILabel(L" Wave : " + std::to_wstring(GET_SINGLE(GameManager)->currentWavwe), {200, 20}, {100,50}, FontType::TITLE);
+    _storeWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>
+    (L"Store", { {SCREEN_WIDTH - 300,SCREEN_HEIGHT / 2 + 150},{500,300} });
 
-	gameSceneUI->Add(waveLabel);
+    SubUIManager* inGameUI = _inGameWindow->GetUI();
+    SubUIManager* infoUI = _informationWindow->GetUI();
 
-	int playerPosX = _inGameWindow->GetPos().x + _inGameWindow->GetSize().x / 2;
-	int playerPosY = _inGameWindow->GetPos().y + _inGameWindow->GetSize().y / 2;
+    WaveLabel* waveLabel = new WaveLabel({ 200, 20 }, { 200, 50 }, FontType::TITLE);
+    inGameUI->Add(waveLabel);
 
-	auto* player = Spawn<Player>(Layer::PLAYER
-		, { playerPosX,playerPosY }
-	, { 75, 75 });
+    CoinLabel* coinLabel = new CoinLabel({ 50, 20 }, { 200, 50 }, FontType::TITLE);
+    inGameUI->Add(coinLabel);
 
-	player->SetWindow(_inGameWindow);
 
-	WallSet wallSets[4] =
-	{
-		{false,false},
-		{false,true},
-		{true,false},
-		{true,true}
-	};
+    UILabel* hpLabel = new UILabel(L"HP:", { 20, 40 }, { 100, 30 }, FontType::TITLE);
+    infoUI->Add(hpLabel);
 
-	for (int i = 0; i < 4; ++i)
-	{
-		auto* wall = new Wall(_inGameWindow);
-		wall->SetWall(wallSets[i]);
-		AddObject(wall, Layer::WALL);
-	}
+    const int maxHP = 5;
+    const int iconSize = 40;
+    const int spacing = 10;
+    Texture* hpTexture = GET_SINGLE(ResourceManager)->GetTexture(L"Heart");
 
-	GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::ENEMY);
-	GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::PLAYER);
-	GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::WALL);
-	GET_SINGLE(CollisionManager)->CheckLayer(Layer::PLAYER, Layer::DEFAULT);
+    for (int i = 0; i < maxHP; ++i)
+    {
+        Vec2 pos = { 60 + i * (iconSize + spacing), 40 };
+        HPImage* heart = new HPImage(pos, { iconSize, iconSize }, hpTexture);
+        _hearts.push_back(heart);
+        infoUI->Add(heart);
+    }
 
+
+    auto* player = Spawn<Player>(Layer::PLAYER, _inGameWindow->GetPos(), { 75, 75 });
+    player->SetWindow(_inGameWindow);
+
+
+    WallSet wallSets[4] = { {false,false}, {false,true}, {true,false}, {true,true} };
+    for (int i = 0; i < 4; ++i)
+    {
+        auto* wall = new Wall(_inGameWindow);
+        wall->SetWall(wallSets[i]);
+        AddObject(wall, Layer::WALL);
+    }
+
+
+    GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::ENEMY);
+    GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::PLAYER);
+    GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::WALL);
+    GET_SINGLE(CollisionManager)->CheckLayer(Layer::BULLET, Layer::WALL);
+    GET_SINGLE(CollisionManager)->CheckLayer(Layer::PLAYER, Layer::DEFAULT);
 }
 
 void GameScene::Update()
 {
-	Scene::Update();
+    Scene::Update();
+
+
+    if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::F))
+    {
+        GET_SINGLE(GameManager)->currentWavwe++;
+    }
+
+    if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::R))
+    {
+        GET_SINGLE(GameManager)->coin += 100;
+    }
+
+    if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::Q))
+    {
+        if (GET_SINGLE(GameManager)->playerHealth > 0)
+            GET_SINGLE(GameManager)->playerHealth++;
+    }
+
+    int curHP = GET_SINGLE(GameManager)->playerHealth;
+    for (int i = 0; i < _hearts.size(); ++i)
+    {
+        _hearts[i]->SetVisible(i < curHP);
+    }
 }
