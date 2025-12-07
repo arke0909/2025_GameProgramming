@@ -27,7 +27,7 @@ void InputManager::Update()
     }
 
 	UpdateKeys();
-    UpdateMouse();
+    UpdateMouse(hWnd);
 }
 
 void InputManager::UpdateKeys()
@@ -50,21 +50,15 @@ void InputManager::UpdateKeys()
     }
 }
 
-void InputManager::UpdateMouse()
-{
-    ::GetCursorPos(&_mousePos);
-
-    ::ScreenToClient(GET_SINGLE(Core)->GetHwnd(), &_mousePos);
-
-    _mouseDelta.x = _mousePos.x - _prevMousePos.x;
-    _mouseDelta.y = _mousePos.y - _prevMousePos.y;
-    _prevMousePos = _mousePos;
-}
-
 void InputManager::UpdateMouse(HWND hWnd)
 {
     ::GetCursorPos(&_mousePos);
     ::ScreenToClient(hWnd, &_mousePos);
+
+    RECT rt;
+    ::GetWindowRect(hWnd, &rt);
+    _mousePos.x += rt.left;
+    _mousePos.y += rt.top;
 
     _mouseDelta.x = _mousePos.x - _prevMousePos.x;
     _mouseDelta.y = _mousePos.y - _prevMousePos.y;

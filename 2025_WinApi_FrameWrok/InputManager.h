@@ -29,10 +29,9 @@ class InputManager
 public:
 	void Init();
 	void Update();
-    void UpdateMouse(HWND hWnd);
 private:
     void UpdateKeys();
-    void UpdateMouse();
+    void UpdateMouse(HWND hWnd);
     void ResetAll();
 public:
     const KEY_STATE& GetKey(KEY_TYPE _key) const
