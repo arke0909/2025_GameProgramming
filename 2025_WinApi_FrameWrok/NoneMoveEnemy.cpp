@@ -53,7 +53,7 @@ void NoneMoveEnemy::CreateEnemyWindow()
 {
     Vec2 pos = this->GetPos();
 
-    _window = GET_SINGLE(WindowManager)->CreateSubWindow(
+    _window = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
         L"NonemoveEnemy",
         {
             { pos.x, pos.y },

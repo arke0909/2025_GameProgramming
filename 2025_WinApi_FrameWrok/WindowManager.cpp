@@ -52,17 +52,6 @@ void WindowManager::CloseSubWindow(Window* target)
 	}
 }
 
-
-
-Window* WindowManager::CreateSubWindow(LPCWSTR windowName, WindowSet windowSet)
-{
-	Window* window = new Window(windowName, windowSet);
-
-	_subWindows.push_back(window);
-
-	return window;
-}
-
 void WindowManager::Release()
 {
 	for (auto window : _subWindows)

@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 class HPImage;
+class Window;
 class GameWindow;
 
 class GameScene :

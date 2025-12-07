@@ -32,10 +32,10 @@ void GameScene::Init()
 				{400,400}
 			});
 
-    _informationWindow = GET_SINGLE(WindowManager)->CreateSubWindow(
+    _informationWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
         L"Information", { {SCREEN_WIDTH - 300, SCREEN_HEIGHT / 2 - 150}, {400, 85} });
 
-    _storeWindow = GET_SINGLE(WindowManager)->CreateSubWindow
+    _storeWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>
     (L"Store", { {SCREEN_WIDTH - 300,SCREEN_HEIGHT / 2 + 150},{500,300} });
 
     SubUIManager* inGameUI = _inGameWindow->GetUI();

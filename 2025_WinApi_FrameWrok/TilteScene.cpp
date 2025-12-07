@@ -28,7 +28,7 @@ void TitleScene::Init()
     settingBtn->SetOnClick([]()
         {
             Texture* buttonTex = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
-            Window* soundWindow = GET_SINGLE(WindowManager)->CreateSubWindow(
+            Window* soundWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
                 L"SoundSetting", { {SCREEN_WIDTH / 2 + 450, SCREEN_HEIGHT / 2}, {550,550} });
 
             SubUIManager* soudUI = soundWindow->GetUI();
@@ -70,7 +70,7 @@ void TitleScene::Init()
             PostQuitMessage(0);
         });
 
-    Window* TitleWindow = GET_SINGLE(WindowManager)->CreateSubWindow(
+    Window* TitleWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
         L"TilteWindow", { {SCREEN_WIDTH / 2 - 400, SCREEN_HEIGHT / 2 }, {650,650} });
     SubUIManager* tilteUI = TitleWindow->GetUI();
     tilteUI->Add(startBtn);
