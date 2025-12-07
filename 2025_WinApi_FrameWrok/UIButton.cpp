@@ -36,9 +36,9 @@ void UIButton::Render(HDC hdc)
 
 
 void UIButton::Update() {
-    const POINT& pos = GET_SINGLE(InputManager)->GetMousePos();
+    const POINT& pos = GET_SINGLE(InputManager)->GetMousePosClient();
 
-    if (ContainsPoint(pos.x, pos.y)) 
+    if (ContainsPoint(pos.x, pos.y))
     {
         if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::LBUTTON)) {
             if (_onClick)
@@ -46,3 +46,4 @@ void UIButton::Update() {
         }
     }
 }
+

@@ -15,9 +15,9 @@ void TitleScene::Init()
 {
     GET_SINGLE(ResourceManager)->Play(L"BGM");
     Texture* buttonTex = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
-    UIButton* startBtn = new UIButton(L"���� ����", { 325, 430 }, { 350, 70 }, FontType::TITLE, buttonTex);
-    UIButton* settingBtn = new UIButton(L"���� ����", { 325, 515 }, { 350, 70 }, FontType::TITLE, buttonTex);
-    UIButton* exitBtn = new UIButton(L"���� ������", { 325, 600 }, { 350, 70 }, FontType::TITLE, buttonTex);
+    UIButton* startBtn = new UIButton(L"Start", { 325, 430 }, { 350, 70 }, FontType::TITLE, buttonTex);
+    UIButton* settingBtn = new UIButton(L"Setting", { 325, 515 }, { 350, 70 }, FontType::TITLE, buttonTex);
+    UIButton* exitBtn = new UIButton(L"Exit", { 325, 600 }, { 350, 70 }, FontType::TITLE, buttonTex);
 
     startBtn->SetOnClick([]()
         {
@@ -56,8 +56,6 @@ void TitleScene::Init()
             sfxSlider->SetOnValueChanged([](float val) {
                 GET_SINGLE(ResourceManager)->Volume(SOUND_CHANNEL::EFFECT, val);
                 });
-
-
 
             soudUI->Add(soundImage);
             soudUI->Add(bgmLabel);
