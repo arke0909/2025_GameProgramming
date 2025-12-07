@@ -25,6 +25,10 @@ bool ResourceManager::Init()
    LoadTexture(L"Player", L"Texture\\Player_24.bmp"); 
    LoadTexture(L"SoundPanel", L"Texture\\SoundPanel_24 (2).bmp"); 
    LoadTexture(L"Button", L"Texture\\button_24.bmp"); 
+   LoadTexture(L"How", L"Texture\\how.bmp"); 
+   LoadTexture(L"SkillPanel", L"Texture\\SkillPanel.bmp"); 
+   LoadTexture(L"No", L"Texture\\no.bmp"); 
+   LoadTexture(L"Heart", L"Texture\\HP.bmp"); 
    LoadSound(L"BGM", L"Sound\\Test.mp3", true);
     RegisterSound();
 

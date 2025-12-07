@@ -7,6 +7,17 @@ UILabel::UILabel(const wstring& text, const Vec2& pos, const Vec2& size, FontTyp
 {
 }
 
+void UILabel::SetColor(COLORREF color)
+{
+    _color = color;
+}
+
+void UILabel::SetText(const wstring& text)
+{
+    _text = text;
+}
+
+
 void UILabel::Render(HDC hdc)
 {
     HFONT font = GET_SINGLE(ResourceManager)->GetFont(_fontType);
@@ -14,7 +25,9 @@ void UILabel::Render(HDC hdc)
         return;
 
     HFONT oldFont = (HFONT)::SelectObject(hdc, font);
-    SetBkMode(hdc, TRANSPARENT);
+
+    ::SetBkMode(hdc, TRANSPARENT);
+    ::SetTextColor(hdc, _color);
 
     RECT rc = GetRect();
     DrawTextW(hdc, _text.c_str(), -1, &rc, DT_CENTER | DT_VCENTER | DT_SINGLELINE);

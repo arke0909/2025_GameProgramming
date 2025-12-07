@@ -5,6 +5,7 @@
 #include "SceneManager.h"
 #include "EnemyAttackState.h"
 #include "EnemyMoveState.h"
+#include "EnemySpawnManager.h"
 #include "Animator.h"
 
 RangedEnemy::RangedEnemy()
@@ -30,7 +31,6 @@ RangedEnemy::RangedEnemy()
         break;
     }
 
-   
     auto* animator = AddComponent<Animator>();
     animator->CreateAnimation(L"MOVE", _eTex, { 0.f, 0.f }, animSize, { 0.f, 0.f }, 1, 1);
     animator->CreateAnimation(L"ATTACK", _eTex, { 0.f, 0.f }, animSize, { 0.f, 0.f }, 1, 1);
@@ -48,4 +48,11 @@ RangedEnemy::RangedEnemy()
 
 RangedEnemy::~RangedEnemy()
 {
+}
+
+void RangedEnemy::EnterCollision(Collider* _other)
+{
+    if (_other->GetName() == L"Weapon") {
+        GET_SINGLE(EnemySpawnManager)->DeadEnemy(this);
+    }
 }

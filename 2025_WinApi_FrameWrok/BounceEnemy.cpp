@@ -1,12 +1,12 @@
 #include "pch.h"
-#include "MeleeEnemy.h"
+#include "BounceEnemy.h"
 #include "ResourceManager.h"
-#include "Animator.h"
-#include "EnemyMoveState.h"
-#include "EnemySpawnManager.h"
 #include "SceneManager.h"
+#include "EnemySpawnManager.h"
+#include "Rigidbody.h"
+#include "EnemyMoveState.h"
 
-MeleeEnemy::MeleeEnemy()
+BounceEnemy::BounceEnemy()
 {
     _eTex = GET_SINGLE(ResourceManager)
         ->GetTexture(L"CloseEnemy");
@@ -29,11 +29,11 @@ MeleeEnemy::MeleeEnemy()
     }
 
     auto* animator = AddComponent<Animator>();
-    animator->CreateAnimation(L"MOVE", 
+    animator->CreateAnimation(L"MOVE",
         _eTex,
         { 0.f, 0.f },
-        animSize, 
-        { 0.f, 0.f }, 
+        animSize,
+        { 0.f, 0.f },
         1, 1);
     _speed = 150.f;
 
@@ -44,13 +44,32 @@ MeleeEnemy::MeleeEnemy()
     _stateMachine->ChangeState("MOVE");
 }
 
-MeleeEnemy::~MeleeEnemy()
+BounceEnemy::~BounceEnemy()
 {
+	
 }
 
-void MeleeEnemy::EnterCollision(Collider* _other)
+void BounceEnemy::EnterCollision(Collider* _other)
 {
-    if (_other->GetName()  == L"Weapon") {
+    if (_other->GetName() == L"Weapon")
+    {
+        if (_target == nullptr)
+            return;
+
+        Rigidbody* rigidbody = _other->GetOwner()->GetComponent<Rigidbody>();
+        if (rigidbody == nullptr)
+            return;
+
+        Vec2 playerPos = _target->GetPos();
+        Vec2 weaponPos = _other->GetOwner()->GetPos();
+
+        Vec2 direction = playerPos - weaponPos;
+        direction.Normalize();
+
+        Vec2 newVelocity = direction * 500.0f;
+
+        rigidbody->SetVelocity(newVelocity);
+
         GET_SINGLE(EnemySpawnManager)->DeadEnemy(this);
     }
 }

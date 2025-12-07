@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "EnemyMoveState.h"
 #include "EnemyArmorMoveState.h"
+#include "EnemySpawnManager.h"
 #include "SceneManager.h"
 
 ArmorEnemy::ArmorEnemy()
@@ -84,7 +85,7 @@ void ArmorEnemy::EnterCollision(Collider* _other)
 
     if (_hitCount >= 2)
     {
-        GET_SINGLE(SceneManager)->RequestDestroy(this);
+        GET_SINGLE(EnemySpawnManager)->DeadEnemy(this);
         return;
     }
 

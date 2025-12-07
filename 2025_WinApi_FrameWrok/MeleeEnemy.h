@@ -6,7 +6,7 @@ class MeleeEnemy :
 public:
     MeleeEnemy();
     ~MeleeEnemy() override;
-
+	void EnterCollision(Collider* _other) override;
 private:
     float _attackRange;
 };

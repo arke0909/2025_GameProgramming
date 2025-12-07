@@ -16,36 +16,44 @@ void EnemyTestScene::Init()
 				{SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2},
 				{400,400}
 			});
+    
 
-	Player* player;
-	AddObject(player = new Player, Layer::PLAYER);
-	player->SetPos({ WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2});
-	player->SetSize({ 75, 75 });
+    int playerPosX = _inGameWindow->GetPos().x + _inGameWindow->GetSize().x / 2;
+    int playerPosY = _inGameWindow->GetPos().y + _inGameWindow->GetSize().y / 2;
 
-	WallSet wallSets[4] =
-	{
-		{false,false},
-		{false,true},
-		{true,false},
-		{true,true}
-	};
+    auto* player = Spawn<Player>(
+        Layer::PLAYER,
+        { playerPosX, playerPosY },
+        { 75, 75 }
+    );
 
-	for (int i = 0; i < 4; ++i)
-	{
-		auto* wall = new Wall(_inGameWindow);
-		wall->SetWall(wallSets[i]);
-		AddObject(wall, Layer::WALL);
-	}
+    player->SetWindow(_inGameWindow);
 
-	_spawn = GET_SINGLE(EnemySpawnManager);
-	_spawn->Init(player);
+    WallSet wallSets[4] =
+    {
+        {false,false},
+        {false,true},
+        {true,false},
+        {true,true}
+    };
 
-	GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::ENEMY);
-	GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::PLAYER);
-	GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::WALL);
-	GET_SINGLE(CollisionManager)->CheckLayer(Layer::PLAYER, Layer::DEFAULT);
-	GET_SINGLE(CollisionManager)->CheckLayer(Layer::PLAYER, Layer::ENEMY);
+    for (int i = 0; i < 4; ++i)
+    {
+        auto* wall = new Wall(_inGameWindow);
+        wall->SetWall(wallSets[i]);
+        AddObject(wall, Layer::WALL);
+    }
+
+    _spawn = GET_SINGLE(EnemySpawnManager);
+    _spawn->Init(player);
+
+    GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::ENEMY);
+    GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::PLAYER);
+    GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::WALL);
+    GET_SINGLE(CollisionManager)->CheckLayer(Layer::PLAYER, Layer::DEFAULT);
+    GET_SINGLE(CollisionManager)->CheckLayer(Layer::PLAYER, Layer::ENEMY);
 }
+
 
 void EnemyTestScene::Update()
 {

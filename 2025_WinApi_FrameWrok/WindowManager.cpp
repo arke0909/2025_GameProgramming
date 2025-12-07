@@ -31,10 +31,36 @@ void WindowManager::CloseAllSubWindows()
 		if (window)
 		{
 			::DestroyWindow(window->GetHandle());
-			delete window; 
+			delete window;
 		}
+		window->GetUI()->Clear();
 	}
-	_subWindows.clear(); 
+	_subWindows.clear();
+}
+
+void WindowManager::CloseSubWindow(Window* target)
+{
+	if (!target) return;
+
+	auto it = std::find(_subWindows.begin(), _subWindows.end(), target);
+	if (it != _subWindows.end())
+	{
+		::DestroyWindow(target->GetHandle());
+		target->GetUI()->Clear();
+		delete target;
+		_subWindows.erase(it);
+	}
+}
+
+
+
+Window* WindowManager::CreateSubWindow(LPCWSTR windowName, WindowSet windowSet)
+{
+	Window* window = new Window(windowName, windowSet);
+
+	_subWindows.push_back(window);
+
+	return window;
 }
 
 void WindowManager::Release()

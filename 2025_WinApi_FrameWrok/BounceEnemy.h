@@ -1,10 +1,10 @@
 #pragma once
 #include "Enemy.h"
-class RangedEnemy :
+class BounceEnemy :
     public Enemy
 {
 public:
-    RangedEnemy();
-    ~RangedEnemy() override;
+    BounceEnemy();
+    ~BounceEnemy() override;
 	void EnterCollision(Collider* _other) override;
 };

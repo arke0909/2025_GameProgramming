@@ -17,6 +17,7 @@ public:
 	void Update();
 	void Render(HDC hDC);
 	void CloseAllSubWindows();
+	void CloseSubWindow(Window* target);
 	void Release();
 	template <typename T>
 	T* CreateSubWindow(LPCWSTR windowName, WindowSet windowSet)
