@@ -1,20 +1,20 @@
 #pragma once
 #include "Object.h"
 #include "Animator.h"
+#include "Entity.h"
 
 class EnemyBullet 
-    : public Object
+    : public Entity
 {
 public:
-    EnemyBullet(const Vec2& startPos, const Vec2& targetPos);
+    EnemyBullet(const Vec2& startPos, const Vec2& targetPos, float speed);
     ~EnemyBullet();
 
     void Update() override;
     void Render(HDC hdc) override;
 	void EnterCollision(Collider* _other) override;
-
-private:
-    Texture* _pTex;
+    
+protected:
     Vec2 _dir;
     float _speed;
 };
