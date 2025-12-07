@@ -4,30 +4,28 @@
 #include "WindowManager.h"
 #include "Player.h"
 #include "Wall.h"
+#include "GameWindow.h"
 #include "Window.h"
 
 void PlayerDevScene::Init()
 {
-	_inGameWindow = GET_SINGLE(WindowManager)
-		->CreateSubWindow(
+	_inGameWindow = (GameWindow*)GET_SINGLE(WindowManager)
+		->CreateSubWindow<GameWindow>(
 			L"InGame",
 			{
 				{SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2},
 				{400,400}
 			});
 	GET_SINGLE(WindowManager)
-		->CreateSubWindow(
+		->CreateSubWindow<GameWindow>(
 			L"Temp",
 			{
 				{SCREEN_WIDTH / 2 - 500, SCREEN_HEIGHT / 2},
 				{400,400}
 			});
 
-	int playerPosX = _inGameWindow->GetPos().x + _inGameWindow->GetSize().x / 2;
-	int playerPosY = _inGameWindow->GetPos().y + _inGameWindow->GetSize().y / 2;
-
 	auto* player = Spawn<Player>(Layer::PLAYER
-		, { playerPosX,playerPosY }
+		, _inGameWindow->GetPos()
 	, { 75, 75 });
 
 	player->SetWindow(_inGameWindow);
@@ -48,7 +46,6 @@ void PlayerDevScene::Init()
 	}
 
 	GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::ENEMY);
-	GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::PLAYER);
 	GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::WALL);
 	GET_SINGLE(CollisionManager)->CheckLayer(Layer::PLAYER, Layer::DEFAULT);
 

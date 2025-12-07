@@ -5,18 +5,19 @@
 #include "Player.h"
 #include "Wall.h"
 #include "Window.h"
+#include "GameWindow.h"
 
 void GameScene::Init()
 {
-	_inGameWindow = GET_SINGLE(WindowManager)
-		->CreateSubWindow(
+	_inGameWindow = (GameWindow*)GET_SINGLE(WindowManager)
+		->CreateSubWindow<GameWindow>(
 			L"InGame",
 			{
 				{SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2},
 				{400,400}
 			});
 	GET_SINGLE(WindowManager)
-		->CreateSubWindow(
+		->CreateSubWindow<GameWindow>(
 			L"Temp",
 			{
 				{SCREEN_WIDTH / 2 - 500, SCREEN_HEIGHT / 2},
