@@ -12,6 +12,9 @@ public:
     UILabel(const wstring& text, const Vec2& pos, const Vec2& size, FontType fontType);
 
     void SetColor(COLORREF color);
+    void SetText(const wstring& text);
+    const wstring& GetText() const { return _text; }
+
     void Render(HDC hdc) override;
     void Update() override {}
 };

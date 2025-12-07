@@ -167,6 +167,7 @@
     <ClInclude Include="BounceEnemy.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="CircleCollider.h" />
+    <ClInclude Include="CoinLabel.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="Component.h" />
@@ -191,6 +192,7 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GDISelector.h" />
+    <ClInclude Include="HPImage.h" />
     <ClInclude Include="IAfterInit.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="MeleeEnemy.h" />
@@ -220,6 +222,7 @@
     <ClInclude Include="UISlider.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Wall.h" />
+    <ClInclude Include="WaveLabel.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowManager.h" />
@@ -232,6 +235,7 @@
     <ClCompile Include="BounceEnemy.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CircleCollider.cpp" />
+    <ClCompile Include="CoinLabel.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Component.cpp" />
@@ -251,6 +255,7 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GDISelector.cpp" />
+    <ClCompile Include="HPImage.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeleeEnemy.cpp" />
@@ -275,6 +280,7 @@
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="UISlider.cpp" />
     <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="WaveLabel.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowManager.cpp" />
