@@ -3,7 +3,7 @@
 #include "CollisionManager.h"
 #include "WindowManager.h"
 #include "UIManager.h"
-#include "UILabel.h"
+#include "WaveLabel.h"
 #include "Player.h"
 #include "GameManager.h"
 #include "Wall.h"
@@ -29,8 +29,7 @@ void GameScene::Init()
 
 	SubUIManager* gameSceneUI = inGameWindow->GetUI();
 
-	UILabel* waveLabel = new UILabel(L" Wave : " + std::to_wstring(GET_SINGLE(GameManager)->currentWavwe), {200, 20}, {100,50}, FontType::TITLE);
-
+	WaveLabel* waveLabel = new WaveLabel({ 200, 20 }, { 200, 50 }, FontType::TITLE);
 	gameSceneUI->Add(waveLabel);
 
 	int playerPosX = _inGameWindow->GetPos().x + _inGameWindow->GetSize().x / 2;

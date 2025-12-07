@@ -12,6 +12,12 @@ void UILabel::SetColor(COLORREF color)
     _color = color;
 }
 
+void UILabel::SetText(const wstring& text)
+{
+    _text = text;
+}
+
+
 void UILabel::Render(HDC hdc)
 {
     HFONT font = GET_SINGLE(ResourceManager)->GetFont(_fontType);
