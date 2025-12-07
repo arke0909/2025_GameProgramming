@@ -1,24 +1,32 @@
 #pragma once
 class TimeManager
 {
-	DECLARE_SINGLE(TimeManager);
+    DECLARE_SINGLE(TimeManager);
 
 public:
-	void Init();
-	void Update();
+    void Init();
+    void Update();
+
 public:
-	float GetDeletaTime() const { return _deltaTime; }
-	float GetTime() const { return  _time; }
+    float GetDeltaTime() const { return _deltaTime * _timeScale; }
+
+    float GetTime() const { return _time; }
+
+    void SetTimeScale(float scale) { _timeScale = scale; }
+    float GetTimeScale() const { return _timeScale; }
+
 private:
-	LARGE_INTEGER _llPrevCnt = {};
-	LARGE_INTEGER _llCurCnt = {};
-	LARGE_INTEGER _llFrequency = {};
+    LARGE_INTEGER _llPrevCnt = {};
+    LARGE_INTEGER _llCurCnt = {};
+    LARGE_INTEGER _llFrequency = {};
 
-	float _deltaTime = 0.f;
-	float _time = 0.f;
+    float _deltaTime = 0.f;     
+    float _time = 0.f;
 
-	UINT _fps = 0;
-	UINT _frameCnt = 0;
-	float _frameTime = 0.f;
+    float _timeScale = 1.f;      
+    float _unscaledTime = 0.f;   
+
+    UINT _fps = 0;
+    UINT _frameCnt = 0;
+    float _frameTime = 0.f;
 };
-
