@@ -8,19 +8,21 @@ Stat::Stat()
 Stat::Stat(float value, wstring statIcon)
 {
 	_baseValue = value;
-	_statIcon = statIcon;
+	_statName = statIcon;
 }
 
 Stat::~Stat()
 {
 }
 
-void Stat::AddModifier(float value)
+void Stat::AddModifier(wstring key, float value)
 {
+	_modifiedMap.insert({ key, value });
 	_modifiedValue += value;
 }
 
-void Stat::RemoveModifier(float value)
+void Stat::RemoveModifier(wstring key)
 {
+	float value = _modifiedMap[key];
 	_modifiedValue -= value;
 }

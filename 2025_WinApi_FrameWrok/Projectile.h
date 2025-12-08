@@ -8,7 +8,7 @@ class Projectile :
     public Object
 {
 public:
-    Projectile();
+    Projectile(float speed);
     ~Projectile();
 public:
     // Object을(를) 통해 상속됨
@@ -29,7 +29,7 @@ public:
 private:
     //float _dir;
     float _angle;
-    float _moveSpeed = 800;
+    float _moveSpeed;
     Vec2 _dir;
     Texture* _projecTex;
     Rigidbody* _rigidbody;

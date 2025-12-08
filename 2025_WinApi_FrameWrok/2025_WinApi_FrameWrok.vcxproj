@@ -24,6 +24,7 @@
     <ProjectGuid>{ffd03143-43f4-4762-ad1e-105bcfc0a7bd}</ProjectGuid>
     <RootNamespace>My2025WinApiFrameWrok</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>2025_WinApi_FrameWrok</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -210,6 +211,7 @@
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Splash.h" />
     <ClInclude Include="Stat.h" />
     <ClInclude Include="StatComponent.h" />
     <ClInclude Include="SubUIManager.h" />
@@ -274,6 +276,7 @@
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Splash.cpp" />
     <ClCompile Include="Stat.cpp" />
     <ClCompile Include="StatComponent.cpp" />
     <ClCompile Include="SubUIManager.cpp" />

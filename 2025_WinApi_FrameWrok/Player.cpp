@@ -10,6 +10,7 @@
 #include "ResourceManager.h"
 #include "SceneManager.h"
 
+
 Player::Player()
 {
 	_pTex = GET_SINGLE(ResourceManager)
@@ -21,6 +22,20 @@ Player::Player()
 	col->SetRadius(19.f);
 	col->SetName(L"Player");
 	_circleColRadius = col->GetRadius();
+
+	_statCompo = AddComponent<StatComponent>();
+	static_assert(std::is_same_v<decltype(_statCompo), StatComponent*>,
+		"_statCompo is NOT StatComponent* !!");
+
+	_statCompo->AddStat(STAT_HP, 5);
+	_statCompo->AddStat(STAT_BULLETSPEED, 400);
+	_statCompo->AddStat(STAT_ATTACKSPEED, 1.5f);
+	_statCompo->AddStat(STAT_WALLFORCE, 20);
+	_statCompo->AddStat(STAT_GOLDMULTI, 1);
+	_statCompo->AddStat(STAT_MULTISHOT, 1);
+	_statCompo->AddStat(STAT_SPLASH, 0);
+	_statCompo->AddStat(STAT_PENET, 1);
+
 
 	Vec2 animSize = { (float)_pTex->GetWidth() , (float)_pTex->GetHeight() };
 
@@ -139,12 +154,26 @@ void Player::ShotProjectile()
 		return;
 
 	_lastFireTime = time;
-	Projectile* proj = new Projectile;
-	Vec2 mousePos = GET_SINGLE(InputManager)->GetMousePos();
-	Vec2 dir = mousePos - _pos;
-	proj->Init(_pos, dir);
+	
+	float bulletSpeed = _statCompo->GetValue(STAT_BULLETSPEED);
 
-	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(proj,Layer::BULLET);
+	int bulletCnt = (int)_statCompo->GetValue(STAT_MULTISHOT);
+
+	float bulletStartAngle = (bulletCnt / 2 - 1) * _bulletTermAngle;
+
+
+	for (int i = 0; i < bulletCnt; ++i)
+	{
+		Projectile* proj = new Projectile(bulletSpeed);
+		Vec2 mousePos = GET_SINGLE(InputManager)->GetMousePos();
+		Vec2 dir = mousePos - _pos;
+
+
+
+		proj->Init(_pos, dir);
+
+		GET_SINGLE(SceneManager)->GetCurScene()->AddObject(proj, Layer::BULLET);
+	}
 }
 
 void Player::AfterInit()
