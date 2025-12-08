@@ -38,6 +38,17 @@ Window::Window(LPCWSTR windowName, const WindowSet& windowSet)
 	::ShowWindow(_hWnd, SW_SHOW);
 }
 
+void Window::SetVisible(bool visible)
+{
+	ShowWindow(_hWnd, visible ? SW_SHOW : SW_HIDE);
+}
+
+bool Window::IsVisible() const
+{
+	return IsWindowVisible(_hWnd) != FALSE;
+}
+
+
 Window::~Window()
 {
 }
