@@ -7,7 +7,7 @@ class TrackingBullet :
     public EnemyBullet
 {
 public:
-    TrackingBullet(Vec2 startPos, Player* target, float speed, float trackingStrength = 0.5f);
+    TrackingBullet(Vec2 startPos, Player* target, float speed, float trackingStrength = 0.001f);
     ~TrackingBullet();
 
     void Update() override;
