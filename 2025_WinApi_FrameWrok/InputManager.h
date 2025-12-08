@@ -32,6 +32,7 @@ public:
 private:
     void UpdateKeys();
     void UpdateMouse(HWND hWnd);
+    void UpdateMouseClient(HWND hWnd);
     void ResetAll();
 public:
     const KEY_STATE& GetKey(KEY_TYPE _key) const
@@ -47,6 +48,7 @@ public:
     }
     const POINT& GetMousePos() const { return _mousePos; }
     const POINT& GetMouseDelta() const { return _mouseDelta; }
+	const POINT& GetMousePosClient() const { return _mousePosClient; }
 private:
     vector<KeyInfo> _vecKey;
     int _vkKey[(int)KEY_TYPE::LAST] =
@@ -62,5 +64,6 @@ private:
     POINT _mousePos;
     POINT _prevMousePos;
     POINT _mouseDelta;
+    POINT _mousePosClient;
 };
 
