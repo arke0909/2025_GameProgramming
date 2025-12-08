@@ -210,6 +210,8 @@
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Stat.h" />
+    <ClInclude Include="StatComponent.h" />
     <ClInclude Include="SubUIManager.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Texture.h" />
@@ -272,6 +274,8 @@
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Stat.cpp" />
+    <ClCompile Include="StatComponent.cpp" />
     <ClCompile Include="SubUIManager.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TilteScene.cpp" />
