@@ -14,17 +14,10 @@
 #include "EnemyBullet.h"
 
 EnemyBoss::EnemyBoss()
-	: _player(nullptr),
-	_stateMachine(nullptr),
-	_hp(100),
+	: _hp(100),
 	_maxHP(100),
 	_currentPhase(0)
 {
-	auto* col = AddComponent<BoxCollider>();
-	col->SetName(L"EnemyBoss");
-	col->SetTrigger(true);
-
-
 	_eTex = GET_SINGLE(ResourceManager)
 		->GetTexture(L"Player");
 
@@ -127,11 +120,6 @@ void EnemyBoss::CreateEnemyWindow()
 			{ pos.x, pos.y },
 			{ 250, 250 }
 		});
-}
-
-void EnemyBoss::SetTarget(Player* player)
-{
-	_player = player;
 }
 
 void EnemyBoss::Update()

@@ -1,5 +1,5 @@
 #pragma once
-#include "Entity.h"
+#include "Enemy.h"
 #include "Player.h"
 #include "EntityStateMachine.h"
 #include "PhaseData.h"
@@ -7,14 +7,13 @@
 #include <vector>
 
 class EnemyBoss :
-    public Entity
+    public Enemy
 {
 public:
     EnemyBoss();
     ~EnemyBoss();
 
     void CreateEnemyWindow();
-    void SetTarget(Player* player);
     void Update() override;
     void Render(HDC hdc) override;
 
@@ -38,10 +37,7 @@ private:
     void InitializePhases();
     void CheckPhaseTransition();
     void TransitionToPhase(int phase);
-
-    EntityStateMachine* _stateMachine;
     Window* _window;
-    Player* _player;
 
     int _hp;
     int _maxHP;
