@@ -46,7 +46,6 @@ void Core::CleanUp()
 	::DeleteDC(_hBackDC);
 	::ReleaseDC(_hWnd, _hdc);
 	GET_SINGLE(ResourceManager)->Release();
-	GET_SINGLE(WindowManager)->Release();
 }
 
 void Core::MainUpdate()

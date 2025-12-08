@@ -1,10 +1,13 @@
 #pragma once
 #include "Object.h"
 #include "IAfterInit.h"
+#include "StatComponent.h"
+
 class Rigidbody;
 class Texture;
 class Weapon;
 class Window;
+class StatComponent;
 
 class Player :
     public Object, public IAfterInit
@@ -30,8 +33,10 @@ private:
     void ShotProjectile();
 private:
     Rigidbody* _rigidbody;
+    StatComponent* _statCompo;
     Texture* _pTex;
     Weapon* _weapon;
+    float _bulletTermAngle = 15.f;
     float _moveSpeed = 250;
     float _weaponCreateRadius = 150;
     float _fireInterval = 1.5f;
