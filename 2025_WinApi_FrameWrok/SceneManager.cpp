@@ -4,7 +4,6 @@
 #include "Collider.h"
 #include "TilteScene.h"
 #include "PlayerDevScene.h"
-#include "WindowManager.h"
 #include "GameScene.h"
 
 void SceneManager::Init()
@@ -69,8 +68,6 @@ void SceneManager::RegisterScene(const wstring& name, std::shared_ptr<Scene> sce
 
 void SceneManager::LoadScene(const wstring& name)
 {
-	GET_SINGLE(WindowManager)->Release();
-
 	if (_curScene != nullptr)
 	{
 		_curScene->Release();

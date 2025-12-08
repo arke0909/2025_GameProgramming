@@ -5,9 +5,8 @@
 #include "Animator.h"
 #include "Rigidbody.h"
 
-Projectile::Projectile(float speed) : _angle(0.f), _dir(1.f, 1.f)
+Projectile::Projectile() : _angle(0.f), _dir(1.f, 1.f)
 {
-	_moveSpeed = speed;
 	_projecTex = GET_SINGLE(ResourceManager)->GetTexture(L"Player");
 	_rigidbody = AddComponent<Rigidbody>();
 	_rigidbody->SetUseGravity(false);

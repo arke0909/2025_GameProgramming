@@ -13,7 +13,7 @@
 
 void TitleScene::Init()
 {
-    GET_SINGLE(ResourceManager)->Play(L"BGM");
+    //GET_SINGLE(ResourceManager)->Play(L"BGM");
     Texture* buttonTex = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
     UIButton* startBtn = new UIButton(L"Start", { 325, 430 }, { 350, 70 }, FontType::TITLE, buttonTex);
     UIButton* settingBtn = new UIButton(L"Setting", { 325, 515 }, { 350, 70 }, FontType::TITLE, buttonTex);

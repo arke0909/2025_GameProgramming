@@ -14,6 +14,7 @@
 #include "InputManager.h"
 #include "ResourceManager.h"
 #include "GameWindow.h"
+#include "StoreUI.h"
 
 void GameScene::Init()
 {
@@ -36,16 +37,18 @@ void GameScene::Init()
         L"Information", { {SCREEN_WIDTH - 300, SCREEN_HEIGHT / 2 - 150}, {400, 85} });
 
     _storeWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>
-    (L"Store", { {SCREEN_WIDTH - 300,SCREEN_HEIGHT / 2 + 150},{500,300} });
+    (L"Store", { {SCREEN_WIDTH - 300,SCREEN_HEIGHT / 2 + 150},{500,450} });
+
+    SubUIManager* storeUI = _storeWindow->GetUI();
+    StoreUI* shop = new StoreUI({ 250, 225 }, { 400, 300 });
+
+    storeUI->Add(shop);
 
     SubUIManager* inGameUI = _inGameWindow->GetUI();
     SubUIManager* infoUI = _informationWindow->GetUI();
 
     WaveLabel* waveLabel = new WaveLabel({ 200, 20 }, { 200, 50 }, FontType::TITLE);
     inGameUI->Add(waveLabel);
-
-    CoinLabel* coinLabel = new CoinLabel({ 50, 20 }, { 200, 50 }, FontType::TITLE);
-    inGameUI->Add(coinLabel);
 
 
     UILabel* hpLabel = new UILabel(L"HP:", { 20, 40 }, { 100, 30 }, FontType::TITLE);
@@ -104,6 +107,12 @@ void GameScene::Update()
     {
         if (GET_SINGLE(GameManager)->playerHealth > 0)
             GET_SINGLE(GameManager)->playerHealth++;
+    }
+
+    if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::TAB))
+    {
+        _storeVisible = !_storeVisible;
+        _storeWindow->SetVisible(_storeVisible);
     }
 
     int curHP = GET_SINGLE(GameManager)->playerHealth;
