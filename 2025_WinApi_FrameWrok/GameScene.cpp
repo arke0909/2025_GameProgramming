@@ -37,21 +37,23 @@ void GameScene::Init()
         L"Information", { {SCREEN_WIDTH - 300, SCREEN_HEIGHT / 2 - 150}, {400, 85} });
 
     _storeWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>
-    (L"Store", { {SCREEN_WIDTH - 300,SCREEN_HEIGHT / 2 + 150},{500,450} });
+    (L"Store", { {SCREEN_WIDTH - 300,SCREEN_HEIGHT / 2 + 150},{500,400} });
 
     SubUIManager* storeUI = _storeWindow->GetUI();
-    StoreUI* shop = new StoreUI({ 250, 225 }, { 400, 300 });
+    StoreUI* shop = new StoreUI({ 250, 225 }, { 400, 350 });
+
+	GET_SINGLE(GameManager)->storeWindowHandle = _storeWindow->GetHandle();
 
     storeUI->Add(shop);
 
     SubUIManager* inGameUI = _inGameWindow->GetUI();
     SubUIManager* infoUI = _informationWindow->GetUI();
 
-    WaveLabel* waveLabel = new WaveLabel({ 200, 20 }, { 200, 50 }, FontType::TITLE);
+    WaveLabel* waveLabel = new WaveLabel({ 200, 20 }, { 200, 50 }, FontType::UI);
     inGameUI->Add(waveLabel);
 
 
-    UILabel* hpLabel = new UILabel(L"HP:", { 20, 40 }, { 100, 30 }, FontType::TITLE);
+    UILabel* hpLabel = new UILabel(L"HP:", { 20, 40 }, { 100, 30 }, FontType::UI);
     infoUI->Add(hpLabel);
 
     const int maxHP = 5;
