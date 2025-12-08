@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "EntityStateMachine.h"
 #include "PhaseData.h"
+#include "Window.h"
 #include <vector>
 
 class EnemyBoss :
