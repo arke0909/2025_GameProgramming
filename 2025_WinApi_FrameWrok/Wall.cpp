@@ -48,7 +48,7 @@ void Wall::Update()
 
 void Wall::Render(HDC hdc)
 {
-	ComponentRender(hdc);
+	//ComponentRender(hdc);
 }
 
 void Wall::EnterCollision(Collider* _other)

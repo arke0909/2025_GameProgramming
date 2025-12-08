@@ -146,7 +146,6 @@ Weapon* Player::CreateWeapon()
 
 void Player::ShotProjectile()
 {
-	// 현재 시간
 	float time = GET_SINGLE(TimeManager)->GetTime();
 	float currentLapse = time - _lastFireTime;
 
@@ -154,25 +153,31 @@ void Player::ShotProjectile()
 		return;
 
 	_lastFireTime = time;
-	
-	float bulletSpeed = _statCompo->GetValue(STAT_BULLETSPEED);
 
+	Vec2 mousePos = GET_SINGLE(InputManager)->GetMousePos();
+	Vec2 dir = mousePos - _pos;
+
+	float bulletSpeed = _statCompo->GetValue(STAT_BULLETSPEED);
 	int bulletCnt = (int)_statCompo->GetValue(STAT_MULTISHOT);
 
-	float bulletStartAngle = (bulletCnt / 2 - 1) * _bulletTermAngle;
+	float baseAngle = atan2(dir.y, dir.x);
 
+	float term = _bulletTermAngle * PI / 180.f;
+
+	float start = -(bulletCnt - 1) * term * 0.5f;
 
 	for (int i = 0; i < bulletCnt; ++i)
 	{
 		Projectile* proj = new Projectile(bulletSpeed);
-		Vec2 mousePos = GET_SINGLE(InputManager)->GetMousePos();
-		Vec2 dir = mousePos - _pos;
 
+		float angle = baseAngle + start + term * i;
+		float x = cos(angle);
+		float y = sin(angle);
 
+		proj->Init(_pos, { x, y });
 
-		proj->Init(_pos, dir);
-
-		GET_SINGLE(SceneManager)->GetCurScene()->AddObject(proj, Layer::BULLET);
+		GET_SINGLE(SceneManager)->GetCurScene()
+			->AddObject(proj, Layer::BULLET);
 	}
 }
 
