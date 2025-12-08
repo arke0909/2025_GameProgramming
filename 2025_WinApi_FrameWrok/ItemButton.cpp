@@ -47,6 +47,12 @@ void ItemButton::Update()
 {
     if (!_visible) return;
 
+    HWND currentFocus = ::GetFocus();  
+    HWND storeWindow = GET_SINGLE(GameManager)->storeWindowHandle; 
+
+    if (currentFocus != storeWindow)
+        return; 
+
     const POINT& mousePos = GET_SINGLE(InputManager)->GetMousePosClient();
     if (ContainsPoint(mousePos.x, mousePos.y))
     {
@@ -56,6 +62,7 @@ void ItemButton::Update()
         }
     }
 }
+
 
 bool ItemButton::IsClicked(POINT pt) const
 {
