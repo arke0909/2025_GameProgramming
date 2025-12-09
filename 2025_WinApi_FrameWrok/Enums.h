@@ -40,7 +40,7 @@ enum class ButtonEvent
 
 enum class ItemType
 {
-	BulletSpeed,
+	PlayerSpeed,
 	AttackSpeed,
 	WallPunch,
 	MoneyDrop,

@@ -6,6 +6,7 @@
 #include "GameManager.h"
 #include "InputManager.h"
 #include "Texture.h"
+#include "GameEvent.h"
 
 ItemButton::ItemButton(const ItemInfo& info, const Vec2& pos, const Vec2& size)
     : UIElement(pos, size), _info(info)
@@ -15,7 +16,7 @@ ItemButton::ItemButton(const ItemInfo& info, const Vec2& pos, const Vec2& size)
     _background = new UIImage(tex, pos, size);
 
     _nameLabel = new UILabel(
-        _info.name,
+        _info.displayName,
         Vec2(pos.x, pos.y - 60),
         Vec2(size.x, 30.0f),
         FontType::UI
@@ -40,7 +41,7 @@ ItemButton::ItemButton(const ItemInfo& info, const Vec2& pos, const Vec2& size)
             if (GET_SINGLE(GameManager)->coin >= _info.price)
             {
                 GET_SINGLE(GameManager)->coin -= _info.price;
-                MessageBox(nullptr, (_info.name + L" 구매 완료!").c_str(), L"구매", MB_OK);
+                GameEvents::OnItemPurchased.Raise(_info.type);
             }
             else
             {

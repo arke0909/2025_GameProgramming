@@ -25,4 +25,5 @@ void Stat::RemoveModifier(wstring key)
 {
 	float value = _modifiedMap[key];
 	_modifiedValue -= value;
+	_modifiedMap.erase(key);
 }

@@ -1,12 +1,9 @@
 #pragma once
-#include "UIImage.h"
+#include "UILabel.h"
 
-class HPImage : public UIImage
+class HpLabel : public UILabel
 {
 public:
-    HPImage(const Vec2& pos, const Vec2& size, Texture* texture)
-        : UIImage(texture, pos, size) {
-    }
-
+    HpLabel(const Vec2& pos, const Vec2& size, FontType fontType);
     void Update() override;
 };

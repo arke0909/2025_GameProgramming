@@ -3,6 +3,7 @@
 #include "CollisionManager.h"
 #include "WindowManager.h"
 #include "UIManager.h"
+#include "UIImage.h"
 #include "UILabel.h"
 #include "Player.h"
 #include "GameManager.h"
@@ -15,6 +16,7 @@
 #include "ResourceManager.h"
 #include "GameWindow.h"
 #include "StoreUI.h"
+#include "GameEvent.h"
 
 void GameScene::Init()
 {
@@ -34,10 +36,15 @@ void GameScene::Init()
 			});
 
     _informationWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
-        L"Information", { {SCREEN_WIDTH - 300, SCREEN_HEIGHT / 2 - 150}, {400, 85} });
+        L"Information", { {SCREEN_WIDTH - 300, SCREEN_HEIGHT / 2 - 150}, {120, 85} });
 
     _storeWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>
     (L"Store", { {SCREEN_WIDTH - 300,SCREEN_HEIGHT / 2 + 150},{500,300} });
+
+    GameEvents::OnItemPurchased.Subscribe([](const ItemType& item) 
+        {
+            MessageBox(nullptr, L"구매 완료!", L"구매", MB_OK);
+        });
 
     SubUIManager* inGameUI = _inGameWindow->GetUI();
     SubUIManager* infoUI = _informationWindow->GetUI();
@@ -47,28 +54,22 @@ void GameScene::Init()
 
     GET_SINGLE(GameManager)->storeWindowHandle = _storeWindow->GetHandle();
 
-    WaveLabel* waveLabel = new WaveLabel({ 200, 20 }, { 200, 50 }, FontType::TITLE);
+    WaveLabel* waveLabel = new WaveLabel({ 200, 20 }, { 200, 50 }, FontType::UI);
     inGameUI->Add(waveLabel);
 
-    CoinLabel* coinLabel = new CoinLabel({ 50, 20 }, { 200, 50 }, FontType::TITLE);
+    CoinLabel* coinLabel = new CoinLabel({ 50, 20 }, { 200, 50 }, FontType::UI);
     inGameUI->Add(coinLabel);
 
-
-    UILabel* hpLabel = new UILabel(L"HP:", { 20, 40 }, { 100, 30 }, FontType::TITLE);
-    infoUI->Add(hpLabel);
-
-    const int maxHP = 5;
-    const int iconSize = 40;
-    const int spacing = 10;
     Texture* hpTexture = GET_SINGLE(ResourceManager)->GetTexture(L"Heart");
 
-    for (int i = 0; i < maxHP; ++i)
-    {
-        Vec2 pos = { 60 + i * (iconSize + spacing), 40 };
-        HPImage* heart = new HPImage(pos, { iconSize, iconSize }, hpTexture);
-        _hearts.push_back(heart);
-        infoUI->Add(heart);
-    }
+	UIImage* heart = new UIImage(hpTexture, { 45, 40 }, {80,80 });
+	infoUI->Add(heart);
+
+    HpLabel* hpLabel = new HpLabel({ 100, 40 }, { 100, 30 }, FontType::UI);
+
+	infoUI->Add(hpLabel);
+
+
 
 
     auto* player = Spawn<Player>(Layer::PLAYER, _inGameWindow->GetPos(), { 75, 75 });
@@ -116,12 +117,5 @@ void GameScene::Update()
     {
         _storeVisible = !_storeVisible;
         _storeWindow->SetVisible(_storeVisible);
-    }
-
-
-    int curHP = GET_SINGLE(GameManager)->playerHealth;
-    for (int i = 0; i < _hearts.size(); ++i)
-    {
-        _hearts[i]->SetVisible(i < curHP);
     }
 }
