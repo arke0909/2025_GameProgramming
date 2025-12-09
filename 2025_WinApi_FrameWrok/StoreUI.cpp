@@ -28,8 +28,17 @@ void StoreUI::Init()
         _itemSlots.push_back(btn);
     }
 
-    _rerollRect = { (LONG)(pos.x + 120), (LONG)(pos.y + 110), (LONG)(pos.x + 220), (LONG)(pos.y + 150) };
+    Texture* buttonTex = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
+    _rerollButton = new UIButton(L"府费", { pos.x + 170, pos.y + 130 }, { 100, 40 }, FontType::UI, buttonTex);
+
+    _rerollButton->SetOnClick([this]()
+        {
+            Reroll();
+        });
+
+    _coinLabel = new UILabel(L"Coin: 0", Vec2(pos.x + 150, pos.y + 70), Vec2(200, 30), FontType::UI);
 }
+
 
 void StoreUI::Render(HDC hdc)
 {
@@ -38,31 +47,29 @@ void StoreUI::Render(HDC hdc)
     for (auto* btn : _itemSlots)
         btn->Render(hdc);
 
-    FillRect(hdc, &_rerollRect, (HBRUSH)(COLOR_WINDOW + 1));
-    DrawText(hdc, L"府费", -1, &_rerollRect, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+    if (_rerollButton)
+        _rerollButton->Render(hdc);
 
-    std::wstring coinText = L"Coin: " + std::to_wstring(GET_SINGLE(GameManager)->coin);
-    RECT coinRect = { _rerollRect.left, _rerollRect.top - 40, _rerollRect.right + 100, _rerollRect.top };
-    DrawText(hdc, coinText.c_str(), -1, &coinRect, DT_LEFT);
+    if (_coinLabel)
+    {
+        std::wstring coinText = L"Coin: " + std::to_wstring(GET_SINGLE(GameManager)->coin);
+        _coinLabel->SetText(coinText);
+        _coinLabel->Render(hdc);
+    }
 }
+
 
 void StoreUI::Update()
 {
     if (!_visible) return;
 
-    POINT mousePos = GET_SINGLE(InputManager)->GetMousePosClient();
-
-    if (PtInRect(&_rerollRect, mousePos))
-    {
-        if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::LBUTTON))
-        {
-            Reroll();
-        }
-    }
-
     for (auto* btn : _itemSlots)
         btn->Update();
+
+    if (_rerollButton)
+        _rerollButton->Update();
 }
+
 
 void StoreUI::Reroll()
 {
@@ -79,8 +86,18 @@ void StoreUI::Reroll()
         delete btn;
 
     _itemSlots.clear();
-    Init();
+
+    auto items = GetRandomItems(3);
+    for (int i = 0; i < 3; ++i)
+    {
+        Vec2 slotPos = { pos.x - 160 + i * 160, pos.y - 50 };
+        Vec2 slotSize = { 140, 200 };
+
+        auto* btn = new ItemButton(items[i], slotPos, slotSize);
+        _itemSlots.push_back(btn);
+    }
 }
+
 
 std::vector<ItemInfo> StoreUI::GetRandomItems(int count)
 {

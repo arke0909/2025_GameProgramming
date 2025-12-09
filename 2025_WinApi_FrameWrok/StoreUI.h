@@ -1,7 +1,6 @@
-#pragma once
-#include "UIElement.h"
+#include "UIButton.h" 
+#include "UILabel.h"
 #include "ItemButton.h"
-#include "ItemInfo.h"
 
 class StoreUI : public UIElement
 {
@@ -14,8 +13,8 @@ public:
 
 private:
     std::vector<ItemButton*> _itemSlots;
-    UIElement* _rerollButton;
-    RECT _rerollRect;
+    UIButton* _rerollButton = nullptr;
+    UILabel* _coinLabel = nullptr;
 
     void Reroll();
     std::vector<ItemInfo> GetRandomItems(int count);
