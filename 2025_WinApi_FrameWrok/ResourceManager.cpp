@@ -14,6 +14,8 @@ bool ResourceManager::Init()
 
     if (!RegisterFontFile(L"Font\\³ª´®¼Õ±Û¾¾ ¾Ï½ºÅ×¸£´ã.ttf"))
        return false;
+    if(!RegisterFontFile(L"Font\\BoldDunggeunmo.ttf"))
+		return false;
     RegisterTexture();
     RegisterGDI();
     
@@ -146,6 +148,7 @@ void ResourceManager::RegisterGDI()
     m_Pens[(UINT)PenType::GREEN] = ::CreatePen(PS_SOLID, 1, RGB(0, 255, 0));
 
     RegisterFont(FontType::TITLE, L"³ª´®¼Õ±Û¾¾ ¾Ï½ºÅ×¸£´ã", 0);
+	RegisterFont(FontType::UI, L"BoldDunggeunmo", 20);
 
 }
 

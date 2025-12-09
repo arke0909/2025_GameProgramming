@@ -24,23 +24,3 @@ public:							 \
 #define RECT_RENDER(hdc, posx, posy, sizex, sizey) Rectangle(hdc, (int)(posx-sizex/2),(int)(posy-sizey/2),(int)(posx+sizex/2),(int)(posy+sizey/2))
 #define ELLIPSE_RENDER(hdc, posx, posy, sizex, sizey) Ellipse(hdc, (int)(posx-sizex/2),(int)(posy-sizey/2),(int)(posx+sizex/2),(int)(posy+sizey/2))
 #define RECT_MAKE(posx, posy, sizex, sizey) {posx-sizex/2,posy-sizey/2,posx+sizex/2,posy+sizey/2}
-
-// Stat 관련
-// 최대 체력
-const std::wstring STAT_HP = L"MaxHP";
-// 대미지
-const std::wstring STAT_ATTACK = L"Attack";
-// 탄속
-const std::wstring STAT_BULLETSPEED = L"BulletSpeed";
-// 공격 속도
-const std::wstring STAT_ATTACKSPEED = L"AttackSpeed";
-// 윈도우를 미는 힘
-const std::wstring STAT_WALLFORCE = L"WallForce";
-// 돈 배율
-const std::wstring STAT_GOLDMULTI = L"GoldMultiplier";
-// 멀티샷
-const std::wstring STAT_MULTISHOT = L"MultiShot";
-// 스플래쉬
-const std::wstring STAT_SPLASH = L"Splash";
-// 탄환 관통
-const std::wstring STAT_PENET = L"Penetration";

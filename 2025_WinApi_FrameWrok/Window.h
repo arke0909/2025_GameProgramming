@@ -32,6 +32,8 @@ public:
 		return _windowSize;
 	}
 	SubUIManager* GetUI() { return &_uiManager; }
+	void SetVisible(bool visible);      
+	bool IsVisible() const;
 
 protected:
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);

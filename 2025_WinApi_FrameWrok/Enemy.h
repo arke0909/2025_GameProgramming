@@ -23,6 +23,6 @@ public:
 
 public:
 	EntityStateMachine* _stateMachine; 
-    Player* _player;
+    Player* _target;
     float _speed;
 };
