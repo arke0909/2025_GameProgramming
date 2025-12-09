@@ -1,57 +1,81 @@
 #include "pch.h"
 #include "ItemButton.h"
-#include "GameManager.h"
+#include "UIImage.h"
+#include "UILabel.h"
 #include "ResourceManager.h"
+#include "GameManager.h"
 #include "InputManager.h"
+#include "Texture.h"
 
 ItemButton::ItemButton(const ItemInfo& info, const Vec2& pos, const Vec2& size)
     : UIElement(pos, size), _info(info)
 {
-    _onClick = [this]() {
-        if (GET_SINGLE(GameManager)->coin >= _info.price)
+    Texture* tex = GET_SINGLE(ResourceManager)->GetTexture(L"SkillPanel");
+
+    _background = new UIImage(tex, pos, size);
+
+    _nameLabel = new UILabel(
+        _info.name,
+        Vec2(pos.x, pos.y - 60),
+        Vec2(size.x, 30.0f),
+        FontType::UI
+    );
+
+    _descLabel = new UILabel(
+        _info.description,
+        Vec2(pos.x, pos.y),
+        Vec2(size.x, 60.0f),
+        FontType::UI
+    );
+
+    _priceLabel = new UILabel(
+        L"가격: " + std::to_wstring(_info.price),
+        Vec2(pos.x, pos.y + 60),
+        Vec2(size.x, 30.0f),
+        FontType::UI
+    );
+
+    _onClick = [this]()
         {
-            GET_SINGLE(GameManager)->coin -= _info.price;
-            MessageBox(nullptr, (_info.name + L" 구매 완료!").c_str(), L"구매", MB_OK);
-        }
-        else
-        {
-            MessageBox(nullptr, L"코인이 부족합니다!", L"실패", MB_OK);
-        }
+            if (GET_SINGLE(GameManager)->coin >= _info.price)
+            {
+                GET_SINGLE(GameManager)->coin -= _info.price;
+                MessageBox(nullptr, (_info.name + L" 구매 완료!").c_str(), L"구매", MB_OK);
+            }
+            else
+            {
+                MessageBox(nullptr, L"코인이 부족합니다!", L"구매 실패", MB_OK);
+            }
         };
+}
+
+ItemButton::~ItemButton()
+{
+    delete _background;
+    delete _nameLabel;
+    delete _descLabel;
+    delete _priceLabel;
 }
 
 void ItemButton::Render(HDC hdc)
 {
     if (!_visible) return;
 
-    RECT rc = GetRect();
-    FillRect(hdc, &rc, (HBRUSH)(COLOR_WINDOW + 2));
-
-    HFONT font = GET_SINGLE(ResourceManager)->GetFont(FontType::TITLE);
-    HFONT oldFont = (HFONT)SelectObject(hdc, font);
-    SetBkMode(hdc, TRANSPARENT);
-
-    DrawText(hdc, _info.name.c_str(), -1, &rc, DT_CENTER | DT_TOP);
-    DrawText(hdc, _info.description.c_str(), -1, &rc, DT_CENTER | DT_VCENTER);
-
-    RECT priceRect = rc;
-    priceRect.top += 140;
-
-    std::wstring priceText = L"가격: " + std::to_wstring(_info.price);
-    DrawText(hdc, priceText.c_str(), -1, &priceRect, DT_CENTER | DT_TOP);
-
-    SelectObject(hdc, oldFont);
+    _background->Render(hdc);
+    _nameLabel->Render(hdc);
+    _descLabel->Render(hdc);
+    _priceLabel->Render(hdc);
 }
 
 void ItemButton::Update()
 {
     if (!_visible) return;
 
-    HWND currentFocus = ::GetFocus();  
-    HWND storeWindow = GET_SINGLE(GameManager)->storeWindowHandle; 
+    HWND currentFocus = ::GetFocus();
+    HWND storeWindow = GET_SINGLE(GameManager)->storeWindowHandle;
 
     if (currentFocus != storeWindow)
-        return; 
+        return;
 
     const POINT& mousePos = GET_SINGLE(InputManager)->GetMousePosClient();
     if (ContainsPoint(mousePos.x, mousePos.y))
@@ -63,10 +87,19 @@ void ItemButton::Update()
     }
 }
 
-
 bool ItemButton::IsClicked(POINT pt) const
 {
     return ContainsPoint(pt.x, pt.y);
+}
+
+bool ItemButton::ContainsPoint(int x, int y) const
+{
+    float left = pos.x - size.x / 2;
+    float right = pos.x + size.x / 2;
+    float top = pos.y - size.y / 2;
+    float bottom = pos.y + size.y / 2;
+
+    return x >= left && x <= right && y >= top && y <= bottom;
 }
 
 void ItemButton::OnClick()

@@ -22,6 +22,9 @@ void SubUIManager::Update(HWND hWnd)
             continue;
         }
 
+        if (raw < 0x10000)
+            continue;
+
         try {
             elem->Update();
         }
