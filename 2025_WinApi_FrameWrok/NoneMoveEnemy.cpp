@@ -65,7 +65,5 @@ void NoneMoveEnemy::CreateEnemyWindow()
 
 void NoneMoveEnemy::EnterCollision(Collider* _other)
 {
-    if (_other->GetName() == L"Weapon") {
-        GET_SINGLE(EnemySpawnManager)->DeadEnemy(this);
-    }
+	Enemy::EnterCollision(_other);
 }
