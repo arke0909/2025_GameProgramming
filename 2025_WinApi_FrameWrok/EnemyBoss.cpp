@@ -1,5 +1,4 @@
 #include "pch.h"
-#include "WindowManager.h"
 #include "EnemyBoss.h"
 #include "BoxCollider.h"
 #include "ResourceManager.h"
@@ -7,6 +6,7 @@
 #include "EnemyBossIdleState.h"
 #include "EnemyBossAttackState.h"
 #include "BounceBullet.h"
+#include "WindowManager.h"
 #include "TrackingBullet.h"
 #include "PhaseData.h"
 #include "EnemyBossHitState.h"
@@ -14,12 +14,20 @@
 #include "EnemyBullet.h"
 
 EnemyBoss::EnemyBoss()
-	: _hp(100),
+	: _player(nullptr),
+	_stateMachine(nullptr),
+	_hp(100),
 	_maxHP(100),
 	_currentPhase(0)
 {
+	auto* col = AddComponent<BoxCollider>();
+	col->SetName(L"EnemyBoss");
+	col->SetTrigger(true);
+
+	_eTex = GET_SINGLE(ResourceManager)->GetTexture(L"CloseEnemy");
+
 	_eTex = GET_SINGLE(ResourceManager)
-		->GetTexture(L"Player");
+		->GetTexture(L"CloseEnemy");
 
 	Vec2 animSize;
 	switch (_eTex->GetHeight())
@@ -81,11 +89,11 @@ EnemyBoss::~EnemyBoss()
 void EnemyBoss::InitializePhases()
 {
 	PhaseData phase1;
-	phase1.attackInterval = 1.0f;
+	phase1.attackInterval = 2.5f;
 	phase1.patterns =
 	{
 		{ PatternType::CIRCLESHOT, 2.0f, 50.0f, 100.0f},
-		{ PatternType::LINEARSHOT, 2.0f, 50.0f, 100.0f}
+		{ PatternType::LINEARSHOT, 1.0f, 50.0f, 100.0f}
 	};
 
 	PhaseData phase2;
@@ -100,7 +108,7 @@ void EnemyBoss::InitializePhases()
 	phase3.attackInterval = 1.0f;
 	phase3.patterns =
 	{
-		{ PatternType::CIRCLESHOT, 10.0f, 50.0f, 100.0f},
+		{ PatternType::CIRCLESHOT, 5.0f, 50.0f, 100.0f},
 		{ PatternType::BOUNCESHOT, 2.0f, 25.0f, 100.0f},
 		{ PatternType::TRACKINGSHOT, 2.0f, 25.0f, 100.0f}
 	};
@@ -114,12 +122,17 @@ void EnemyBoss::CreateEnemyWindow()
 {
 	Vec2 pos = this->GetPos();
 
-	_window = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
+	_window = GET_SINGLE(WindowManager)->CreateSubWindow(
 		L"Boss",
 		{
 			{ pos.x, pos.y },
 			{ 250, 250 }
 		});
+}
+
+void EnemyBoss::SetTarget(Player* player)
+{
+	_player = player;
 }
 
 void EnemyBoss::Update()
@@ -185,18 +198,15 @@ void EnemyBoss::CheckPhaseTransition()
 
 	if (hpRatio > 50.0f)
 	{
-		if (_currentPhase != 0)
-			TransitionToPhase(0);
+		if (_currentPhase != 0) TransitionToPhase(0);
 	}
 	else if (hpRatio <= 50.0f && hpRatio > 25.0f)
 	{
-		if (_currentPhase != 1) 
-			TransitionToPhase(1);
+		if (_currentPhase != 1) TransitionToPhase(1);
 	}
 	else if (hpRatio <= 25.0f)
 	{
-		if (_currentPhase != 2)
-			TransitionToPhase(2);
+		if (_currentPhase != 2) TransitionToPhase(2);
 	}
 }
 

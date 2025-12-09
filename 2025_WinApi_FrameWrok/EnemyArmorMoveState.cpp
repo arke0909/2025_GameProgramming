@@ -12,7 +12,7 @@ EnemyArmorMoveState::EnemyArmorMoveState(Enemy* owner, std::wstring animetionNam
 
 void EnemyArmorMoveState::Update()
 {
-    if (_enemy->_player == nullptr || _enemy == nullptr)
+    if (_enemy->_target == nullptr || _enemy == nullptr)
         return;
 
     if (IsInAttackRange())
@@ -26,11 +26,11 @@ void EnemyArmorMoveState::Update()
 
 void EnemyArmorMoveState::MoveToTarget()
 {
-    if (_enemy->_player == nullptr)
+    if (_enemy->_target == nullptr)
         return;
 
     Vec2 currentPos = _enemy->GetPos();
-    Vec2 targetPos = _enemy->_player->GetPos();
+    Vec2 targetPos = _enemy->_target->GetPos();
 
     float dx = targetPos.x - currentPos.x;
     float dy = targetPos.y - currentPos.y;
@@ -46,10 +46,10 @@ void EnemyArmorMoveState::MoveToTarget()
 
 bool EnemyArmorMoveState::IsInAttackRange()
 {
-    if (_enemy->_player == nullptr)
+    if (_enemy->_target == nullptr)
         return false;
 
-    Vec2 target = _enemy->_player->GetPos();
+    Vec2 target = _enemy->_target->GetPos();
     Vec2 _pos = _enemy->GetPos();
     float dx = target.x - _pos.x;
     float dy = target.y - _pos.y;
