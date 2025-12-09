@@ -12,14 +12,14 @@ public:
     Projectile(int level, int splashLvl, float speed);
     ~Projectile();
 public:
-    // ObjectÀ»(¸¦) ÅëÇØ »ó¼ÓµÊ
+    // Objectï¿½ï¿½(ï¿½ï¿½) ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Óµï¿½
     void Update() override;
     void Render(HDC hdc) override;
-    void EnterCollision(Collider* _other) override; //Ãæµ¹ÁøÀÔ
-    void StayCollision(Collider* _other) override; // Ãæµ¹Áß
+    void EnterCollision(Collider* _other) override; //ï¿½æµ¹ï¿½ï¿½ï¿½ï¿½
+    void StayCollision(Collider* _other) override; // ï¿½æµ¹ï¿½ï¿½
     void ExitCollision(Collider* _other) override;
 public:
-    // ÀÎ¶óÀÎ ÇÔ¼ö
+    // ï¿½Î¶ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     void SetAngle(float angle) { _angle = angle; }
     void SetWallForce(float wallForce) { _wallForce = wallForce; }
     void SetPenetration(int penetration) { _penetration = penetration; }
