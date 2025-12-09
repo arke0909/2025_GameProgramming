@@ -149,7 +149,7 @@ void Player::ShotProjectile()
 	float time = GET_SINGLE(TimeManager)->GetTime();
 	float currentLapse = time - _lastFireTime;
 
-	if (currentLapse < _fireInterval)
+	if (currentLapse < _statCompo->GetValue(STAT_ATTACKSPEED))
 		return;
 
 	_lastFireTime = time;
@@ -175,6 +175,9 @@ void Player::ShotProjectile()
 		float y = sin(angle);
 
 		proj->Init(_pos, { x, y });
+		proj->SetWallForce(_statCompo->GetValue(STAT_WALLFORCE));
+		proj->SetPenetration(_statCompo->GetValue(STAT_PENET));
+		proj->SetOwner(this);
 
 		GET_SINGLE(SceneManager)->GetCurScene()
 			->AddObject(proj, Layer::BULLET);
@@ -185,5 +188,5 @@ void Player::AfterInit()
 {
 	//_weapon = CreateWeapon();
 
-	_lastFireTime = -_fireInterval;
+	_lastFireTime = -_statCompo->GetValue(STAT_ATTACKSPEED);
 }

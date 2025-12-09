@@ -3,12 +3,13 @@
 
 class Texture;
 class Rigidbody;
+class Player;
 
 class Projectile :
     public Object
 {
 public:
-    Projectile(float speed);
+    Projectile(int level, int splashLvl, float speed);
     ~Projectile();
 public:
     // Object을(를) 통해 상속됨
@@ -20,16 +21,24 @@ public:
 public:
     // 인라인 함수
     void SetAngle(float angle) { _angle = angle; }
+    void SetWallForce(float wallForce) { _wallForce = wallForce; }
+    void SetPenetration(int penetration) { _penetration = penetration; }
     void SetDir(Vec2 dir)
     {
         _dir = dir;
         _dir.Normalize();
     }
+    float GetWallForce() { return _wallForce; }
     void Init(Vec2 pos, Vec2 dir);
 private:
-    //float _dir;
+    void CreateSplash();
+private:
     float _angle;
     float _moveSpeed;
+    float _wallForce;
+    float _damage = 2.f;
+    int _splashLvl;
+    int _penetration = 1;
     Vec2 _dir;
     Texture* _projecTex;
     Rigidbody* _rigidbody;
