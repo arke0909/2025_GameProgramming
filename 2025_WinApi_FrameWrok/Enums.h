@@ -37,3 +37,18 @@ enum class ButtonEvent
 {
 	Click, Hover, END
 };
+
+enum class ItemType
+{
+	BulletSpeed,
+	AttackSpeed,
+	WallPunch,
+	MoneyDrop,
+	MaxHealth,
+	Heal20HP,
+	MultiShot,
+	SplashDamage,
+	Pierce,
+
+	COUNT
+};

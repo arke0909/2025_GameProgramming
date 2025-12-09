@@ -202,6 +202,8 @@
     <ClInclude Include="HPImage.h" />
     <ClInclude Include="IAfterInit.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="ItemButton.h" />
+    <ClInclude Include="ItemInfo.h" />
     <ClInclude Include="MeleeEnemy.h" />
     <ClInclude Include="NoneMoveEnemy.h" />
     <ClInclude Include="Object.h" />
@@ -219,6 +221,7 @@
     <ClInclude Include="Splash.h" />
     <ClInclude Include="Stat.h" />
     <ClInclude Include="StatComponent.h" />
+    <ClInclude Include="StoreUI.h" />
     <ClInclude Include="SubUIManager.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Texture.h" />
@@ -274,6 +277,8 @@
     <ClCompile Include="GDISelector.cpp" />
     <ClCompile Include="HPImage.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="ItemButton.cpp" />
+    <ClCompile Include="ItemInfo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeleeEnemy.cpp" />
     <ClCompile Include="NoneMoveEnemy.cpp" />
@@ -290,6 +295,7 @@
     <ClCompile Include="Splash.cpp" />
     <ClCompile Include="Stat.cpp" />
     <ClCompile Include="StatComponent.cpp" />
+    <ClCompile Include="StoreUI.cpp" />
     <ClCompile Include="SubUIManager.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TilteScene.cpp" />
