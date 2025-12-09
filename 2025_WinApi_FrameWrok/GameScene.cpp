@@ -14,6 +14,7 @@
 #include "InputManager.h"
 #include "ResourceManager.h"
 #include "GameWindow.h"
+#include "StoreUI.h"
 
 void GameScene::Init()
 {
@@ -40,6 +41,11 @@ void GameScene::Init()
 
     SubUIManager* inGameUI = _inGameWindow->GetUI();
     SubUIManager* infoUI = _informationWindow->GetUI();
+    SubUIManager* storeUI = _storeWindow->GetUI();
+    StoreUI* shop = new StoreUI({ 250, 150 }, { 500, 300 });
+    storeUI->Add(shop);
+
+    GET_SINGLE(GameManager)->storeWindowHandle = _storeWindow->GetHandle();
 
     WaveLabel* waveLabel = new WaveLabel({ 200, 20 }, { 200, 50 }, FontType::TITLE);
     inGameUI->Add(waveLabel);
@@ -105,6 +111,13 @@ void GameScene::Update()
         if (GET_SINGLE(GameManager)->playerHealth > 0)
             GET_SINGLE(GameManager)->playerHealth++;
     }
+
+    if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::TAB))
+    {
+        _storeVisible = !_storeVisible;
+        _storeWindow->SetVisible(_storeVisible);
+    }
+
 
     int curHP = GET_SINGLE(GameManager)->playerHealth;
     for (int i = 0; i < _hearts.size(); ++i)

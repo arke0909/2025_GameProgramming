@@ -43,6 +43,17 @@ Window::~Window()
 {
 }
 
+void Window::SetVisible(bool visible)
+{
+	ShowWindow(_hWnd, visible ? SW_SHOW : SW_HIDE);
+}
+
+bool Window::IsVisible() const
+{
+	return IsWindowVisible(_hWnd) != FALSE;
+}
+
+
 void Window::Update()
 {
 	_uiManager.Update(_hWnd);
