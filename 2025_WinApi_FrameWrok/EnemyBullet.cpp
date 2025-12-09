@@ -7,6 +7,7 @@
 EnemyBullet::EnemyBullet(const Vec2& startPos, const Vec2& targetPos, float speed)
 {
 	_speed = speed;
+
 	auto* col = AddComponent<BoxCollider>();
 	col->SetName(L"EnemyBullet");
 	col->SetTrigger(true);
@@ -33,7 +34,7 @@ EnemyBullet::EnemyBullet(const Vec2& startPos, const Vec2& targetPos, float spee
 	auto* animator = AddComponent<Animator>();
 	animator->CreateAnimation
 	(
-		L"Idle",
+		L"Bullet",
 		_eTex,
 		{ 0.f,0.f },
 		animSize,
@@ -41,7 +42,7 @@ EnemyBullet::EnemyBullet(const Vec2& startPos, const Vec2& targetPos, float spee
 		1, 1
 	);
 
-	animator->Play(L"Idle");
+	animator->Play(L"Bullet");
     SetPos(startPos);
 
     Vec2 dir;
@@ -71,11 +72,8 @@ void EnemyBullet::Render(HDC hdc)
 
 void EnemyBullet::EnterCollision(Collider* _other)
 {
-	if (_other->GetName() == L"Enemy" || _other->GetName() == L"Wall")
-		return;
-
-	if (_other->GetName() == L"Player")
+	if (_other->GetName() == L"Player") {
+		_other->GetOwner()->SetDead();
 		GET_SINGLE(SceneManager)->RequestDestroy(_other->GetOwner());
-
-	GET_SINGLE(SceneManager)->RequestDestroy(this);
+	}
 }

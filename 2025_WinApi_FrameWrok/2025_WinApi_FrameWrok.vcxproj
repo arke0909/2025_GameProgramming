@@ -24,6 +24,7 @@
     <ProjectGuid>{ffd03143-43f4-4762-ad1e-105bcfc0a7bd}</ProjectGuid>
     <RootNamespace>My2025WinApiFrameWrok</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>2025_WinApi_FrameWrok</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -164,6 +165,7 @@
     <ClInclude Include="Animator.h" />
     <ClInclude Include="ArmorEnemy.h" />
     <ClInclude Include="BaseWindow.h" />
+    <ClInclude Include="BounceBullet.h" />
     <ClInclude Include="BounceEnemy.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="CircleCollider.h" />
@@ -177,8 +179,12 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyArmorMoveState.h" />
     <ClInclude Include="EnemyAttackState.h" />
+    <ClInclude Include="EnemyBoss.h" />
+    <ClInclude Include="EnemyBossAttackState.h" />
+    <ClInclude Include="EnemyBossDeadState.h" />
+    <ClInclude Include="EnemyBossHitState.h" />
+    <ClInclude Include="EnemyBossIdleState.h" />
     <ClInclude Include="EnemyBullet.h" />
-    <ClInclude Include="EnemyIdleState.h" />
     <ClInclude Include="EnemyMoveState.h" />
     <ClInclude Include="EnemyOnlyAttackState.h" />
     <ClInclude Include="EnemySpawnManager.h" />
@@ -196,8 +202,6 @@
     <ClInclude Include="HPImage.h" />
     <ClInclude Include="IAfterInit.h" />
     <ClInclude Include="InputManager.h" />
-    <ClInclude Include="ItemButton.h" />
-    <ClInclude Include="ItemInfo.h" />
     <ClInclude Include="MeleeEnemy.h" />
     <ClInclude Include="NoneMoveEnemy.h" />
     <ClInclude Include="Object.h" />
@@ -212,12 +216,15 @@
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
-    <ClInclude Include="StoreUI.h" />
+    <ClInclude Include="Splash.h" />
+    <ClInclude Include="Stat.h" />
+    <ClInclude Include="StatComponent.h" />
     <ClInclude Include="SubUIManager.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TilteScene.h" />
     <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="TrackingBullet.h" />
     <ClInclude Include="UIButton.h" />
     <ClInclude Include="UIElement.h" />
     <ClInclude Include="UIImage.h" />
@@ -236,6 +243,7 @@
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="ArmorEnemy.cpp" />
     <ClCompile Include="BaseWindow.cpp" />
+    <ClCompile Include="BounceBullet.cpp" />
     <ClCompile Include="BounceEnemy.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CircleCollider.cpp" />
@@ -248,8 +256,12 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyArmorMoveState.cpp" />
     <ClCompile Include="EnemyAttackState.cpp" />
+    <ClCompile Include="EnemyBoss.cpp" />
+    <ClCompile Include="EnemyBossAttackState.cpp" />
+    <ClCompile Include="EnemyBossDeadState.cpp" />
+    <ClCompile Include="EnemyBossHitState.cpp" />
+    <ClCompile Include="EnemyBossIdleState.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
-    <ClCompile Include="EnemyIdleState.cpp" />
     <ClCompile Include="EnemyMoveState.cpp" />
     <ClCompile Include="EnemyOnlyAttackState.cpp" />
     <ClCompile Include="EnemySpawnManager.cpp" />
@@ -262,8 +274,6 @@
     <ClCompile Include="GDISelector.cpp" />
     <ClCompile Include="HPImage.cpp" />
     <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="ItemButton.cpp" />
-    <ClCompile Include="ItemInfo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeleeEnemy.cpp" />
     <ClCompile Include="NoneMoveEnemy.cpp" />
@@ -277,11 +287,13 @@
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
-    <ClCompile Include="StoreUI.cpp" />
+    <ClCompile Include="Stat.cpp" />
+    <ClCompile Include="StatComponent.cpp" />
     <ClCompile Include="SubUIManager.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TilteScene.cpp" />
     <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="TrackingBullet.cpp" />
     <ClCompile Include="UIButton.cpp" />
     <ClCompile Include="UIImage.cpp" />
     <ClCompile Include="UILabel.cpp" />
