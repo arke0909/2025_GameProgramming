@@ -21,6 +21,7 @@ private:
     float _targetRadius = 1.5f;
     float _timer = 0;
     float _duration = 1.5f;
+    float _ease;
     float _damage;
     CircleCollider* _cirCol;
 };

@@ -38,7 +38,9 @@ void StatComponent::Init()
 			{
 				if (_statMap.find(item.name) != _statMap.end())
 				{
-					_statMap[item.name]->AddModifier(L"e", item.value);
+					int currentModifyCount = _statMap.size();
+					wstring str = std::format(L"{0}{1}", item.name, currentModifyCount);
+					_statMap[item.name]->AddModifier(str, item.value);
 				}
 			});
 }
