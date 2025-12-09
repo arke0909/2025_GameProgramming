@@ -23,23 +23,24 @@ public:							 \
 // GDI ÇïÆÛ
 #define RECT_RENDER(hdc, posx, posy, sizex, sizey) Rectangle(hdc, (int)(posx-sizex/2),(int)(posy-sizey/2),(int)(posx+sizex/2),(int)(posy+sizey/2))
 #define ELLIPSE_RENDER(hdc, posx, posy, sizex, sizey) Ellipse(hdc, (int)(posx-sizex/2),(int)(posy-sizey/2),(int)(posx+sizex/2),(int)(posy+sizey/2))
-// Stat ï¿½ï¿½ï¿½ï¿½
-// ï¿½Ö´ï¿½ Ã¼ï¿½ï¿½
-const std::wstring STAT_HP = L"MaxHP";
-// ï¿½ï¿½ï¿½ï¿½ï¿½
-const std::wstring STAT_ATTACK = L"Attack";
-// Åºï¿½ï¿½
-const std::wstring STAT_BULLETSPEED = L"BulletSpeed";
-// ï¿½ï¿½ï¿½ï¿½ ï¿½Óµï¿½
-const std::wstring STAT_ATTACKSPEED = L"AttackSpeed";
-// ï¿½ï¿½ï¿½ï¿½ï¿½ì¸¦ ï¿½Ì´ï¿½ ï¿½ï¿½
-const std::wstring STAT_WALLFORCE = L"WallForce";
-// ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
-const std::wstring STAT_GOLDMULTI = L"GoldMultiplier";
-// ï¿½ï¿½Æ¼ï¿½ï¿½
-const std::wstring STAT_MULTISHOT = L"MultiShot";
-// ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½
-const std::wstring STAT_SPLASH = L"Splash";
-// ÅºÈ¯ ï¿½ï¿½ï¿½ï¿½
-const std::wstring STAT_PENET = L"Penetration";
 #define RECT_MAKE(posx, posy, sizex, sizey) {posx-sizex/2,posy-sizey/2,posx+sizex/2,posy+sizey/2}
+
+// Stat °ü·Ã
+// ÃÖ´ë Ã¼·Â
+const std::wstring STAT_HP = L"MaxHP";
+// ´ë¹ÌÁö
+const std::wstring STAT_ATTACK = L"Attack";
+// Åº¼Ó
+const std::wstring STAT_BULLETSPEED = L"BulletSpeed";
+// °ø°Ý ¼Óµµ
+const std::wstring STAT_ATTACKSPEED = L"AttackSpeed";
+// À©µµ¿ì¸¦ ¹Ì´Â Èû
+const std::wstring STAT_WALLFORCE = L"WallForce";
+// µ· ¹èÀ²
+const std::wstring STAT_GOLDMULTI = L"GoldMultiplier";
+// ¸ÖÆ¼¼¦
+const std::wstring STAT_MULTISHOT = L"MultiShot";
+// ½ºÇÃ·¡½¬
+const std::wstring STAT_SPLASH = L"Splash";
+// ÅºÈ¯ °üÅë
+const std::wstring STAT_PENET = L"Penetration";
