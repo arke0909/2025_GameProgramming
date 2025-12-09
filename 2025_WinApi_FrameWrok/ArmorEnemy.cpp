@@ -10,6 +10,8 @@ ArmorEnemy::ArmorEnemy()
 {
 	_eTex = GET_SINGLE(ResourceManager)
 		->GetTexture(L"CloseEnemy");
+    _hp = 100;
+    _maxHP = 100;
     Vec2 animSize;
     switch (_eTex->GetHeight())
     {
@@ -75,22 +77,5 @@ void ArmorEnemy::Update()
 
 void ArmorEnemy::EnterCollision(Collider* _other)
 {
-    if (_other->GetName() != L"Weapon")
-        return;
-
-    if (_isInvincible)
-        return;
-
-    _hitCount++;
-
-    if (_hitCount >= 2)
-    {
-        GET_SINGLE(EnemySpawnManager)->DeadEnemy(this);
-        return;
-    }
-
-    _isInvincible = true;
-    _invincibleTime = 0.f;
-
-    _stateMachine->ChangeState("MOVE");
+	Enemy::EnterCollision(_other);
 }

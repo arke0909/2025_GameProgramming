@@ -29,14 +29,7 @@ void EnemyTestScene::Init()
 
     player->SetWindow(_inGameWindow);
 
-    WallSet wallSets[4] =
-    {
-        {false,false},
-        {false,true},
-        {true,false},
-        {true,true}
-    };
-
+    WallSet wallSets[4] = { {false,false}, {false,true}, {true,false}, {true,true} };
     for (int i = 0; i < 4; ++i)
     {
         auto* wall = new Wall(_inGameWindow);
@@ -48,10 +41,11 @@ void EnemyTestScene::Init()
     _spawn->Init(player);
 
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::ENEMY);
+    GET_SINGLE(CollisionManager)->CheckLayer(Layer::BULLET, Layer::ENEMY);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::PLAYER);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::WALL);
+    GET_SINGLE(CollisionManager)->CheckLayer(Layer::BULLET, Layer::WALL);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::PLAYER, Layer::DEFAULT);
-    GET_SINGLE(CollisionManager)->CheckLayer(Layer::PLAYER, Layer::ENEMY);
 }
 
 

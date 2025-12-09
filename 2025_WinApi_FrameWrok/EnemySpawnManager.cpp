@@ -3,6 +3,7 @@
 #include "SceneManager.h"
 #include "MeleeEnemy.h"
 #include "RangedEnemy.h"
+#include "EnemyBoss.h"
 #include "ArmorEnemy.h"
 #include "NoneMoveEnemy.h"
 #include "BounceEnemy.h"
@@ -71,10 +72,18 @@ void EnemySpawnManager::TrySpawnWave()
 {
     if (_currentWave == 9)
     {
+
         Vec2 pos;
         if (FindSpawnPosition(pos))
         {
-            //보스 생성이 들어갈 예정임
+            EnemyBoss* e = new EnemyBoss();
+            Vec2 pos;
+
+            e->SetPos({ _mapWidth / 2,_mapHeight  /2});
+            e->SetTarget(_player);
+            e->CreateEnemyWindow();
+            _spawnedEnemies.push_back(e);
+            GET_SINGLE(SceneManager)->GetCurScene()->AddObject(e, Layer::ENEMY);
         }
         return;
     }

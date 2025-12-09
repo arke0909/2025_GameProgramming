@@ -14,9 +14,7 @@
 #include "EnemyBullet.h"
 
 EnemyBoss::EnemyBoss()
-	: _hp(100),
-	_maxHP(100),
-	_currentPhase(0)
+	: _currentPhase(0)
 {
 	_eTex = GET_SINGLE(ResourceManager)
 		->GetTexture(L"Player");
@@ -92,22 +90,22 @@ void EnemyBoss::InitializePhases()
 	phase2.attackInterval = 1.2f;
 	phase2.patterns =
 	{
-		{ PatternType::CIRCLESHOT, 5.0f, 50.0f, 100.0f},
-		{ PatternType::BOUNCESHOT, 2.0f, 50.0f, 100.0f}
+		{ PatternType::CIRCLESHOT, 1.2f, 50.0f, 100.0f},
+		{ PatternType::BOUNCESHOT, 10.0f, 50.0f, 100.0f}
 	};
 
 	PhaseData phase3;
 	phase3.attackInterval = 1.0f;
 	phase3.patterns =
 	{
-		{ PatternType::CIRCLESHOT, 10.0f, 50.0f, 100.0f},
-		{ PatternType::BOUNCESHOT, 2.0f, 25.0f, 100.0f},
+		{ PatternType::CIRCLESHOT, 1.0f, 50.0f, 100.0f},
+		{ PatternType::BOUNCESHOT, 10.0f, 25.0f, 200.0f},
 		{ PatternType::TRACKINGSHOT, 2.0f, 25.0f, 100.0f}
 	};
 
+	_phases.push_back(phase3);
 	_phases.push_back(phase1);
 	_phases.push_back(phase2);
-	_phases.push_back(phase3);
 }
 
 void EnemyBoss::CreateEnemyWindow()
@@ -118,7 +116,7 @@ void EnemyBoss::CreateEnemyWindow()
 		L"Boss",
 		{
 			{ pos.x, pos.y },
-			{ 250, 250 }
+			{ 600, 600 }
 		});
 }
 
@@ -140,26 +138,12 @@ void EnemyBoss::ChangeState(std::string state)
 	_stateMachine->ChangeState(state);
 }
 
-void EnemyBoss::UpdateHP(int value)
-{
-	_hp += value;
-	if (_hp < 0)
-		_hp = 0;
-	if (_hp > _maxHP)
-		_hp = _maxHP;
-}
-
-int EnemyBoss::GetHP()
-{
-	return _hp;
-}
-
 void EnemyBoss::EnterCollision(Collider* _other)
 {
 	if (_other->GetName() == L"Weapon")
 	{
 		UpdateHP(-10);
-
+		cout << "Boss HP: " << GetHP() << endl;
 		if (_hp > 0)
 		{
 			ChangeState("HIT");
@@ -216,7 +200,8 @@ void EnemyBoss::ExecuteCircleShot(const PatternData& pattern)
 
 	for (int i = 0; i < bulletCount; ++i)
 	{
-		float angle = (360.0f / bulletCount) * i;
+		float angle = rand() % 360 + 1;
+		//float angle = (360.0f / bulletCount) * i;
 		float radian = angle * (PI / 180.0f);
 
 		float dirX = cosf(radian);
@@ -242,7 +227,8 @@ void EnemyBoss::ExecuteLinearShot(const PatternData& pattern)
 void EnemyBoss::ExecuteBounceShot(const PatternData& pattern)
 {
 	Vec2 playerPos = _player->GetPos();
-	Vec2 _pos = this->GetPos();
+	int posX = rand() % 500 - 250;
+	Vec2 _pos = { playerPos.x + posX, playerPos.y - 200 };
 	BounceBullet* bullet = new BounceBullet(_pos, playerPos, pattern.speed);
 	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(bullet, Layer::PROJECTILE);
 }

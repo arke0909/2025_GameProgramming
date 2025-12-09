@@ -11,6 +11,8 @@ BounceEnemy::BounceEnemy()
     _eTex = GET_SINGLE(ResourceManager)
         ->GetTexture(L"CloseEnemy");
 
+	_hp = 20;
+	_maxHP = 20;
     Vec2 animSize;
     switch (_eTex->GetHeight())
     {
@@ -51,25 +53,5 @@ BounceEnemy::~BounceEnemy()
 
 void BounceEnemy::EnterCollision(Collider* _other)
 {
-    if (_other->GetName() == L"Weapon")
-    {
-        if (_player == nullptr)
-            return;
-
-        Rigidbody* rigidbody = _other->GetOwner()->GetComponent<Rigidbody>();
-        if (rigidbody == nullptr)
-            return;
-
-        Vec2 playerPos = _player->GetPos();
-        Vec2 weaponPos = _other->GetOwner()->GetPos();
-
-        Vec2 direction = playerPos - weaponPos;
-        direction.Normalize();
-
-        Vec2 newVelocity = direction * 500.0f;
-
-        rigidbody->SetVelocity(newVelocity);
-
-        GET_SINGLE(EnemySpawnManager)->DeadEnemy(this);
-    }
+    Enemy::EnterCollision(_other);
 }

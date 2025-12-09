@@ -3,6 +3,7 @@
 #include <cmath> 
 #include "BoxCollider.h"
 #include "SceneManager.h"
+#include "EnemySpawnManager.h"
 #include "ResourceManager.h"
 #include "EnemyMoveState.h"
 #include "Player.h"
@@ -20,11 +21,6 @@ Enemy::Enemy()
 Enemy::~Enemy()
 {
     delete _stateMachine;
-}
-
-void Enemy::SetTarget(Player* player)
-{
-    _player = player;
 }
 
 void Enemy::Update()
@@ -46,6 +42,14 @@ void Enemy::EnterCollision(Collider* _other)
 		_other->GetOwner()->SetDead();
         GET_SINGLE(SceneManager)->RequestDestroy(_other->GetOwner());
         GET_SINGLE(SceneManager)->RequestDestroy(this);
+    }
+
+    if (_other->GetName() == L"PlayerBullet") 
+    {
+        UpdateHP(-10);
+        if (GetHP() <= 0) {
+            GET_SINGLE(EnemySpawnManager)->DeadEnemy(this);
+        }
     }
 }
 

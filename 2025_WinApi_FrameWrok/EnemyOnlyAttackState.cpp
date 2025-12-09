@@ -12,7 +12,7 @@ void EnemyOnlyAttackState::Enter()
 void EnemyOnlyAttackState::Update()
 {
     Vec2 enemyPos = _enemy->GetPos();
-    Vec2 targetPos = _enemy->_player->GetPos();
+    Vec2 targetPos = _enemy->GetTarget()->GetPos();
 
     float dx = targetPos.x - enemyPos.x;
     float dy = targetPos.y - enemyPos.y;
@@ -29,7 +29,7 @@ void EnemyOnlyAttackState::Update()
 
 void EnemyOnlyAttackState::Attack()
 {
-    Vec2 playerPos = _enemy->_player->GetPos();
+    Vec2 playerPos = _enemy->GetTarget()->GetPos();
     Vec2 _pos = _enemy->GetPos();
     EnemyBullet* bullet = new EnemyBullet(_pos, playerPos,200.0f);
     GET_SINGLE(SceneManager)->GetCurScene()->AddObject(bullet, Layer::PROJECTILE);

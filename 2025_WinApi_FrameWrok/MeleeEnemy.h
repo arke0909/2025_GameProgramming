@@ -10,6 +10,6 @@ public:
 private:
     float _attackRange;
 
-    void Update() override {};
-    void Render(HDC hdc) override {};
+    void Update() override { Enemy::Update(); };
+    void Render(HDC hdc) override { Enemy::Render(hdc); };
 };

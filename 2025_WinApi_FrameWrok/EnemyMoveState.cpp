@@ -12,7 +12,7 @@ EnemyMoveState::EnemyMoveState(Enemy* owner, std::wstring animetionName)
 
 void EnemyMoveState::Update()
 {
-    if (_enemy->_player == nullptr || _enemy == nullptr)
+    if (_enemy->GetTarget() == nullptr || _enemy == nullptr)
         return;
 
     if (IsInAttackRange())
@@ -26,11 +26,11 @@ void EnemyMoveState::Update()
 
 void EnemyMoveState::MoveToTarget()
 {
-    if (_enemy->_player == nullptr) // Enemy 실제 target 사용
+    if (_enemy->GetTarget() == nullptr) // Enemy 실제 target 사용
         return;
 
     Vec2 currentPos = _enemy->GetPos();
-    Vec2 targetPos = _enemy->_player->GetPos();
+    Vec2 targetPos = _enemy->GetTarget()->GetPos();
 
     float dx = targetPos.x - currentPos.x;
     float dy = targetPos.y - currentPos.y;
@@ -46,10 +46,10 @@ void EnemyMoveState::MoveToTarget()
 
 bool EnemyMoveState::IsInAttackRange()
 {
-    if (_enemy->_player == nullptr)
+    if (_enemy->GetTarget() == nullptr)
         return false;
 
-    Vec2 target = _enemy->_player->GetPos();
+    Vec2 target = _enemy->GetTarget()->GetPos();
 	Vec2 _pos = _enemy->GetPos();
     float dx = target.x - _pos.x;
     float dy = target.y - _pos.y;
