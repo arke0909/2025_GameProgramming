@@ -41,7 +41,7 @@ void GameScene::Init()
     _storeWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>
     (L"Store", { {SCREEN_WIDTH - 300,SCREEN_HEIGHT / 2 + 150},{500,300} });
 
-    GameEvents::OnItemPurchased.Subscribe([](const ItemType& item) 
+    GameEvents::OnItemPurchased.Subscribe([](const ItemInfo& item) 
         {
             MessageBox(nullptr, L"구매 완료!", L"구매", MB_OK);
         });

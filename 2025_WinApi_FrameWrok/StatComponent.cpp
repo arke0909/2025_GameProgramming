@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "StatComponent.h"
 #include "Stat.h"
+#include "GameEvent.h"
 
 StatComponent::StatComponent()
 {
@@ -32,6 +33,14 @@ float StatComponent::GetValue(wstring key)
 
 void StatComponent::Init()
 {
+	GameEvents::OnItemPurchased
+		.Subscribe([this](const ItemInfo& item)
+			{
+				if (_statMap.find(item.name) != _statMap.end())
+				{
+					_statMap[item.name]->AddModifier(L"e", item.value);
+				}
+			});
 }
 
 void StatComponent::LateUpdate()
