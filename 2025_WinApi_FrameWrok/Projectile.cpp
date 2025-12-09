@@ -6,11 +6,10 @@
 #include "Rigidbody.h"
 #include "Splash.h"
 
-Projectile::Projectile(int level, int splashLvl, float speed) : _angle(0.f), _dir(1.f, 1.f)
+Projectile::Projectile(int level, int splashLvl) : _angle(0.f), _dir(1.f, 1.f)
 {
 	_damage *= level; 
 	_splashLvl = splashLvl;
-	_moveSpeed = speed;
 	_projecTex = GET_SINGLE(ResourceManager)->GetTexture(L"Player");
 	_rigidbody = AddComponent<Rigidbody>();
 	_rigidbody->SetUseGravity(false);

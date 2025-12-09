@@ -9,7 +9,7 @@ class Projectile :
     public Object
 {
 public:
-    Projectile(int level, int splashLvl, float speed);
+    Projectile(int level, int splashLvl);
     ~Projectile();
 public:
     // Object을(를) 통해 상속됨
@@ -34,7 +34,7 @@ private:
     void CreateSplash();
 private:
     float _angle;
-    float _moveSpeed;
+    float _moveSpeed = 800;
     float _wallForce;
     float _damage = 2.f;
     int _splashLvl;

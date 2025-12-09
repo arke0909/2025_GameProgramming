@@ -28,7 +28,7 @@ Player::Player()
 		"_statCompo is NOT StatComponent* !!");
 
 	_statCompo->AddStat(STAT_HP, 5);
-	_statCompo->AddStat(STAT_BULLETSPEED, 400);
+	_statCompo->AddStat(STAT_SPEED, 250);
 	_statCompo->AddStat(STAT_ATTACK, 1);
 	_statCompo->AddStat(STAT_ATTACKSPEED, 1.5f);
 	_statCompo->AddStat(STAT_WALLFORCE, 20);
@@ -72,7 +72,8 @@ void Player::Update()
 		velocity.x += 1;
 
 	velocity.Normalize();
-	_rigidbody->SetVelocity(velocity * _moveSpeed);
+	float moveSpeed = _statCompo->GetValue(STAT_SPEED);
+	_rigidbody->SetVelocity(velocity * moveSpeed);
 
 	float left = _pos.x - _circleColRadius;
 	float right = _pos.x + _circleColRadius;
@@ -158,7 +159,6 @@ void Player::ShotProjectile()
 	Vec2 mousePos = GET_SINGLE(InputManager)->GetMousePos();
 	Vec2 dir = mousePos - _pos;
 
-	float bulletSpeed = _statCompo->GetValue(STAT_BULLETSPEED);
 	int splashLvl = _statCompo->GetValue(STAT_SPLASH);
 	int damageLvl = _statCompo->GetValue(STAT_ATTACK);
 	int bulletCnt = (int)_statCompo->GetValue(STAT_MULTISHOT);
@@ -173,8 +173,7 @@ void Player::ShotProjectile()
 	{
 		Projectile* proj = new Projectile
 		(damageLvl,
-		 splashLvl,
-		 bulletSpeed);
+		 splashLvl);
 
 		float angle = baseAngle + start + term * i;
 		float x = cos(angle);

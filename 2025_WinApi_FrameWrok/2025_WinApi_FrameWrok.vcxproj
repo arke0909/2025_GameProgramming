@@ -202,6 +202,7 @@
     <ClInclude Include="HPImage.h" />
     <ClInclude Include="IAfterInit.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="ItemButton.h" />
     <ClInclude Include="MeleeEnemy.h" />
     <ClInclude Include="NoneMoveEnemy.h" />
     <ClInclude Include="Object.h" />
@@ -274,6 +275,7 @@
     <ClCompile Include="GDISelector.cpp" />
     <ClCompile Include="HPImage.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="ItemButton.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeleeEnemy.cpp" />
     <ClCompile Include="NoneMoveEnemy.cpp" />

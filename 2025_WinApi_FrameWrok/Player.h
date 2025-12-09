@@ -37,7 +37,6 @@ private:
     Texture* _pTex;
     Weapon* _weapon;
     float _bulletTermAngle = 15.f;
-    float _moveSpeed = 250;
     float _weaponCreateRadius = 150;
     float _lastFireTime = 0.f;
     float _circleColRadius;
