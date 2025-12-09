@@ -15,6 +15,7 @@
 #include "ResourceManager.h"
 #include "GameWindow.h"
 #include "StoreUI.h"
+#include "GameEvent.h"
 
 void GameScene::Init()
 {
@@ -38,6 +39,11 @@ void GameScene::Init()
 
     _storeWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>
     (L"Store", { {SCREEN_WIDTH - 300,SCREEN_HEIGHT / 2 + 150},{500,300} });
+
+    GameEvents::OnItemPurchased.Subscribe([](const ItemType& item) {
+        wprintf(L"아이템 구매됨");
+        // 여기서 능력치 증가, 효과 발동 등 처리
+        });
 
     SubUIManager* inGameUI = _inGameWindow->GetUI();
     SubUIManager* infoUI = _informationWindow->GetUI();
