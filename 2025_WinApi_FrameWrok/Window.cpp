@@ -3,6 +3,8 @@
 #include "WindowManager.h"
 #include "EasingManager.h"
 #include "Core.h"
+#include "Resource.h"
+
 
 Window::Window(LPCWSTR windowName, const WindowSet& windowSet)
 {
@@ -13,7 +15,6 @@ Window::Window(LPCWSTR windowName, const WindowSet& windowSet)
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
 	wcex.hInstance = GET_SINGLE(Core)->GetInstance();
-	//wcex.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 	wcex.lpszMenuName = nullptr;
 	wcex.lpszClassName = L"Window";
 
