@@ -16,6 +16,7 @@ EnemyBossDeadState::~EnemyBossDeadState()
 
 void EnemyBossDeadState::Enter()
 {
+    EntityState::Enter();
     _currentTime = 0.0f;
 
    //사망시 효과가 들어갈 예정
@@ -23,6 +24,7 @@ void EnemyBossDeadState::Enter()
 
 void EnemyBossDeadState::Update()
 {
+    EntityState::Update();
     _currentTime += fDT;
 
     if (_currentTime >= _deathTime)
@@ -33,5 +35,5 @@ void EnemyBossDeadState::Update()
 
 void EnemyBossDeadState::Exit()
 {
-    
+    EntityState::Exit();
 }

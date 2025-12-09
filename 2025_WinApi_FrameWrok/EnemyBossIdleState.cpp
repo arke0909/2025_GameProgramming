@@ -15,12 +15,14 @@ EnemyBossIdleState::~EnemyBossIdleState()
 
 void EnemyBossIdleState::Enter()
 {
+	EntityState::Enter();
 	_currentTime = 0.0f;
 	_maxTime = 2.0f;
 }
 
 void EnemyBossIdleState::Update()
 {
+	EntityState::Update();
 	_currentTime += fDT;
 
 	if (_currentTime >= _maxTime)
@@ -31,5 +33,6 @@ void EnemyBossIdleState::Update()
 
 void EnemyBossIdleState::Exit()
 {
+	EntityState::Exit();
 	_currentTime = 0.0f;
 }
