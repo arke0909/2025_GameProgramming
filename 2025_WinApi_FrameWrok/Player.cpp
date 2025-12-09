@@ -158,6 +158,8 @@ void Player::ShotProjectile()
 	Vec2 dir = mousePos - _pos;
 
 	float bulletSpeed = _statCompo->GetValue(STAT_BULLETSPEED);
+	int splashLvl = _statCompo->GetValue(STAT_SPLASH);
+	int damageLvl = _statCompo->GetValue(STAT_ATTACK);
 	int bulletCnt = (int)_statCompo->GetValue(STAT_MULTISHOT);
 
 	float baseAngle = atan2(dir.y, dir.x);
@@ -168,7 +170,10 @@ void Player::ShotProjectile()
 
 	for (int i = 0; i < bulletCnt; ++i)
 	{
-		Projectile* proj = new Projectile(bulletSpeed);
+		Projectile* proj = new Projectile
+		(damageLvl,
+		 splashLvl,
+		 bulletSpeed);
 
 		float angle = baseAngle + start + term * i;
 		float x = cos(angle);
@@ -177,7 +182,6 @@ void Player::ShotProjectile()
 		proj->Init(_pos, { x, y });
 		proj->SetWallForce(_statCompo->GetValue(STAT_WALLFORCE));
 		proj->SetPenetration(_statCompo->GetValue(STAT_PENET));
-		proj->SetOwner(this);
 
 		GET_SINGLE(SceneManager)->GetCurScene()
 			->AddObject(proj, Layer::BULLET);
