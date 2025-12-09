@@ -3,6 +3,7 @@
 #include "GameWindow.h"
 #include "BoxCollider.h"
 #include "Rigidbody.h"
+#include "Projectile.h"
 
 Wall::Wall(GameWindow* inGameWindow)
 {
@@ -48,7 +49,7 @@ void Wall::Update()
 
 void Wall::Render(HDC hdc)
 {
-	ComponentRender(hdc);
+	//ComponentRender(hdc);
 }
 
 void Wall::EnterCollision(Collider* _other)
@@ -57,18 +58,20 @@ void Wall::EnterCollision(Collider* _other)
 	
 	if (rigidbody)
 	{
+		auto* proj = dynamic_cast<Projectile*>(_other->GetOwner());
+		float wallForce = proj->GetWallForce();
 		Vec2 velocity = rigidbody->GetVelocity();
 		velocity.Normalize();
 
-		Vec2 addPos = velocity * 20.f;
+		Vec2 addPos = velocity * wallForce;
 
 		if (!_wallSet.isStart)
 			addPos *= 2;
 
 		_inGameWindow->
 			WindowMoveAndChangeSize(addPos
-				, {::abs(velocity.x * 20.f),
-				::abs(velocity.y * 20.f)
+				, {::abs(velocity.x * wallForce),
+				::abs(velocity.y * wallForce)
 				});
 	}
 }

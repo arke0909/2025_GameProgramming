@@ -73,6 +73,9 @@
     <Filter Include="Engine\11.FSM\Enemy">
       <UniqueIdentifier>{5fd1f775-b3f1-43e8-8661-0eabf6ef2882}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\07.UI\InGame">
+      <UniqueIdentifier>{daf02ccd-4079-42b4-b0c1-584609553807}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2025_WinApi_FrameWrok.h">
@@ -198,9 +201,6 @@
     <ClInclude Include="RangedEnemy.h">
       <Filter>Engine\03.Object\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="UISlider.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Window.h">
       <Filter>Engine\09.Windows</Filter>
     </ClInclude>
@@ -213,40 +213,7 @@
     <ClInclude Include="EasingManager.h">
       <Filter>Engine\02.Manager</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyArmorMoveState.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyAttackState.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyIdleState.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyMoveState.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyState.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityState.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityStateMachine.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="GameScene.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="SubUIManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="TilteScene.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="GameWindow.h">
@@ -294,23 +261,77 @@
     <ClInclude Include="EnemyTestScene.h">
       <Filter>Engine\04.Scene</Filter>
     </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>Engine\04.Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="TilteScene.h">
+      <Filter>Engine\04.Scene</Filter>
+    </ClInclude>
     <ClInclude Include="WaveLabel.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Engine\07.UI\InGame</Filter>
     </ClInclude>
     <ClInclude Include="HPImage.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Engine\07.UI\InGame</Filter>
     </ClInclude>
     <ClInclude Include="CoinLabel.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Engine\07.UI\InGame</Filter>
     </ClInclude>
-    <ClInclude Include="StoreUI.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="Splash.h">
+      <Filter>Engine\03.Object</Filter>
     </ClInclude>
-    <ClInclude Include="ItemButton.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="StatComponent.h">
+      <Filter>Engine\06.Component</Filter>
     </ClInclude>
-    <ClInclude Include="ItemInfo.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="Stat.h">
+      <Filter>Engine\06.Component</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Engine\02.Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="UISlider.h">
+      <Filter>Engine\07.UI</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityState.h">
+      <Filter>Engine\11.FSM\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityStateMachine.h">
+      <Filter>Engine\11.FSM\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Engine\11.FSM\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyState.h">
+      <Filter>Engine\11.FSM\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyArmorMoveState.h">
+      <Filter>Engine\11.FSM\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAttackState.h">
+      <Filter>Engine\11.FSM\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBoss.h">
+      <Filter>Engine\11.FSM\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBossAttackState.h">
+      <Filter>Engine\11.FSM\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBossDeadState.h">
+      <Filter>Engine\11.FSM\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBossHitState.h">
+      <Filter>Engine\11.FSM\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBossIdleState.h">
+      <Filter>Engine\11.FSM\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyMoveState.h">
+      <Filter>Engine\11.FSM\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="BounceBullet.h">
+      <Filter>Engine\03.Object\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="TrackingBullet.h">
+      <Filter>Engine\03.Object\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -327,9 +348,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Engine</Filter>
-    </ClCompile>
     <ClCompile Include="Core.cpp">
       <Filter>Engine\01.Core</Filter>
     </ClCompile>
@@ -426,9 +444,6 @@
     <ClCompile Include="RangedEnemy.cpp">
       <Filter>Engine\03.Object\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="UISlider.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Engine\09.Windows</Filter>
     </ClCompile>
@@ -438,34 +453,7 @@
     <ClCompile Include="EasingManager.cpp">
       <Filter>Engine\02.Manager</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyArmorMoveState.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyAttackState.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyIdleState.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyMoveState.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyState.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityState.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="GameScene.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="SubUIManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="TilteScene.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="GameWindow.cpp">
@@ -507,23 +495,74 @@
     <ClCompile Include="EnemyTestScene.cpp">
       <Filter>Engine\04.Scene</Filter>
     </ClCompile>
+    <ClCompile Include="TilteScene.cpp">
+      <Filter>Engine\04.Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>Engine\04.Scene</Filter>
+    </ClCompile>
     <ClCompile Include="WaveLabel.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Engine\07.UI\InGame</Filter>
     </ClCompile>
     <ClCompile Include="HPImage.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Engine\07.UI\InGame</Filter>
     </ClCompile>
     <ClCompile Include="CoinLabel.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Engine\07.UI\InGame</Filter>
     </ClCompile>
-    <ClCompile Include="StoreUI.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="Splash.cpp">
+      <Filter>Engine\03.Object</Filter>
     </ClCompile>
-    <ClCompile Include="ItemButton.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="Stat.cpp">
+      <Filter>Engine\06.Component</Filter>
     </ClCompile>
-    <ClCompile Include="ItemInfo.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="StatComponent.cpp">
+      <Filter>Engine\06.Component</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Engine\02.Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="UISlider.cpp">
+      <Filter>Engine\07.UI</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityState.cpp">
+      <Filter>Engine\11.FSM\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyState.cpp">
+      <Filter>Engine\11.FSM\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyArmorMoveState.cpp">
+      <Filter>Engine\11.FSM\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAttackState.cpp">
+      <Filter>Engine\11.FSM\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBoss.cpp">
+      <Filter>Engine\11.FSM\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBossAttackState.cpp">
+      <Filter>Engine\11.FSM\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBossDeadState.cpp">
+      <Filter>Engine\11.FSM\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBossHitState.cpp">
+      <Filter>Engine\11.FSM\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBossIdleState.cpp">
+      <Filter>Engine\11.FSM\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyMoveState.cpp">
+      <Filter>Engine\11.FSM\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="TrackingBullet.cpp">
+      <Filter>Engine\03.Object\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="BounceBullet.cpp">
+      <Filter>Engine\03.Object\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Engine\01.Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

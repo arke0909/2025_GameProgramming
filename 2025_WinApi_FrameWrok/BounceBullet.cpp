@@ -10,7 +10,7 @@ BounceBullet::BounceBullet(const Vec2& startPos, const Vec2& targetPos, float sp
 	_bounceCount(0),
 	_maxBounces(3)
 {
-
+	_rigidbody = AddComponent<Rigidbody>();
 }
 
 BounceBullet::~BounceBullet()
@@ -20,11 +20,7 @@ BounceBullet::~BounceBullet()
 
 void BounceBullet::EnterCollision(Collider* _other)
 {
-	if (_other->GetName() == L"Player")
-	{
-		_other->GetOwner()->SetDead();
-		GET_SINGLE(SceneManager)->RequestDestroy(_other->GetOwner());
-	}
+	EnemyBullet::EnterCollision(_other);
 
 	if (_other->GetName() == L"Wall")
 	{

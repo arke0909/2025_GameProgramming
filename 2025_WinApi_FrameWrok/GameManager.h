@@ -6,6 +6,5 @@ public:
 	int currentWavwe = 1;
 	int playerHealth = 5;
 	int coin = 0;
-	HWND storeWindowHandle;
 };
 

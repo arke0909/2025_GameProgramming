@@ -10,6 +10,7 @@
 #include "ResourceManager.h"
 #include "SceneManager.h"
 
+
 Player::Player()
 {
 	_pTex = GET_SINGLE(ResourceManager)
@@ -21,6 +22,21 @@ Player::Player()
 	col->SetRadius(19.f);
 	col->SetName(L"Player");
 	_circleColRadius = col->GetRadius();
+
+	_statCompo = AddComponent<StatComponent>();
+	static_assert(std::is_same_v<decltype(_statCompo), StatComponent*>,
+		"_statCompo is NOT StatComponent* !!");
+
+	_statCompo->AddStat(STAT_HP, 5);
+	_statCompo->AddStat(STAT_BULLETSPEED, 400);
+	_statCompo->AddStat(STAT_ATTACK, 1);
+	_statCompo->AddStat(STAT_ATTACKSPEED, 1.5f);
+	_statCompo->AddStat(STAT_WALLFORCE, 20);
+	_statCompo->AddStat(STAT_GOLDMULTI, 1);
+	_statCompo->AddStat(STAT_MULTISHOT, 1);
+	_statCompo->AddStat(STAT_SPLASH, 0);
+	_statCompo->AddStat(STAT_PENET, 1);
+
 
 	Vec2 animSize = { (float)_pTex->GetWidth() , (float)_pTex->GetHeight() };
 
@@ -131,25 +147,51 @@ Weapon* Player::CreateWeapon()
 
 void Player::ShotProjectile()
 {
-	// 현재 시간
 	float time = GET_SINGLE(TimeManager)->GetTime();
 	float currentLapse = time - _lastFireTime;
 
-	if (currentLapse < _fireInterval)
+	if (currentLapse < _statCompo->GetValue(STAT_ATTACKSPEED))
 		return;
 
 	_lastFireTime = time;
-	Projectile* proj = new Projectile;
+
 	Vec2 mousePos = GET_SINGLE(InputManager)->GetMousePos();
 	Vec2 dir = mousePos - _pos;
-	proj->Init(_pos, dir);
 
-	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(proj,Layer::BULLET);
+	float bulletSpeed = _statCompo->GetValue(STAT_BULLETSPEED);
+	int splashLvl = _statCompo->GetValue(STAT_SPLASH);
+	int damageLvl = _statCompo->GetValue(STAT_ATTACK);
+	int bulletCnt = (int)_statCompo->GetValue(STAT_MULTISHOT);
+
+	float baseAngle = atan2(dir.y, dir.x);
+
+	float term = _bulletTermAngle * PI / 180.f;
+
+	float start = -(bulletCnt - 1) * term * 0.5f;
+
+	for (int i = 0; i < bulletCnt; ++i)
+	{
+		Projectile* proj = new Projectile
+		(damageLvl,
+		 splashLvl,
+		 bulletSpeed);
+
+		float angle = baseAngle + start + term * i;
+		float x = cos(angle);
+		float y = sin(angle);
+
+		proj->Init(_pos, { x, y });
+		proj->SetWallForce(_statCompo->GetValue(STAT_WALLFORCE));
+		proj->SetPenetration(_statCompo->GetValue(STAT_PENET));
+
+		GET_SINGLE(SceneManager)->GetCurScene()
+			->AddObject(proj, Layer::BULLET);
+	}
 }
 
 void Player::AfterInit()
 {
 	//_weapon = CreateWeapon();
 
-	_lastFireTime = -_fireInterval;
+	_lastFireTime = -_statCompo->GetValue(STAT_ATTACKSPEED);
 }

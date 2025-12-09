@@ -11,4 +11,3 @@ public:
 	Texture* _eTex;
 
 };
-

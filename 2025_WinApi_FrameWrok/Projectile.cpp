@@ -4,9 +4,13 @@
 #include "CircleCollider.h"
 #include "Animator.h"
 #include "Rigidbody.h"
+#include "Splash.h"
 
-Projectile::Projectile() : _angle(0.f), _dir(1.f, 1.f)
+Projectile::Projectile(int level, int splashLvl, float speed) : _angle(0.f), _dir(1.f, 1.f)
 {
+	_damage *= level; 
+	_splashLvl = splashLvl;
+	_moveSpeed = speed;
 	_projecTex = GET_SINGLE(ResourceManager)->GetTexture(L"Player");
 	_rigidbody = AddComponent<Rigidbody>();
 	_rigidbody->SetUseGravity(false);
@@ -59,7 +63,18 @@ void Projectile::Render(HDC hdc)
 
 void Projectile::EnterCollision(Collider* _other)
 {
-	SetDead();
+	if (_other->GetName() == L"Enemy")
+	{
+		_penetration--;
+
+		if (_splashLvl > 0)
+			CreateSplash();
+
+		if(_penetration == 0)
+			SetDead();
+	}
+	if(_other->GetName() == L"Wall")
+		SetDead();
 }
 
 void Projectile::StayCollision(Collider* _other)
@@ -75,4 +90,9 @@ void Projectile::Init(Vec2 pos, Vec2 dir)
 	SetPos(pos);
 	SetDir(dir);
 	_rigidbody->SetVelocity(_dir * _moveSpeed);
+}
+
+void Projectile::CreateSplash()
+{
+	Splash* splash = new Splash(_splashLvl);
 }
