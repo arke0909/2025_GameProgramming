@@ -31,6 +31,9 @@ public:
 	{
 		return _windowSize;
 	}
+	void SetVisible(bool visible);   
+	bool IsVisible() const;            
+
 	SubUIManager* GetUI() { return &_uiManager; }
 
 protected:
