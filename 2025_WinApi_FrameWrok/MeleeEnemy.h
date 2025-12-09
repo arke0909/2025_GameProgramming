@@ -9,7 +9,4 @@ public:
 	void EnterCollision(Collider* _other) override;
 private:
     float _attackRange;
-
-    void Update() override {};
-    void Render(HDC hdc) override {};
 };

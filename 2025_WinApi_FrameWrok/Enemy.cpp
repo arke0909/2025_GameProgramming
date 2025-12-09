@@ -8,7 +8,7 @@
 #include "Player.h"
 
 Enemy::Enemy()
-    : _player(nullptr),
+    : _target(nullptr),
     _speed(100.f),
     _stateMachine(nullptr)
 {
@@ -24,7 +24,7 @@ Enemy::~Enemy()
 
 void Enemy::SetTarget(Player* player)
 {
-    _player = player;
+    _target = player;
 }
 
 void Enemy::Update()

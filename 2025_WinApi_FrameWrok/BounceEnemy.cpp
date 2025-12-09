@@ -53,14 +53,14 @@ void BounceEnemy::EnterCollision(Collider* _other)
 {
     if (_other->GetName() == L"Weapon")
     {
-        if (_player == nullptr)
+        if (_target == nullptr)
             return;
 
         Rigidbody* rigidbody = _other->GetOwner()->GetComponent<Rigidbody>();
         if (rigidbody == nullptr)
             return;
 
-        Vec2 playerPos = _player->GetPos();
+        Vec2 playerPos = _target->GetPos();
         Vec2 weaponPos = _other->GetOwner()->GetPos();
 
         Vec2 direction = playerPos - weaponPos;
