@@ -29,6 +29,7 @@ Player::Player()
 
 	_statCompo->AddStat(STAT_HP, 5);
 	_statCompo->AddStat(STAT_BULLETSPEED, 400);
+	_statCompo->AddStat(STAT_ATTACK, 1);
 	_statCompo->AddStat(STAT_ATTACKSPEED, 1.5f);
 	_statCompo->AddStat(STAT_WALLFORCE, 20);
 	_statCompo->AddStat(STAT_GOLDMULTI, 1);
