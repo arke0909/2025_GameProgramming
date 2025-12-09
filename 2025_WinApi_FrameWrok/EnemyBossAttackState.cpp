@@ -12,12 +12,15 @@ EnemyBossAttackState::EnemyBossAttackState(EnemyBoss* owner, std::wstring animet
 
 void EnemyBossAttackState::Enter()
 {
+	EntityState::Enter();
 	_attackTimer = 0.0f;
 	SelectNextPattern();
 }
 
 void EnemyBossAttackState::Update()
 {
+	EntityState::Update();
+
 	PhaseData currentPhase = _owner->GetCurrentPhaseData();
 
 	_attackTimer += fDT;
@@ -32,6 +35,8 @@ void EnemyBossAttackState::Update()
 
 void EnemyBossAttackState::Exit()
 {
+	EntityState::Exit();
+
 	_attackTimer = 0.0f;
 }
 

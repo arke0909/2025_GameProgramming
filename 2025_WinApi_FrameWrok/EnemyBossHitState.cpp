@@ -15,12 +15,14 @@ EnemyBossHitState::~EnemyBossHitState()
 
 void EnemyBossHitState::Enter()
 {
+    EntityState::Enter();
     _currentTime = 0.0f;
 
 }
 
 void EnemyBossHitState::Update()
 {
+    EntityState::Update();
     _currentTime += fDT;
 
     if (_currentTime >= _hitStunTime)
@@ -38,5 +40,6 @@ void EnemyBossHitState::Update()
 
 void EnemyBossHitState::Exit()
 {
+    EntityState::Exit();
     _currentTime = 0.0f;
 }

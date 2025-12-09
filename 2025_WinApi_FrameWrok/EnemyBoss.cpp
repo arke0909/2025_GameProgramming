@@ -17,7 +17,7 @@ EnemyBoss::EnemyBoss()
 	: _currentPhase(0)
 {
 	_eTex = GET_SINGLE(ResourceManager)
-		->GetTexture(L"Player");
+		->GetTexture(L"CloseEnemy");
 
 	Vec2 animSize;
 	switch (_eTex->GetHeight())
@@ -103,8 +103,8 @@ void EnemyBoss::InitializePhases()
 		{ PatternType::TRACKINGSHOT, 2.0f, 25.0f, 100.0f}
 	};
 
-	_phases.push_back(phase3);
 	_phases.push_back(phase1);
+	_phases.push_back(phase3);
 	_phases.push_back(phase2);
 }
 
@@ -129,8 +129,7 @@ void EnemyBoss::Update()
 
 void EnemyBoss::Render(HDC hdc)
 {
-	Entity::Render(hdc);
-	ComponentRender(hdc);
+	Enemy::Render(hdc);
 }
 
 void EnemyBoss::ChangeState(std::string state)
