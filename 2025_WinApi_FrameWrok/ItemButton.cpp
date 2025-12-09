@@ -16,7 +16,7 @@ ItemButton::ItemButton(const ItemInfo& info, const Vec2& pos, const Vec2& size)
     _background = new UIImage(tex, pos, size);
 
     _nameLabel = new UILabel(
-        _info.name,
+        _info.displayName,
         Vec2(pos.x, pos.y - 60),
         Vec2(size.x, 30.0f),
         FontType::UI
