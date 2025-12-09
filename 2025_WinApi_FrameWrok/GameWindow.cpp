@@ -38,16 +38,16 @@ void GameWindow::Update()
         _timer += dt;
         _isChangeing = _timer <= _duration;
 
-        if (!_isChangeing)
-        {
-            _restoreTimer = 0;
-            _isRestoring = false;
-        }
+        //if (!_isChangeing)
+        //{
+        //    _restoreTimer = 0;
+        //    _isRestoring = false;
+        //}
 
-        return;
+        //return;
     }
 
-    if (!_isRestoring)
+ /*   if (!_isRestoring)
     {
         _restoreTimer += dt;
 
@@ -57,7 +57,7 @@ void GameWindow::Update()
         }
 
         return;
-    }
+    }*/
 
     if (_windowSize.x > _originSize.x ||
         _windowSize.y > _originSize.y)

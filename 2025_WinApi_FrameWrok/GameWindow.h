@@ -17,7 +17,7 @@ private:
 	float _duration = 2.f;
 	float _timer = 0.f;
 	bool  _isRestoring = false;
-	float _restoreDelay = 1.5f;
+	float _restoreDelay = 1.f;
 	float _restoreTimer = 0.f;
 };
 

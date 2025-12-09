@@ -30,8 +30,8 @@ public:							 \
 const std::wstring STAT_HP = L"MaxHP";
 // 대미지
 const std::wstring STAT_ATTACK = L"Attack";
-// 탄속
-const std::wstring STAT_BULLETSPEED = L"BulletSpeed";
+// 이속
+const std::wstring STAT_SPEED = L"MoveSpeed";
 // 공격 속도
 const std::wstring STAT_ATTACKSPEED = L"AttackSpeed";
 // 윈도우를 미는 힘
