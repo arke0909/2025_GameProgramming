@@ -18,8 +18,6 @@ public:
     void Render(HDC hdc) override;
 
     void ChangeState(std::string state);
-    void UpdateHP(int value);
-    int GetHP();
     void EnterCollision(Collider* _other);
 
     int GetCurrentPhase() const { return _currentPhase; } // 현재 페이지
@@ -39,8 +37,6 @@ private:
     void TransitionToPhase(int phase);
     Window* _window;
 
-    int _hp;
-    int _maxHP;
     int _currentPhase;
 
     std::vector<PhaseData> _phases;

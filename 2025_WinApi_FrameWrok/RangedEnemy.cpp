@@ -13,7 +13,8 @@ RangedEnemy::RangedEnemy()
     _eTex = GET_SINGLE(ResourceManager)
         ->GetTexture(L"CloseEnemy");
 
-
+    _hp = 20;
+    _maxHP = 20;
     Vec2 animSize;
     switch (_eTex->GetHeight())
     {
@@ -52,7 +53,5 @@ RangedEnemy::~RangedEnemy()
 
 void RangedEnemy::EnterCollision(Collider* _other)
 {
-    if (_other->GetName() == L"Weapon") {
-        GET_SINGLE(EnemySpawnManager)->DeadEnemy(this);
-    }
+	Enemy::EnterCollision(_other);
 }
