@@ -40,9 +40,9 @@ void GameScene::Init()
     _storeWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>
     (L"Store", { {SCREEN_WIDTH - 300,SCREEN_HEIGHT / 2 + 150},{500,300} });
 
-    GameEvents::OnItemPurchased.Subscribe([](const ItemType& item) {
-        wprintf(L"아이템 구매됨");
-        // 여기서 능력치 증가, 효과 발동 등 처리
+    GameEvents::OnItemPurchased.Subscribe([](const ItemType& item) 
+        {
+            MessageBox(nullptr, L"구매 완료!", L"구매", MB_OK);
         });
 
     SubUIManager* inGameUI = _inGameWindow->GetUI();

@@ -41,7 +41,6 @@ ItemButton::ItemButton(const ItemInfo& info, const Vec2& pos, const Vec2& size)
             if (GET_SINGLE(GameManager)->coin >= _info.price)
             {
                 GET_SINGLE(GameManager)->coin -= _info.price;
-                MessageBox(nullptr, (_info.name + L" 구매 완료!").c_str(), L"구매", MB_OK);
                 GameEvents::OnItemPurchased.Raise(_info.type);
             }
             else
