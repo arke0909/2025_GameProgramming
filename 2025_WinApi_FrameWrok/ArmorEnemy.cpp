@@ -48,6 +48,7 @@ ArmorEnemy::ArmorEnemy()
 
     _speed = 50.f;
     _attackRange = 0.f;
+	_dropGold = 70;
 
     _stateMachine = new EntityStateMachine();
     _stateMachine->AddState("MOVE", new EnemyMoveState(this, L"MOVE"));

@@ -21,6 +21,7 @@ public:
 
 	float GetSpeed() const { return _speed; }
 	float GetAttackRange() const { return _attackRange; }
+	int GetDropGold() const { return _dropGold; }
 
     void Update() override;
     void Render(HDC hdc) override;
@@ -33,4 +34,6 @@ protected:
 
     float _speed;
 	float _attackRange;
+
+    int _dropGold;
 };

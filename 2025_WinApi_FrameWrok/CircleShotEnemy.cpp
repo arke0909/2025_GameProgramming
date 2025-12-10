@@ -48,6 +48,7 @@ CircleShotEnemy::CircleShotEnemy()
 
 	_speed = 100.f;
 	_attackRange = 250.0f;
+	_dropGold = 70;
 
 	_stateMachine = new EntityStateMachine();
 	_stateMachine->AddState("MOVE", new EnemyMoveState(this, L"MOVE"));

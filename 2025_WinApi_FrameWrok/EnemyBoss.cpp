@@ -13,7 +13,7 @@
 #include "EnemyBullet.h"
 
 EnemyBoss::EnemyBoss()
-	: _currentPhase(0)
+	: _currentPhase(0),
 {
 	_eTex = GET_SINGLE(ResourceManager)
 		->GetTexture(L"CloseEnemy");

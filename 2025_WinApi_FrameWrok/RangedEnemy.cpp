@@ -38,6 +38,7 @@ RangedEnemy::RangedEnemy()
 
     _speed = 100.f;
 	_attackRange = 250.f;
+    _dropGold = 50;
 
     _stateMachine = new EntityStateMachine();
     _stateMachine->AddState("MOVE", new EnemyMoveState(this, L"MOVE"));

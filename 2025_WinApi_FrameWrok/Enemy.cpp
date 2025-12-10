@@ -11,6 +11,8 @@
 Enemy::Enemy()
     : _player(nullptr),
     _speed(100.f),
+	_attackRange(100.f),
+	_dropGold(0),
     _stateMachine(nullptr)
 {
     auto* col = AddComponent<BoxCollider>();

@@ -45,6 +45,7 @@ FastEnemy::FastEnemy()
 
     _speed = 200.f;
     _attackRange = 0.f;
+    _dropGold = 30;
 
     _stateMachine = new EntityStateMachine();
     _stateMachine->AddState("MOVE", new EnemyMoveState(this, L"MOVE"));

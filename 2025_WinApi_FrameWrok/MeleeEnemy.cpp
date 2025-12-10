@@ -37,6 +37,7 @@ MeleeEnemy::MeleeEnemy()
 
     _speed = 100.f;
     _attackRange = 12.f;
+    _dropGold = 30;
 
     _stateMachine = new EntityStateMachine();
     _stateMachine->AddState("MOVE", new EnemyMoveState(this, L"MOVE"));

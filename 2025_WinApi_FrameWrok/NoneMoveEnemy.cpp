@@ -46,7 +46,7 @@ NoneMoveEnemy::NoneMoveEnemy()
 
     _speed = 0.0f;
     _attackRange = SCREEN_WIDTH * 2;
-    cout << _attackRange << endl;
+    _dropGold = 50;
 
     _stateMachine = new EntityStateMachine();
     _stateMachine->AddState("ATTACK", new EnemyAttackState(this, L"ATTACK"));
