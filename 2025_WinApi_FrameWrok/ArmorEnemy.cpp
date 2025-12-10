@@ -10,8 +10,10 @@ ArmorEnemy::ArmorEnemy()
 {
 	_eTex = GET_SINGLE(ResourceManager)
 		->GetTexture(L"CloseEnemy");
-    _hp = 100;
-    _maxHP = 100;
+
+
+    GetComponent<EntityHealthComponent>()->SetHealth(30);
+
     Vec2 animSize;
     switch (_eTex->GetHeight())
     {

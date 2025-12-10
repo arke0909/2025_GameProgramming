@@ -13,8 +13,7 @@ CircleShotEnemy::CircleShotEnemy()
 	_eTex = GET_SINGLE(ResourceManager)
 		->GetTexture(L"CloseEnemy");
 
-	_hp = 20;
-	_maxHP = 20;
+	GetComponent<EntityHealthComponent>()->SetHealth(20);
 
 	Vec2 animSize;
 	switch (_eTex->GetHeight())

@@ -86,6 +86,8 @@ void GameScene::Init()
 
 
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::ENEMY);
+    GET_SINGLE(CollisionManager)->CheckLayer(Layer::PLAYER, Layer::ENEMY);
+    GET_SINGLE(CollisionManager)->CheckLayer(Layer::BULLET, Layer::ENEMY);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::PLAYER);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::WALL);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::BULLET, Layer::WALL);

@@ -9,7 +9,6 @@
 #include "BounceBullet.h"
 #include "TrackingBullet.h"
 #include "PhaseData.h"
-#include "EnemyBossHitState.h"
 #include "EnemyBossDeadState.h"
 #include "EnemyBullet.h"
 
@@ -19,8 +18,7 @@ EnemyBoss::EnemyBoss()
 	_eTex = GET_SINGLE(ResourceManager)
 		->GetTexture(L"CloseEnemy");
 
-	_hp = 10;
-	_maxHP = 10;
+	GetComponent<EntityHealthComponent>()->SetHealth(100);
 
 	Vec2 animSize = { 32.f, 32.f };
 	if (_eTex)
@@ -36,7 +34,6 @@ EnemyBoss::EnemyBoss()
 	auto* animator = AddComponent<Animator>();
 	animator->CreateAnimation(L"IDLE", _eTex, { 0.f, 0.f }, animSize, { 0.f, 0.f }, 1, 1);
 	animator->CreateAnimation(L"ATTACK", _eTex, { 0.f, 0.f }, animSize, { 0.f, 0.f }, 1, 1);
-	animator->CreateAnimation(L"HIT", _eTex, { 0.f, 0.f }, animSize, { 0.f, 0.f }, 1, 1);
 	animator->CreateAnimation(L"DEAD", _eTex, { 0.f, 0.f }, animSize, { 0.f, 0.f }, 1, 1);
 
 	InitializePhases();
@@ -44,7 +41,6 @@ EnemyBoss::EnemyBoss()
 	_stateMachine = new EntityStateMachine();
 	_stateMachine->AddState("IDLE", new EnemyBossIdleState(this, L"IDLE"));
 	_stateMachine->AddState("ATTACK", new EnemyBossAttackState(this, L"ATTACK"));
-	_stateMachine->AddState("HIT", new EnemyBossHitState(this, L"HIT"));
 	_stateMachine->AddState("DEAD", new EnemyBossDeadState(this, L"DEAD"));
 	_stateMachine->ChangeState("IDLE");
 }
@@ -171,9 +167,10 @@ void EnemyBoss::EnterCollision(Collider* _other)
 {
 	if (_other->GetName() == L"PlayerBullet")
 	{
-		UpdateHP(-10);
+		auto* healthComp = GetComponent<EntityHealthComponent>();
+		healthComp->UpdateHP(-10);
 
-		if (_hp <= 0)
+		if (healthComp->GetCurrentHP() <= 0)
 		{
 			ChangeState("DEAD");
 		}
@@ -190,7 +187,9 @@ PhaseData EnemyBoss::GetCurrentPhaseData() const
 
 void EnemyBoss::CheckPhaseTransition()
 {
-	float hpRatio = ((float)_hp / (float)_maxHP) * 100.0f;
+	auto* healthComp = GetComponent<EntityHealthComponent>();
+
+	float hpRatio = ((float)healthComp->GetCurrentHP() / (float)healthComp->GetMaxHP()) * 100.0f;
 
 	if (hpRatio > 50.0f)
 	{
