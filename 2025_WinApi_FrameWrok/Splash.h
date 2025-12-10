@@ -18,9 +18,9 @@ public:
     void ExitCollision(Collider* _other) override;
 private:
     float _currentRadius = 0;
-    float _targetRadius = 1.5f;
+    float _targetRadius = 120.f;
     float _timer = 0;
-    float _duration = 1.5f;
+    float _duration = 0.5f;
     float _ease;
     float _damage;
     CircleCollider* _cirCol;

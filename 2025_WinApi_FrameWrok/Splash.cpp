@@ -2,12 +2,13 @@
 #include "Splash.h"
 #include "CircleCollider.h"
 #include "EasingManager.h"
-//using namespace Gdiplus;
+
 
 Splash::Splash(int level)
 { 
 	_damage *= level;
 	_cirCol = AddComponent<CircleCollider>();
+	_cirCol->SetName(L"Splash");
 }
 
 Splash::~Splash()
@@ -28,14 +29,16 @@ void Splash::Update()
 
 void Splash::Render(HDC hdc)
 {
-	//Graphics graphics(hdc);
-	//float alpha = std::lerp(0, 255, _ease);
-	//Pen pen(Color(alpha, 0, 0, 0));
-	//Pen pen(Color(alpha, 255, 0, 0), 3);
-	//graphics.DrawLine(&pen, 10, 10, 200, 10);
-
-	//RECT rt = { (int)(_pos.x - _currentRadius / 2),(int)(_pos.y - _currentRadius / 2),(int)(_pos.x + _currentRadius / 2),(int)(_pos.y + _currentRadius / 2) };
-	//graphics.DrawEllipse(&pen,rt);
+	Graphics graphics(hdc);
+	float alpha = std::lerp(255, 0, _ease);
+	Pen pen(Color(alpha, 255, 255, 255));
+	RectF rect(
+		(int)(_pos.x - _currentRadius / 2),
+		(int)(_pos.y - _currentRadius / 2),
+		(int)(_currentRadius),
+		(int)(_currentRadius)
+	);
+	graphics.DrawEllipse(&pen, rect);
 }
 
 void Splash::EnterCollision(Collider* _other)

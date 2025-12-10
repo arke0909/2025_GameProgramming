@@ -31,6 +31,11 @@ bool ResourceManager::Init()
    LoadTexture(L"SkillPanel", L"Texture\\SkillPanel.bmp"); 
    LoadTexture(L"No", L"Texture\\no.bmp"); 
    LoadTexture(L"Heart", L"Texture\\HP.bmp"); 
+   LoadTexture(L"Skeleton", L"Texture\\skeletonEnemy_24.bmp"); 
+   LoadTexture(L"Pumpkin", L"Texture\\pumpkin_24.bmp"); 
+   LoadTexture(L"Zoombie", L"Texture\\Zoombie_24.bmp"); 
+   LoadTexture(L"Bullet", L"Texture\\Bullet_24.bmp"); 
+   LoadTexture(L"EnumyBullet", L"Texture\\EnumyBullet_24.bmp"); 
    LoadSound(L"BGM", L"Sound\\Test.mp3", true);
     RegisterSound();
 
@@ -139,24 +144,25 @@ SoundInfo* ResourceManager::FindSound(const wstring& _key)
 void ResourceManager::RegisterGDI()
 {
     // BRUSH
-    m_Brushs[(UINT)BrushType::HOLLOW] = (HBRUSH)::GetStockObject(HOLLOW_BRUSH);
-    m_Brushs[(UINT)BrushType::RED] = (HBRUSH)::CreateSolidBrush(RGB(255, 167, 167));
-    m_Brushs[(UINT)BrushType::GREEN] = (HBRUSH)::CreateSolidBrush(RGB(134, 229, 134));
+    m_Brushs[(UINT)MyBrushType::HOLLOW] = (HBRUSH)::GetStockObject(HOLLOW_BRUSH);
+    m_Brushs[(UINT)MyBrushType::RED] = (HBRUSH)::CreateSolidBrush(RGB(255, 167, 167));
+    m_Brushs[(UINT)MyBrushType::GREEN] = (HBRUSH)::CreateSolidBrush(RGB(134, 229, 134));
 
     // PEN 
-    m_Pens[(UINT)PenType::RED] = ::CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
-    m_Pens[(UINT)PenType::GREEN] = ::CreatePen(PS_SOLID, 1, RGB(0, 255, 0));
+    m_Pens[(UINT)MyPenType::RED] = ::CreatePen(PS_SOLID, 1, RGB(255, 0, 0));
+    m_Pens[(UINT)MyPenType::GREEN] = ::CreatePen(PS_SOLID, 1, RGB(0, 255, 0));
+    m_Pens[(UINT)MyPenType::WHITE] = ::CreatePen(PS_SOLID, 1, RGB(255, 255, 255));
 
     RegisterFont(FontType::TITLE, L"나눔손글씨 암스테르담", 0);
-    RegisterFont(FontType::UI, L"BoldDunggeunmo", 12);
+    RegisterFont(FontType::UI, L"BoldDunggeunmo", 11.5f);
 
 }
 
 void ResourceManager::ReleaseGDI()
 {
-    for (int i = 0; i < (UINT)PenType::END; ++i)
+    for (int i = 0; i < (UINT)MyPenType::END; ++i)
         ::DeleteObject(m_Pens[i]);
-    for (int i = 1; i < (UINT)BrushType::END; ++i)
+    for (int i = 1; i < (UINT)MyBrushType::END; ++i)
         // Hollow 제외하고
         ::DeleteObject(m_Brushs[i]);
     for (int i = 0; i < (UINT)FontType::END; ++i)

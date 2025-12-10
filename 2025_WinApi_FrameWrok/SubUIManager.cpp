@@ -1,68 +1,97 @@
 #include "pch.h"
 #include "SubUIManager.h"
-#include "InputManager.h"
-
-void SubUIManager::Add(UIElement* elem)
-{
-    _elements.push_back(elem);
-}
 
 void SubUIManager::Update(HWND hWnd)
 {
-    if (_elements.empty()) return;
+    if (_elements.empty())
+        return;
 
-    for (auto* elem : _elements)
+    for (size_t i = 0; i < _elements.size(); ++i)
     {
-        if (elem == nullptr) {
+        auto* elem = _elements[i];
+
+        if (!elem)
+        {
             continue;
         }
 
-        uintptr_t raw = reinterpret_cast<uintptr_t>(elem);
-        if (raw == 0xdddddddddddddddd || raw == 0xfeeefeeefeeefeee) {
+        uintptr_t ptr = reinterpret_cast<uintptr_t>(elem);
+        if (ptr == 0xdddddddd || ptr == 0xfefefefe || ptr == 0xffffffff || ptr < 0x10000)
+        {
             continue;
         }
 
-        if (raw < 0x10000)
-            continue;
-
-        try {
+        try
+        {
             elem->Update();
         }
-        catch (...) {
+        catch (...)
+        {   
+        }
+    }
+
+    ProcessRemovals();
+}
+
+
+void SubUIManager::Render(HDC hDC)
+{
+    for (auto* elem : _elements)
+    {
+        if (elem && elem->IsVisible())
+        {
+            elem->Render(hDC);
         }
     }
 }
 
-
-void SubUIManager::Render(HDC hdc)
+void SubUIManager::Add(UIElement* elem)
 {
-    if (_elements.empty()) return;
+    if (!elem) return;
 
-    for (auto* elem : _elements)
-    {
-        if (elem->IsVisible())
-            elem->Render(hdc);
-    }
+    uintptr_t ptr = reinterpret_cast<uintptr_t>(elem);
+    if (ptr == 0xdddddddd || ptr == 0xfefefefe || ptr == 0xffffffff || ptr < 0x10000)
+        return;
+
+    _elements.push_back(elem);
 }
 
 
-
-int SubUIManager::Count()
+void SubUIManager::Remove(UIElement* elem)
 {
-    return static_cast<int>(_elements.size());
+    if (elem)
+        _removeList.push_back(elem);
 }
 
 void SubUIManager::Clear()
 {
-
     for (auto*& elem : _elements)
     {
-        delete elem;
-        elem = nullptr;
+        if (elem)
+        {
+            delete elem;
+            elem = nullptr;
+        }
     }
-
     _elements.clear();
+    _removeList.clear();
+}
 
-    _elements.shrink_to_fit();
+
+void SubUIManager::ProcessRemovals()
+{
+    for (auto* elem : _removeList)
+    {
+        auto it = std::find(_elements.begin(), _elements.end(), elem);
+        if (it != _elements.end())
+        {
+            if (*it) {
+                delete* it;
+                *it = nullptr;
+            }
+            _elements.erase(it);
+        }
+    }
+    _removeList.clear();
 }
 

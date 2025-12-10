@@ -345,6 +345,12 @@
     <ClInclude Include="SkillComponent.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Engine\03.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectParticle.h">
+      <Filter>Engine\03.Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2025_WinApi_FrameWrok.rc">
@@ -584,6 +590,12 @@
     </ClCompile>
     <ClCompile Include="SkillComponent.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Engine\03.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectParticle.cpp">
+      <Filter>Engine\03.Object</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

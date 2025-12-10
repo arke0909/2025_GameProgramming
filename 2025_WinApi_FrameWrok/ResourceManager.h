@@ -33,11 +33,11 @@ public:
 	void ReleaseFonts();
 	void RegisterFont(FontType _type, const wstring& _name, int _height,
 		int _weight = FW_NORMAL, bool _italic = false, int _quality = CLEARTYPE_QUALITY);
-	const HBRUSH& GetBrush(BrushType _eType)
+	const HBRUSH& GetBrush(MyBrushType _eType)
 	{
 		return m_Brushs[(UINT)_eType];
 	}
-	const HPEN& GetPen(PenType _eType)
+	const HPEN& GetPen(MyPenType _eType)
 	{
 		return m_Pens[(UINT)_eType];
 	}
@@ -61,8 +61,8 @@ public:
 private:
 	std::unordered_map<wstring, Texture*> _mapTexture;
 	fs::path _resourcePath;
-	HBRUSH m_Brushs[(UINT)BrushType::END] = {};
-	HPEN m_Pens[(UINT)PenType::END] = {};
+	HBRUSH m_Brushs[(UINT)MyBrushType::END] = {};
+	HPEN m_Pens[(UINT)MyPenType::END] = {};
 	HFONT m_Fonts[(UINT)FontType::END] = {};
 	vector<wstring> m_vecFontFiles;
 	std::unordered_map<wstring, SoundInfo*> m_mapSounds;

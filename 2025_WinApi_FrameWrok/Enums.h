@@ -4,21 +4,22 @@ enum class Layer
 {
 	DEFAULT,
 	BACKGROUND,
-	UI,
 	PLAYER,
 	ENEMY,
 	WALL,
 	PROJECTILE,
 	BULLET,
+	EFFECT,
+	UI,
 	END
 };
 
-enum class PenType
+enum class MyPenType
 {
-	RED, GREEN, END
+	RED, GREEN,WHITE, END
 };
 
-enum class BrushType
+enum class MyBrushType
 {
 	HOLLOW, RED, GREEN, END
 };

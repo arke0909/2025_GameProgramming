@@ -6,12 +6,16 @@
 #include "GameEvent.h"
 #include <random>
 
+extern std::vector<ItemInfo> AllItems;
+extern std::unordered_map<ItemType, int> ItemPriceMap;
+extern std::unordered_map<ItemType, int> PriceIncreaseMap;
+
 StoreUI::StoreUI(const Vec2& pos, const Vec2& size)
     : UIElement(pos, size)
 {
     GameEvents::OnItemPurchased.Subscribe([this](const ItemInfo& item)
         {
-            PurchasedItems.insert(item.type);
+            // 아이템 가격 증가
             ItemPriceMap[item.type] += PriceIncreaseMap[item.type];
             Reroll();
         });
@@ -21,19 +25,25 @@ StoreUI::StoreUI(const Vec2& pos, const Vec2& size)
 
 void StoreUI::SetWindowHandle(Window* storeWindow)
 {
-	_storeWindow = storeWindow;
+    _storeWindow = storeWindow;
 }
 
 void StoreUI::Init()
 {
+    // 기존 버튼 삭제
+    for (auto*& btn : _itemSlots)
+    {
+        delete btn;
+        btn = nullptr;
+    }
     _itemSlots.clear();
+
     auto items = GetRandomItems(3);
 
     if (items.empty())
     {
 
-        if (_storeWindow)
-            _storeWindow->SetVisible(false);
+        MessageBox(nullptr, L"아이템을 더 이상 표시할 수 없습니다.", L"상점", MB_OK);
         return;
     }
 
@@ -48,7 +58,9 @@ void StoreUI::Init()
             continue;
         }
 
-        auto item = items[i];
+        ItemInfo item = items[i];
+
+        // 현재 가격 반영
         if (ItemPriceMap.count(item.type))
             item.price = ItemPriceMap[item.type];
         else
@@ -58,6 +70,7 @@ void StoreUI::Init()
         _itemSlots.push_back(btn);
     }
 
+    // 리롤 버튼
     auto tex = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
     _rerollButton = new UIButton(L"리롤", { pos.x + 170, pos.y + 130 }, { 100, 40 }, FontType::UI, tex);
     _rerollButton->SetOnClick([this]() { Reroll(); });
@@ -72,7 +85,8 @@ void StoreUI::Update()
     for (auto* btn : _itemSlots)
         if (btn) btn->Update();
 
-    _rerollButton->Update();
+    if (_rerollButton)
+        _rerollButton->Update();
 }
 
 void StoreUI::Render(HDC hdc)
@@ -82,16 +96,21 @@ void StoreUI::Render(HDC hdc)
     for (auto* btn : _itemSlots)
         if (btn) btn->Render(hdc);
 
-    _rerollButton->Render(hdc);
+    if (_rerollButton)
+        _rerollButton->Render(hdc);
 
-    std::wstring coinText = L"Coin: " + std::to_wstring(GET_SINGLE(GameManager)->coin);
-    _coinLabel->SetText(coinText);
-    _coinLabel->Render(hdc);
+    if (_coinLabel)
+    {
+        std::wstring coinText = L"Coin: " + std::to_wstring(GET_SINGLE(GameManager)->coin);
+        _coinLabel->SetText(coinText);
+        _coinLabel->Render(hdc);
+    }
 }
 
 void StoreUI::Reroll()
 {
     const int cost = 50;
+
     if (!_itemSlots.empty() && GET_SINGLE(GameManager)->coin < cost)
     {
         MessageBox(nullptr, L"코인이 부족합니다!", L"리롤 실패", MB_OK);
@@ -100,24 +119,33 @@ void StoreUI::Reroll()
 
     GET_SINGLE(GameManager)->coin -= cost;
 
-    for (auto* btn : _itemSlots)
+    for (auto*& btn : _itemSlots)
+    {
         delete btn;
-
+        btn = nullptr;
+    }
     _itemSlots.clear();
+
     Init();
 }
 
 std::vector<ItemInfo> StoreUI::GetRandomItems(int count)
 {
-    std::vector<ItemInfo> candidates;
-    for (auto& item : AllItems)
+    std::vector<ItemInfo> candidates = AllItems;
+    std::shuffle(candidates.begin(), candidates.end(), std::mt19937{ std::random_device{}() });
+
+    std::unordered_set<ItemType> selected;
+    std::vector<ItemInfo> result;
+
+    for (const auto& item : candidates)
     {
-        if (PurchasedItems.count(item.type) == 0)
-            candidates.push_back(item);
+        if (selected.count(item.type)) continue;
+        selected.insert(item.type);
+        result.push_back(item);
+
+        if ((int)result.size() >= count)
+            break;
     }
 
-    std::shuffle(candidates.begin(), candidates.end(), std::mt19937{ std::random_device{}() });
-    if ((int)candidates.size() < count)
-        return candidates;
-    return std::vector<ItemInfo>(candidates.begin(), candidates.begin() + count);
+    return result;
 }

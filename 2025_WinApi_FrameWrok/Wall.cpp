@@ -49,7 +49,8 @@ void Wall::Update()
 
 void Wall::Render(HDC hdc)
 {
-	//ComponentRender(hdc);
+	GDISelector pen(hdc, MyPenType::WHITE);
+	ComponentRender(hdc);
 }
 
 void Wall::EnterCollision(Collider* _other)
