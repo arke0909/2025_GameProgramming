@@ -35,16 +35,23 @@ void BounceBullet::EnterCollision(Collider* _other)
 
 	WallSet set = wall->GetWall();
 
+	Vec2 normal;
+
 	if (set.isVertical)
 	{
-		_dir.x = -_dir.x;
-		Translate({ _dir.x > 0 ? 1.f : -1.f, 0.f });
+		normal = set.isStart ? Vec2{ 1.f, 0.f } : Vec2{ -1.f, 0.f };
 	}
 	else
 	{
-		_dir.y = -_dir.y;
-		Translate({ 0.f, _dir.y > 0 ? 1.f : -1.f });
+		normal = set.isStart ? Vec2{ 0.f, 1.f } : Vec2{ 0.f, -1.f };
 	}
+
+	if (_dir.Dot(normal) >= 0.f)
+		return;
+
+	_dir = _dir - normal * (2.f * _dir.Dot(normal));
+
+	Translate(normal);
 
 	_bounceCount++;
 	if (_bounceCount >= _maxBounces)
@@ -52,3 +59,4 @@ void BounceBullet::EnterCollision(Collider* _other)
 		GET_SINGLE(SceneManager)->RequestDestroy(this);
 	}
 }
+

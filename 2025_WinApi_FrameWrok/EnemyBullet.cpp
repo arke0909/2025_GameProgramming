@@ -53,14 +53,13 @@ EnemyBullet::EnemyBullet(const Vec2& startPos, const Vec2& targetPos, float spee
     if (length != 0)
         _dir = dir / length;
 
-	_screenSize.x = (float)GetSystemMetrics(SM_CXSCREEN);
-	_screenSize.y = (float)GetSystemMetrics(SM_CYSCREEN);
+	_screenSize.x = SCREEN_WIDTH;
+	_screenSize.y = SCREEN_HEIGHT;
 	_halfSize = animSize * 0.5f;
 }
 
 EnemyBullet::~EnemyBullet()
-{
-	cout << "EnemyBullet Destroyed" << endl;
+{	
 }
 
 void EnemyBullet::Update()
