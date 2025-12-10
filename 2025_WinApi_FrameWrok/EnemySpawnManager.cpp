@@ -24,7 +24,7 @@ void EnemySpawnManager::Init(Player* player)
     _waveDelay = 2.f;
     _noSpawnDistance = 150.f;
 
-    _currentWave = 0;
+    _currentWave = 9;
     _waveActive = false;
     _waveDelayTimer = 0.f;
 
@@ -49,6 +49,9 @@ void EnemySpawnManager::Update()
 
 void EnemySpawnManager::UpdateWave()
 {
+    if (_gameClear)
+        return;
+
     if (!_waveActive)
     {
         _waveDelayTimer += fDT;
@@ -63,10 +66,19 @@ void EnemySpawnManager::UpdateWave()
 
     if (_spawnedEnemies.empty())
     {
-        _currentWave++;
-        _waveActive = false;
+        if (_currentWave < (int)_waves.size() - 1)
+        {
+            _currentWave++;
+            _waveActive = false;
+        }
+        else
+        {
+            _waveActive = false;
+            _gameClear = true;
+        }
     }
 }
+
 
 void EnemySpawnManager::TrySpawnWave()
 {
@@ -79,7 +91,7 @@ void EnemySpawnManager::TrySpawnWave()
             EnemyBoss* e = new EnemyBoss();
             Vec2 pos;
 
-            e->SetPos({ _mapWidth / 2,_mapHeight  /2});
+            e->SetPos({ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2});
             e->SetTarget(_player);
             e->CreateEnemyWindow();
             _spawnedEnemies.push_back(e);

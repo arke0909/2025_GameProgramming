@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "EnemyBossIdleState.h"
 
-EnemyBossIdleState::EnemyBossIdleState(EnemyBoss* owner, std::wstring animetionName)
+EnemyBossIdleState::EnemyBossIdleState(EnemyBoss* owner, std::wstring animationName)
 	: EntityState(owner, L"IDLE"),
 	_owner(owner),
 	_maxTime(2.0f),

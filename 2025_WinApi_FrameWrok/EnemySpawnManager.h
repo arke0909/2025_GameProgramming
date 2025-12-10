@@ -49,4 +49,6 @@ private:
 
     float _waveDelay;
     float _noSpawnDistance;
+    bool _gameClear = false;
+
 };

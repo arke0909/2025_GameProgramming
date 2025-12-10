@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "EnemyBossDeadState.h"
+#include "EnemySpawnManager.h"
 #include "SceneManager.h"
 
 EnemyBossDeadState::EnemyBossDeadState(EnemyBoss* owner, std::wstring animationName)
@@ -18,8 +19,6 @@ void EnemyBossDeadState::Enter()
 {
     EntityState::Enter();
     _currentTime = 0.0f;
-
-   //사망시 효과가 들어갈 예정
 }
 
 void EnemyBossDeadState::Update()
@@ -29,7 +28,7 @@ void EnemyBossDeadState::Update()
 
     if (_currentTime >= _deathTime)
     {
-        GET_SINGLE(SceneManager)->RequestDestroy(_owner);
+        GET_SINGLE(EnemySpawnManager)->DeadEnemy(_owner);
     }
 }
 
