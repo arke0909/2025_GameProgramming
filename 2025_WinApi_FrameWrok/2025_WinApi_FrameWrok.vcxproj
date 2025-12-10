@@ -187,6 +187,7 @@
     <ClInclude Include="EnemyBossDeadState.h" />
     <ClInclude Include="EnemyBossIdleState.h" />
     <ClInclude Include="EnemyBullet.h" />
+    <ClInclude Include="EnemyMeleeAttackState.h" />
     <ClInclude Include="EnemyMoveState.h" />
     <ClInclude Include="EnemySpawnManager.h" />
     <ClInclude Include="EnemyState.h" />
@@ -271,6 +272,7 @@
     <ClCompile Include="EnemyBossDeadState.cpp" />
     <ClCompile Include="EnemyBossIdleState.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
+    <ClCompile Include="EnemyMeleeAttackState.cpp" />
     <ClCompile Include="EnemyMoveState.cpp" />
     <ClCompile Include="EnemySpawnManager.cpp" />
     <ClCompile Include="EnemyState.cpp" />

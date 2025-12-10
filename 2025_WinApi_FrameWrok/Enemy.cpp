@@ -11,11 +11,12 @@
 Enemy::Enemy()
     : _player(nullptr),
     _speed(100.f),
+	_attackRange(100.f),
+	_dropGold(0),
     _stateMachine(nullptr)
 {
     auto* col = AddComponent<BoxCollider>();
     col->SetName(L"Enemy");
-    col->SetTrigger(true);
 
 	AddComponent<EntityHealthComponent>();
 }
@@ -39,12 +40,6 @@ void Enemy::Render(HDC hdc)
 
 void Enemy::EnterCollision(Collider* _other)
 {
-    if (_other->GetName() == L"Player")
-    {
-		_other->GetOwner()->SetDead();
-        GET_SINGLE(SceneManager)->RequestDestroy(_other->GetOwner());
-    }
-
     if (_other->GetName() == L"PlayerBullet") 
     {
 		auto* healthComp = GetComponent<EntityHealthComponent>();

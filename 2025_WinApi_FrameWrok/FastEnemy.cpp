@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "FastEnemy.h"
-#include "EnemyAttackState.h"
+#include "EnemyMeleeAttackState.h"
 #include "ResourceManager.h"
 #include "EnemyMoveState.h"
 
@@ -45,9 +45,10 @@ FastEnemy::FastEnemy()
 
     _speed = 200.f;
     _attackRange = 0.f;
+    _dropGold = 30;
 
     _stateMachine = new EntityStateMachine();
     _stateMachine->AddState("MOVE", new EnemyMoveState(this, L"MOVE"));
-    _stateMachine->AddState("ATTACK", new EnemyAttackState(this, L"ATTACK"));
+    _stateMachine->AddState("ATTACK", new EnemyMeleeAttackState(this, L"ATTACK"));
     _stateMachine->ChangeState("MOVE");
 }

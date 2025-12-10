@@ -293,6 +293,7 @@ void EnemySpawnManager::DeadEnemy(Enemy* enemy)
     {
         _spawnedEnemies.erase(it);
         enemy->SetDead();
+		GET_SINGLE(GameManager)->coin += enemy->GetDropGold();
         GET_SINGLE(SceneManager)->RequestDestroy(enemy);
     }
 }
