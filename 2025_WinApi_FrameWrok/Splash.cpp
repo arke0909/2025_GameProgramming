@@ -2,10 +2,10 @@
 #include "Splash.h"
 #include "CircleCollider.h"
 #include "EasingManager.h"
-using namespace Gdiplus;
+//using namespace Gdiplus;
 
 Splash::Splash(int level)
-{
+{ 
 	_damage *= level;
 	_cirCol = AddComponent<CircleCollider>();
 }
