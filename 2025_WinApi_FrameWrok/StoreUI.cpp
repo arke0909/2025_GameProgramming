@@ -6,21 +6,22 @@
 #include "GameEvent.h"
 #include <random>
 
-extern std::vector<ItemInfo> AllItems;
-extern std::unordered_set<ItemType> PurchasedItems;
-extern std::unordered_map<ItemType, int> ItemPriceMap;
-
 StoreUI::StoreUI(const Vec2& pos, const Vec2& size)
     : UIElement(pos, size)
 {
-    GameEvents::OnItemPurchased.Subscribe([this](const ItemInfo& info)
+    GameEvents::OnItemPurchased.Subscribe([this](const ItemInfo& item)
         {
-            PurchasedItems.insert(info.type);
-            ItemPriceMap[info.type] += static_cast<int>(info.value);
+            PurchasedItems.insert(item.type);
+            ItemPriceMap[item.type] += PriceIncreaseMap[item.type];
             Reroll();
         });
 
     Init();
+}
+
+void StoreUI::SetWindowHandle(Window* storeWindow)
+{
+	_storeWindow = storeWindow;
 }
 
 void StoreUI::Init()
@@ -28,25 +29,50 @@ void StoreUI::Init()
     _itemSlots.clear();
     auto items = GetRandomItems(3);
 
-    for (int i = 0; i < (int)items.size(); ++i)
+    if (items.empty())
+    {
+
+        if (_storeWindow)
+            _storeWindow->SetVisible(false);
+        return;
+    }
+
+    for (int i = 0; i < 3; ++i)
     {
         Vec2 slotPos = { pos.x - 160 + i * 160, pos.y - 50 };
         Vec2 slotSize = { 140, 200 };
 
-        if (ItemPriceMap.count(items[i].type))
-            items[i].price = ItemPriceMap[items[i].type];
-        else
-            ItemPriceMap[items[i].type] = items[i].price;
+        if (i >= (int)items.size())
+        {
+            _itemSlots.push_back(nullptr);
+            continue;
+        }
 
-        auto* btn = new ItemButton(items[i], slotPos, slotSize);
+        auto item = items[i];
+        if (ItemPriceMap.count(item.type))
+            item.price = ItemPriceMap[item.type];
+        else
+            ItemPriceMap[item.type] = item.price;
+
+        auto* btn = new ItemButton(item, slotPos, slotSize);
         _itemSlots.push_back(btn);
     }
 
-    Texture* buttonTex = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
-    _rerollButton = new UIButton(L"府费", { pos.x + 170, pos.y + 130 }, { 100, 40 }, FontType::UI, buttonTex);
+    auto tex = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
+    _rerollButton = new UIButton(L"府费", { pos.x + 170, pos.y + 130 }, { 100, 40 }, FontType::UI, tex);
     _rerollButton->SetOnClick([this]() { Reroll(); });
 
-    _coinLabel = new UILabel(L"Coin: 0", { pos.x + 150, pos.y + 70 }, { 200, 30 }, FontType::UI);
+    _coinLabel = new UILabel(L"Coin: 0", Vec2(pos.x + 150, pos.y + 70), Vec2(200, 30), FontType::UI);
+}
+
+void StoreUI::Update()
+{
+    if (!_visible) return;
+
+    for (auto* btn : _itemSlots)
+        if (btn) btn->Update();
+
+    _rerollButton->Update();
 }
 
 void StoreUI::Render(HDC hdc)
@@ -54,7 +80,7 @@ void StoreUI::Render(HDC hdc)
     if (!_visible) return;
 
     for (auto* btn : _itemSlots)
-        btn->Render(hdc);
+        if (btn) btn->Render(hdc);
 
     _rerollButton->Render(hdc);
 
@@ -63,60 +89,35 @@ void StoreUI::Render(HDC hdc)
     _coinLabel->Render(hdc);
 }
 
-void StoreUI::Update()
-{
-    if (!_visible) return;
-
-    for (auto* btn : _itemSlots)
-        btn->Update();
-
-    _rerollButton->Update();
-}
-
 void StoreUI::Reroll()
 {
     const int cost = 50;
-
     if (!_itemSlots.empty() && GET_SINGLE(GameManager)->coin < cost)
     {
         MessageBox(nullptr, L"内牢捞 何练钦聪促!", L"府费 角菩", MB_OK);
         return;
     }
 
-    if (!_itemSlots.empty())
-        GET_SINGLE(GameManager)->coin -= cost;
+    GET_SINGLE(GameManager)->coin -= cost;
 
-    for (auto* btn : _itemSlots) delete btn;
+    for (auto* btn : _itemSlots)
+        delete btn;
+
     _itemSlots.clear();
-
-    auto items = GetRandomItems(3);
-    for (int i = 0; i < (int)items.size(); ++i)
-    {
-        Vec2 slotPos = { pos.x - 160 + i * 160, pos.y - 50 };
-        Vec2 slotSize = { 140, 200 };
-
-        if (ItemPriceMap.count(items[i].type))
-            items[i].price = ItemPriceMap[items[i].type];
-
-        auto* btn = new ItemButton(items[i], slotPos, slotSize);
-        _itemSlots.push_back(btn);
-    }
+    Init();
 }
 
 std::vector<ItemInfo> StoreUI::GetRandomItems(int count)
 {
     std::vector<ItemInfo> candidates;
-
-    for (const auto& item : AllItems)
+    for (auto& item : AllItems)
     {
         if (PurchasedItems.count(item.type) == 0)
             candidates.push_back(item);
     }
 
     std::shuffle(candidates.begin(), candidates.end(), std::mt19937{ std::random_device{}() });
-
-    if ((int)candidates.size() <= count)
+    if ((int)candidates.size() < count)
         return candidates;
-
     return std::vector<ItemInfo>(candidates.begin(), candidates.begin() + count);
 }

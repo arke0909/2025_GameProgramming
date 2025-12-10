@@ -5,7 +5,6 @@
 #include "ResourceManager.h"
 #include "GameManager.h"
 #include "InputManager.h"
-#include "Texture.h"
 #include "GameEvent.h"
 
 ItemButton::ItemButton(const ItemInfo& info, const Vec2& pos, const Vec2& size)
@@ -69,11 +68,6 @@ bool ItemButton::ContainsPoint(int x, int y) const
     float t = pos.y - size.y / 2;
     float b = pos.y + size.y / 2;
     return x >= l && x <= r && y >= t && y <= b;
-}
-
-bool ItemButton::IsClicked(POINT pt) const
-{
-    return ContainsPoint(pt.x, pt.y);
 }
 
 void ItemButton::OnClick()
