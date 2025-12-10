@@ -2,7 +2,6 @@
 #include "Splash.h"
 #include "CircleCollider.h"
 #include "EasingManager.h"
-#include <gdiplus.h>
 using namespace Gdiplus;
 
 Splash::Splash(int level)
