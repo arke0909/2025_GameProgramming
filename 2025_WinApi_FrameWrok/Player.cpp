@@ -34,7 +34,7 @@ Player::Player()
 	_statCompo->AddStat(STAT_WALLFORCE, 20);
 	_statCompo->AddStat(STAT_GOLDMULTI, 1);
 	_statCompo->AddStat(STAT_MULTISHOT, 1);
-	_statCompo->AddStat(STAT_SPLASH, 0);
+	_statCompo->AddStat(STAT_SPLASH, 1);
 	_statCompo->AddStat(STAT_PENET, 1);
 
 

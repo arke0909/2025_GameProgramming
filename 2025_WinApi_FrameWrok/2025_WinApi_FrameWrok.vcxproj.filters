@@ -231,9 +231,6 @@
     <ClInclude Include="EnemyMoveState.h">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyIdleState.h">
-      <Filter>Engine\11.FSM\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyAttackState.h">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClInclude>
@@ -333,6 +330,21 @@
     <ClInclude Include="TrackingBullet.h">
       <Filter>Engine\03.Object\Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="Action.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEvent.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemButton.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemInfo.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="StoreUI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2025_WinApi_FrameWrok.rc">
@@ -344,6 +356,9 @@
       <Filter>리소스 파일</Filter>
     </Image>
     <Image Include="2025_WinApi_FrameWrok.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="C:\Users\arke0\Desktop\GameProgramming_Icon.ico">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>
@@ -471,9 +486,6 @@
     <ClCompile Include="EnemyMoveState.cpp">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyIdleState.cpp">
-      <Filter>Engine\11.FSM\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyAttackState.cpp">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClCompile>
@@ -563,6 +575,15 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Engine\01.Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemButton.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemInfo.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="StoreUI.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
