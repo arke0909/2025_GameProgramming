@@ -3,7 +3,7 @@
 
 std::vector<ItemInfo> AllItems = {
     { ItemType::PlayerSpeed,  L"이속",STAT_SPEED, L"플레이어의 속도를 증가시킨다.", 100,75, nullptr },
-    { ItemType::AttackSpeed,  L"공속",STAT_ATTACKSPEED, L"공격 속도를 증가시킨다.", 120,0.15f, nullptr },
+    { ItemType::AttackSpeed,  L"공속",STAT_ATTACKSPEED, L"공격 속도를 증가시킨다.", 120,-0.15f, nullptr },
     { ItemType::WallPunch,    L"월펀치",STAT_WALLFORCE, L"벽 밀림 강도 증가", 80,10, nullptr },
     { ItemType::MoneyDrop,    L"재력",STAT_GOLDMULTI, L"드랍 돈 증가", 90,0.5f, nullptr },
     { ItemType::MaxHealth,    L"최대 체력",STAT_HP, L"최대 체력 +5", 150,5, nullptr },

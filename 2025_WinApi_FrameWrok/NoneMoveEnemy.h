@@ -6,11 +6,17 @@ class NoneMoveEnemy :
 {
 public:
     NoneMoveEnemy();
-    ~NoneMoveEnemy();
+    ~NoneMoveEnemy() override = default;
     void CreateEnemyWindow();
-    void EnterCollision(Collider* _other) override;
+
+private:
+	void EnterCollision(Collider* _other) override {
+		Enemy::EnterCollision(_other);
+	};
+	void Update() override {
+		Enemy::Update();
+	};
 
 private:
     Window* _window;
 };
-

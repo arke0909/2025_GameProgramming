@@ -2,11 +2,10 @@
 #include "EnemyState.h"
 #include "EnemyBoss.h"
 
-class EnemyBossIdleState :
-    public EntityState
+class EnemyBossIdleState : public EntityState
 {
 public:
-    EnemyBossIdleState(EnemyBoss* owner, std::wstring animetionName);
+    EnemyBossIdleState(EnemyBoss* owner, std::wstring animationName);
     ~EnemyBossIdleState();
 
     void Enter() override;

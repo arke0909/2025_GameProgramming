@@ -3,11 +3,10 @@
 #include "PhaseData.h"
 #include "EnemyBoss.h"
 
-class EnemyBossAttackState :
-    public EntityState
+class EnemyBossAttackState : public EntityState
 {
 public:
-    EnemyBossAttackState(EnemyBoss* owner, std::wstring animetionName);
+    EnemyBossAttackState(EnemyBoss* owner, std::wstring animationName);
 
     void Enter() override;
     void Update() override;
@@ -16,10 +15,11 @@ public:
     void Render(HDC hdc) override {};
 
 private:
-    void SelectNextPattern(); // 실행할 패턴 선택
-    void ExecuteCurrentPattern(); // 패턴 실행
+	void SelectNextPattern(); // 패턴 선택
+	void ExecuteCurrentPattern(); // 현재 패턴 실행
 
     EnemyBoss* _owner;
     float _attackTimer;
     int _currentPatternIndex;
+    std::vector<float> _patternCooldowns;
 };

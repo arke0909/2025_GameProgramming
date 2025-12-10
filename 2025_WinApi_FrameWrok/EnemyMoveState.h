@@ -5,15 +5,18 @@ class EnemyMoveState :
 {
 public:
     EnemyMoveState(Enemy* owner, std::wstring animetionName);
-    void Update() override;
-public:
+
+private:
     void MoveToTarget();
 	bool IsInAttackRange();
     float GetAttackRange();
-public:
+
+    void Update() override;
+    void Render(HDC hdc) override {};
+
+private:
 	Object* _target;
     float _speed;
 	float _attackRange;
 
-    void Render(HDC hdc) override {};
 };

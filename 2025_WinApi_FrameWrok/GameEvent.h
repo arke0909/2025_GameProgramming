@@ -4,5 +4,5 @@
 
 namespace GameEvents
 {
-    inline Event<const ItemType&> OnItemPurchased;
+    inline Event<const ItemInfo&> OnItemPurchased;
 }

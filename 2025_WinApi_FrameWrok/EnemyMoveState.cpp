@@ -2,12 +2,13 @@
 #include "EnemyMoveState.h"
 
 EnemyMoveState::EnemyMoveState(Enemy* owner, std::wstring animetionName)
-	: EnemyState(owner, L"MOVE"),
+	: EnemyState(owner, animetionName),
 	_speed(100.f),
 	_attackRange(200.f),
 	_target(nullptr)
 {
-
+	_speed = owner->GetSpeed();
+    _attackRange = owner->GetAttackRange();
 }
 
 void EnemyMoveState::Update()

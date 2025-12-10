@@ -15,6 +15,7 @@ RangedEnemy::RangedEnemy()
 
     _hp = 20;
     _maxHP = 20;
+
     Vec2 animSize;
     switch (_eTex->GetHeight())
     {
@@ -35,23 +36,12 @@ RangedEnemy::RangedEnemy()
     auto* animator = AddComponent<Animator>();
     animator->CreateAnimation(L"MOVE", _eTex, { 0.f, 0.f }, animSize, { 0.f, 0.f }, 1, 1);
     animator->CreateAnimation(L"ATTACK", _eTex, { 0.f, 0.f }, animSize, { 0.f, 0.f }, 1, 1);
+
     _speed = 100.f;
+	_attackRange = 250.f;
 
     _stateMachine = new EntityStateMachine();
-    EnemyMoveState* moveState = new EnemyMoveState(this, L"MOVE");
-    moveState->_attackRange = 200.f;
-    _stateMachine->AddState("MOVE", moveState);
-    EnemyAttackState* attackState = new EnemyAttackState(this, L"ATTACK");
-    attackState->_attackRange = 200.f;
-    _stateMachine->AddState("ATTACK", attackState);
+    _stateMachine->AddState("MOVE", new EnemyMoveState(this, L"MOVE"));
+    _stateMachine->AddState("ATTACK", new EnemyAttackState(this, L"ATTACK"));
     _stateMachine->ChangeState("MOVE");
-}
-
-RangedEnemy::~RangedEnemy()
-{
-}
-
-void RangedEnemy::EnterCollision(Collider* _other)
-{
-	Enemy::EnterCollision(_other);
 }

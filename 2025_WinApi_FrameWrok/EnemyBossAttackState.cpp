@@ -2,7 +2,7 @@
 #include "EnemyBossAttackState.h"
 #include <random>
 
-EnemyBossAttackState::EnemyBossAttackState(EnemyBoss* owner, std::wstring animetionName)
+EnemyBossAttackState::EnemyBossAttackState(EnemyBoss* owner, std::wstring animationName)
 	: EntityState(owner, L"ATTACK"),
 	_owner(owner),
 	_attackTimer(0.0f),
@@ -13,7 +13,13 @@ EnemyBossAttackState::EnemyBossAttackState(EnemyBoss* owner, std::wstring animet
 void EnemyBossAttackState::Enter()
 {
 	EntityState::Enter();
-	_attackTimer = 0.0f;
+
+	const PhaseData& phase = _owner->GetCurrentPhaseData();
+
+	_patternCooldowns.clear();
+	_patternCooldowns.resize(phase.patterns.size(), 0.f);
+
+	_attackTimer = 0.f;
 	SelectNextPattern();
 }
 
@@ -21,14 +27,29 @@ void EnemyBossAttackState::Update()
 {
 	EntityState::Update();
 
-	PhaseData currentPhase = _owner->GetCurrentPhaseData();
+	float dt = fDT;
 
-	_attackTimer += fDT;
+	for (float& time : _patternCooldowns)
+	{
+		if (time > 0.f)
+			time -= dt;
+	}
+
+	_attackTimer += dt;
+
+	const PhaseData& currentPhase = _owner->GetCurrentPhaseData();
 
 	if (_attackTimer >= currentPhase.attackInterval)
 	{
 		ExecuteCurrentPattern();
-		_attackTimer = 0.0f;
+
+		if (_currentPatternIndex < _patternCooldowns.size())
+		{
+			_patternCooldowns[_currentPatternIndex] =
+				currentPhase.patterns[_currentPatternIndex].collTime;
+		}
+
+		_attackTimer = 0.f;
 		SelectNextPattern();
 	}
 }
@@ -36,29 +57,39 @@ void EnemyBossAttackState::Update()
 void EnemyBossAttackState::Exit()
 {
 	EntityState::Exit();
-
 	_attackTimer = 0.0f;
 }
 
 void EnemyBossAttackState::SelectNextPattern()
 {
-	PhaseData currentPhase = _owner->GetCurrentPhaseData();
+	const PhaseData& phase = _owner->GetCurrentPhaseData();
 
-	if (currentPhase.patterns.empty())
-		return;
-
-	_currentPatternIndex = 0;
-
-	int randomValue = rand() % 100 + 1;
-	int currentPercent = 0;
-
-	for (int i = 0; i < currentPhase.patterns.size(); ++i)
+	int totalWeight = 0;
+	for (size_t i = 0; i < phase.patterns.size(); ++i)
 	{
-		currentPercent += (int)currentPhase.patterns[i].weight;
-		if (randomValue <= currentPercent)
+		if (_patternCooldowns[i] <= 0.f)
+			totalWeight += (int)phase.patterns[i].weight;
+	}
+
+	if (totalWeight == 0)
+	{
+		_currentPatternIndex = 0;
+		return;
+	}
+
+	int randomValue = rand() % totalWeight;
+	int acc = 0;
+
+	for (size_t i = 0; i < phase.patterns.size(); ++i)
+	{
+		if (_patternCooldowns[i] > 0.f)
+			continue;
+
+		acc += (int)phase.patterns[i].weight;
+		if (randomValue < acc)
 		{
-			_currentPatternIndex = i;
-			break;
+			_currentPatternIndex = (int)i;
+			return;
 		}
 	}
 }
@@ -85,6 +116,12 @@ void EnemyBossAttackState::ExecuteCurrentPattern()
 		break;
 	case PatternType::TRACKINGSHOT:
 		_owner->ExecuteTrackingShot(pattern);
+		break;
+	case PatternType::MOVESPRAYSHOT:
+		_owner->ExecuteMoveSprayShot(pattern);
+		break;
+	case PatternType::WARPBLAST:
+		_owner->ExecuteCircularSector(pattern);
 		break;
 	}
 }

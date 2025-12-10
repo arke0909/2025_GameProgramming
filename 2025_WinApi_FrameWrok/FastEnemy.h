@@ -1,12 +1,11 @@
 #pragma once
 #include "Enemy.h"
-class MeleeEnemy :
+class FastEnemy :
     public Enemy
 {
 public:
-    MeleeEnemy();
-    ~MeleeEnemy() override = default;
-
+    FastEnemy();
+	~FastEnemy() = default;
 private:
 	void EnterCollision(Collider* _other) override {
 		Enemy::EnterCollision(_other);
@@ -14,7 +13,5 @@ private:
 	void Update() override {
 		Enemy::Update();
 	};
-
-private:
-    float _attackRange;
 };
+

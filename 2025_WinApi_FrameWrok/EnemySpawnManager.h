@@ -10,7 +10,7 @@ enum class EnemyType
     Melee,
     Ranged,
     Armor,
-    Bounce,
+    Fast,
     Nonemove
 };
 
@@ -49,4 +49,6 @@ private:
 
     float _waveDelay;
     float _noSpawnDistance;
+    bool _gameClear = false;
+
 };

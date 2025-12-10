@@ -52,16 +52,28 @@ EnemyBullet::EnemyBullet(const Vec2& startPos, const Vec2& targetPos, float spee
     float length = sqrt(dir.x * dir.x + dir.y * dir.y);
     if (length != 0)
         _dir = dir / length;
+
+	_screenSize.x = SCREEN_WIDTH;
+	_screenSize.y = SCREEN_HEIGHT;
+	_halfSize = animSize * 0.5f;
 }
 
 EnemyBullet::~EnemyBullet()
-{
-	
+{	
 }
 
 void EnemyBullet::Update()
 {
     Translate(_dir * _speed * fDT);
+	Vec2 pos = GetPos();
+
+	if (pos.x + _halfSize.x < 0 ||
+		pos.y + _halfSize.y < 0 ||
+		pos.x - _halfSize.x > _screenSize.x ||
+		pos.y - _halfSize.y > _screenSize.y)
+	{
+		GET_SINGLE(SceneManager)->RequestDestroy(this);
+	}
 }
 
 

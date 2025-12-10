@@ -1,18 +1,15 @@
 #include "pch.h"
-#include "BounceEnemy.h"
+#include "FastEnemy.h"
+#include "EnemyAttackState.h"
 #include "ResourceManager.h"
-#include "SceneManager.h"
-#include "EnemySpawnManager.h"
-#include "Rigidbody.h"
 #include "EnemyMoveState.h"
 
-BounceEnemy::BounceEnemy()
+FastEnemy::FastEnemy()
 {
     _eTex = GET_SINGLE(ResourceManager)
         ->GetTexture(L"CloseEnemy");
-
-	_hp = 20;
-	_maxHP = 20;
+    _hp = 100;
+    _maxHP = 100;
     Vec2 animSize;
     switch (_eTex->GetHeight())
     {
@@ -30,6 +27,7 @@ BounceEnemy::BounceEnemy()
         break;
     }
 
+
     auto* animator = AddComponent<Animator>();
     animator->CreateAnimation(L"MOVE",
         _eTex,
@@ -37,21 +35,18 @@ BounceEnemy::BounceEnemy()
         animSize,
         { 0.f, 0.f },
         1, 1);
-    _speed = 150.f;
+    animator->CreateAnimation(L"AROMORMOVE",
+        _eTex,
+        { 0.f, 0.f },
+        animSize,
+        { 0.f, 0.f },
+        1, 1);
+
+    _speed = 200.f;
+    _attackRange = 0.f;
 
     _stateMachine = new EntityStateMachine();
-    EnemyMoveState* moveState = new EnemyMoveState(this, L"MOVE");
-    moveState->_attackRange = 0;
-    _stateMachine->AddState("MOVE", moveState);
+    _stateMachine->AddState("MOVE", new EnemyMoveState(this, L"MOVE"));
+    _stateMachine->AddState("ATTACK", new EnemyAttackState(this, L"ATTACK"));
     _stateMachine->ChangeState("MOVE");
-}
-
-BounceEnemy::~BounceEnemy()
-{
-	
-}
-
-void BounceEnemy::EnterCollision(Collider* _other)
-{
-    Enemy::EnterCollision(_other);
 }

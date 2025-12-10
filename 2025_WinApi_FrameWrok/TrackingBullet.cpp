@@ -46,5 +46,5 @@ void TrackingBullet::Update()
         _dir = _direction;
     }
 
-    Translate(_dir * _speed * fDT);
+    EnemyBullet::Update();
 }

@@ -23,7 +23,7 @@ ItemButton::ItemButton(const ItemInfo& info, const Vec2& pos, const Vec2& size)
             if (GET_SINGLE(GameManager)->coin >= _info.price)
             {
                 GET_SINGLE(GameManager)->coin -= _info.price;
-                GameEvents::OnItemPurchased.Raise(_info.type);
+                GameEvents::OnItemPurchased.Raise(_info);
             }
             else
             {

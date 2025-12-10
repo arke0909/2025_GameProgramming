@@ -5,8 +5,8 @@
 #include "RangedEnemy.h"
 #include "EnemyBoss.h"
 #include "ArmorEnemy.h"
+#include "FastEnemy.h"
 #include "NoneMoveEnemy.h"
-#include "BounceEnemy.h"
 #include "WindowManager.h"
 #include "Window.h"
 #include <cstdlib>
@@ -29,14 +29,14 @@ void EnemySpawnManager::Init(Player* player)
     _waveDelayTimer = 0.f;
 
     _waves = {
-        { { {EnemyType::Nonemove, 1}, {EnemyType::Bounce, 1} } },
-        { { {EnemyType::Melee, 4}, {EnemyType::Ranged, 2} } },
+        { { {EnemyType::Nonemove, 1}, {EnemyType::Melee, 1} } },
+        { { {EnemyType::Nonemove, 4}, {EnemyType::Ranged, 2} } },
         { { {EnemyType::Ranged, 6} } },
         { { {EnemyType::Melee, 4}, {EnemyType::Armor, 2} } },
-        { { {EnemyType::Bounce, 6} } },
+        { { {EnemyType::Melee, 6} } },
         { { {EnemyType::Melee, 3}, {EnemyType::Ranged, 3}, {EnemyType::Armor, 2} } },
-        { { {EnemyType::Melee, 4}, {EnemyType::Ranged, 4}, {EnemyType::Bounce, 2} } },
-        { { {EnemyType::Armor, 4}, {EnemyType::Bounce, 4} } },
+        { { {EnemyType::Melee, 4}, {EnemyType::Ranged, 4}, {EnemyType::Melee, 2} } },
+        { { {EnemyType::Armor, 4}, {EnemyType::Melee, 4} } },
         { { {EnemyType::Melee, 5}, {EnemyType::Ranged, 5}, {EnemyType::Armor, 5} } },
         { { {EnemyType::Melee, 0} } }
     };
@@ -49,6 +49,9 @@ void EnemySpawnManager::Update()
 
 void EnemySpawnManager::UpdateWave()
 {
+    if (_gameClear)
+        return;
+
     if (!_waveActive)
     {
         _waveDelayTimer += fDT;
@@ -63,28 +66,31 @@ void EnemySpawnManager::UpdateWave()
 
     if (_spawnedEnemies.empty())
     {
-        _currentWave++;
-        _waveActive = false;
+        if (_currentWave < (int)_waves.size() - 1)
+        {
+            _currentWave++;
+            _waveActive = false;
+        }
+        else
+        {
+            _waveActive = false;
+            _gameClear = true;
+        }
     }
 }
 
 void EnemySpawnManager::TrySpawnWave()
 {
-    if (_currentWave == 9)
+    if (_currentWave == _waves.size() - 1)
     {
+        EnemyBoss* e = new EnemyBoss();
 
-        Vec2 pos;
-        if (FindSpawnPosition(pos))
-        {
-            EnemyBoss* e = new EnemyBoss();
-            Vec2 pos;
+        e->SetTarget(_player);
+        e->SetPos({ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 });
+        e->CreateEnemyWindow();
 
-            e->SetPos({ _mapWidth / 2,_mapHeight  /2});
-            e->SetTarget(_player);
-            e->CreateEnemyWindow();
-            _spawnedEnemies.push_back(e);
-            GET_SINGLE(SceneManager)->GetCurScene()->AddObject(e, Layer::ENEMY);
-        }
+        _spawnedEnemies.push_back(e);
+        GET_SINGLE(SceneManager)->GetCurScene()->AddObject(e, Layer::ENEMY);
         return;
     }
 
@@ -94,6 +100,7 @@ void EnemySpawnManager::TrySpawnWave()
             SpawnEnemy(info.first);
     }
 }
+
 
 void EnemySpawnManager::SpawnEnemy(EnemyType type)
 {
@@ -108,8 +115,8 @@ void EnemySpawnManager::SpawnEnemy(EnemyType type)
         e->SetPos(pos);
         e->SetTarget(_player);
         e->CreateEnemyWindow();
-        _spawnedEnemies.push_back(e);
         GET_SINGLE(SceneManager)->GetCurScene()->AddObject(e, Layer::ENEMY);
+        _spawnedEnemies.push_back(e);
         return;
     }
 
@@ -139,9 +146,6 @@ Enemy* EnemySpawnManager::CreateEnemy(EnemyType type)
 
     if (type == EnemyType::Armor)
         return new ArmorEnemy();
-
-    if (type == EnemyType::Bounce)
-        return new BounceEnemy();
 
     if (type == EnemyType::Nonemove)
         return new NoneMoveEnemy();
@@ -201,7 +205,7 @@ void EnemySpawnManager::DeadEnemy(Enemy* enemy)
     if (it != _spawnedEnemies.end())
     {
         _spawnedEnemies.erase(it);
-		enemy->SetDead();
+        enemy->SetDead();
         GET_SINGLE(SceneManager)->RequestDestroy(enemy);
-	}
+    }
 }

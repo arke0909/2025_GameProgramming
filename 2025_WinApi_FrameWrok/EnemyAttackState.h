@@ -5,12 +5,11 @@ class EnemyAttackState
 {
 public:
 
-	EnemyAttackState(Enemy* owner, std::wstring animetionName)
-		: EnemyState(owner, L"ATTACK") {}
+	EnemyAttackState(Enemy* owner, std::wstring animetionName);
 	void Enter() override;
 	void Update() override;
-	void Render(HDC hdc) override;
 
+	void Render(HDC hdc) override {};
 	void Attack();
 public:
 	float _attackRange;

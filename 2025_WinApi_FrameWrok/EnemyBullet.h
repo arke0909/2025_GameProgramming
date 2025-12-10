@@ -16,5 +16,8 @@ public:
     
 protected:
     Vec2 _dir;
+    Vec2 _screenSize;
+    Vec2 _halfSize;
+
     float _speed;
 };
