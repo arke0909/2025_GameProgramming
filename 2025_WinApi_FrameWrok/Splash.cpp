@@ -31,15 +31,13 @@ void Splash::Render(HDC hdc)
 	Graphics graphics(hdc);
 	float alpha = std::lerp(255, 0, _ease);
 	Pen pen(Color(alpha, 255, 255, 255));
-	//Pen pen(Color(alpha, 255, 0, 0), 3);
 	RectF rect(
 		(int)(_pos.x - _currentRadius / 2),
 		(int)(_pos.y - _currentRadius / 2),
 		(int)(_currentRadius),
 		(int)(_currentRadius)
-	);	graphics.DrawEllipse(&pen, rect);
-	//GDISelector pen(hdc, PenType::WHITE);
-	//ELLIPSE_RENDER(hdc, _pos.x, _pos.y, _currentRadius, _currentRadius);
+	);
+	graphics.DrawEllipse(&pen, rect);
 }
 
 void Splash::EnterCollision(Collider* _other)
