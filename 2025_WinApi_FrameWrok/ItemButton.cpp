@@ -22,12 +22,12 @@ ItemButton::ItemButton(const ItemInfo& info, const Vec2& pos, const Vec2& size)
             if (GET_SINGLE(GameManager)->coin >= _info.price)
             {
                 GET_SINGLE(GameManager)->coin -= _info.price;
+
+                ItemPriceMap[_info.type] += PriceIncreaseMap[_info.type];
+
                 GameEvents::OnItemPurchased.Raise(_info);
             }
-            else
-            {
-                MessageBox(nullptr, L"코인이 부족합니다!", L"구매 실패", MB_OK);
-            }
+
         };
 }
 

@@ -21,7 +21,6 @@ void TitleScene::Init()
 
     startBtn->SetOnClick([]()
         {
-            GET_SINGLE(WindowManager)->CloseAllSubWindows();
             GET_SINGLE(SceneManager)->LoadScene(L"GameScene");
         });
 

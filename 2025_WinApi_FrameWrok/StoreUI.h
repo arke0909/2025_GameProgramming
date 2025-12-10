@@ -2,25 +2,26 @@
 #include "UIElement.h"
 #include "UIButton.h"
 #include "UILabel.h"
-#include "Window.h"
 #include "ItemButton.h"
+
+class Window;
 
 class StoreUI : public UIElement
 {
 public:
     StoreUI(const Vec2& pos, const Vec2& size);
     void SetWindowHandle(Window* storeWindow);
-    void Init();
     void Update() override;
     void Render(HDC hdc) override;
 
 private:
+    void Init();
     void Reroll();
     std::vector<ItemInfo> GetRandomItems(int count);
 
+private:
     std::vector<ItemButton*> _itemSlots;
     UIButton* _rerollButton = nullptr;
     UILabel* _coinLabel = nullptr;
-    bool _storeVisible = true;
-    Window* _storeWindow;
+    Window* _storeWindow = nullptr;
 };
