@@ -32,6 +32,11 @@ bool ResourceManager::Init()
    LoadTexture(L"SkillPanel", L"Texture\\SkillPanel.bmp"); 
    LoadTexture(L"No", L"Texture\\no.bmp"); 
    LoadTexture(L"Heart", L"Texture\\HP.bmp"); 
+   LoadTexture(L"Skeleton", L"Texture\\skeletonEnemy_24.bmp"); 
+   LoadTexture(L"Pumpkin", L"Texture\\pumpkin_24.bmp"); 
+   LoadTexture(L"Zoombie", L"Texture\\Zoombie_24.bmp"); 
+   LoadTexture(L"Bullet", L"Texture\\Bullet_24.bmp"); 
+   LoadTexture(L"EnumyBullet_24", L"Texture\\EnumyBullet_24bmp"); 
    LoadSound(L"BGM", L"Sound\\Test.mp3", true);
     RegisterSound();
 
@@ -150,7 +155,7 @@ void ResourceManager::RegisterGDI()
     m_Pens[(UINT)MyPenType::WHITE] = ::CreatePen(PS_SOLID, 1, RGB(255, 255, 255));
 
     RegisterFont(FontType::TITLE, L"³ª´®¼Õ±Û¾¾ ¾Ï½ºÅ×¸£´ã", 0);
-    RegisterFont(FontType::UI, L"BoldDunggeunmo", 12);
+    RegisterFont(FontType::UI, L"BoldDunggeunmo", 10);
 
 }
 
