@@ -6,6 +6,7 @@
 #include "RangedEnemy.h"
 #include "EnemyBoss.h"
 #include "ArmorEnemy.h"
+#include "CircleShotEnemy.h"
 #include "FastEnemy.h"
 #include "NoneMoveEnemy.h"
 #include "WindowManager.h"
@@ -30,7 +31,7 @@ void EnemySpawnManager::Init(Player* player)
     _waveDelayTimer = 0.f;
 
     _waves = {
-        { { {EnemyType::Melee, 1}, {EnemyType::Melee, 1} } },
+        { { {EnemyType::CircleShot, 1}, {EnemyType::Melee, 1} } },
         { { {EnemyType::Melee, 4}, {EnemyType::Ranged, 2} } },
         { { {EnemyType::Ranged, 6} } },
         { { {EnemyType::Melee, 4}, {EnemyType::Armor, 2} } },
@@ -153,17 +154,30 @@ void EnemySpawnManager::SpawnEnemy(EnemyType type)
 
 Enemy* EnemySpawnManager::CreateEnemy(EnemyType type)
 {
-    if (type == EnemyType::Melee) 
+
+    switch (type)
+    {
+    case EnemyType::Melee:
         return new MeleeEnemy();
-
-    if (type == EnemyType::Ranged)
+        break;
+    case EnemyType::Ranged:
         return new RangedEnemy();
-
-    if (type == EnemyType::Armor)
+        break;
+    case EnemyType::Armor:
         return new ArmorEnemy();
-
-    if (type == EnemyType::Nonemove)
+        break;
+    case EnemyType::Fast:
+        return new FastEnemy();
+        break;
+    case EnemyType::Nonemove:
         return new NoneMoveEnemy();
+        break;
+    case EnemyType::CircleShot:
+        return new CircleShotEnemy();
+        break;
+    default:
+        break;
+    }
 
     return nullptr;
 }

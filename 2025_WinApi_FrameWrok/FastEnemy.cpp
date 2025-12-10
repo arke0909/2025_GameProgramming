@@ -35,7 +35,7 @@ FastEnemy::FastEnemy()
         animSize,
         { 0.f, 0.f },
         1, 1);
-    animator->CreateAnimation(L"AROMORMOVE",
+    animator->CreateAnimation(L"ATTACK",
         _eTex,
         { 0.f, 0.f },
         animSize,
