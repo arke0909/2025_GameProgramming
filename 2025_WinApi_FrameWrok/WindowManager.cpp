@@ -33,7 +33,6 @@ void WindowManager::CloseAllSubWindows()
 			::DestroyWindow(window->GetHandle());
 			delete window;
 		}
-		window->GetUI()->Clear();
 	}
 	_subWindows.clear();
 }
@@ -46,7 +45,6 @@ void WindowManager::CloseSubWindow(Window* target)
 	if (it != _subWindows.end())
 	{
 		::DestroyWindow(target->GetHandle());
-		target->GetUI()->Clear();
 		delete target;
 		_subWindows.erase(it);
 	}

@@ -70,7 +70,7 @@ void SceneManager::RegisterScene(const wstring& name, std::shared_ptr<Scene> sce
 void SceneManager::LoadScene(const wstring& name)
 {
 	GET_SINGLE(WindowManager)->Release();
-
+	//GET_SINGLE(WindowManager)->CloseAllSubWindows();
 	if (_curScene != nullptr)
 	{
 		_curScene->Release();
