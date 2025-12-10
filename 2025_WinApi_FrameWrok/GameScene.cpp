@@ -90,12 +90,13 @@ void GameScene::Init()
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::BULLET, Layer::WALL);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::BULLET, Layer::ENEMY);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::PLAYER, Layer::DEFAULT);
+    _storeWindow->SetVisible(false);
 }
 
 void GameScene::Update()
 {
     Scene::Update();
-   // _spawn->Update();
+   _spawn->Update();
 
     if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::F))
     {
@@ -115,7 +116,15 @@ void GameScene::Update()
 
     if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::TAB))
     {
+       
         _storeVisible = !_storeVisible;
+        if (_storeVisible == true) {
+            GET_SINGLE(TimeManager)->SetTimeScale(0);
+        }
+        else
+        {
+            GET_SINGLE(TimeManager)->SetTimeScale(1);
+        }
         _storeWindow->SetVisible(_storeVisible);
     }
 }
