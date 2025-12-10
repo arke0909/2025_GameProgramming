@@ -3,6 +3,7 @@
 #include "BoxCollider.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
+#include "GameManager.h"
 
 EnemyBullet::EnemyBullet(const Vec2& startPos, const Vec2& targetPos, float speed)
 {
@@ -76,7 +77,6 @@ void EnemyBullet::Update()
 	}
 }
 
-
 void EnemyBullet::Render(HDC hdc)
 {
     ComponentRender(hdc);
@@ -85,7 +85,7 @@ void EnemyBullet::Render(HDC hdc)
 void EnemyBullet::EnterCollision(Collider* _other)
 {
 	if (_other->GetName() == L"Player") {
-		_other->GetOwner()->SetDead();
-		GET_SINGLE(SceneManager)->RequestDestroy(_other->GetOwner());
+		this->SetDead();
+		GET_SINGLE(GameManager)->playerHealth--;
 	}
 }
