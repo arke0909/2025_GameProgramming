@@ -26,7 +26,7 @@ void SubUIManager::Update(HWND hWnd)
             elem->Update();
         }
         catch (...)
-        {
+        {   
         }
     }
 
