@@ -167,7 +167,6 @@
     <ClInclude Include="ArmorEnemy.h" />
     <ClInclude Include="BaseWindow.h" />
     <ClInclude Include="BounceBullet.h" />
-    <ClInclude Include="BounceEnemy.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="CircleCollider.h" />
     <ClInclude Include="CoinLabel.h" />
@@ -178,7 +177,6 @@
     <ClInclude Include="Defines.h" />
     <ClInclude Include="EasingManager.h" />
     <ClInclude Include="Enemy.h" />
-    <ClInclude Include="EnemyArmorMoveState.h" />
     <ClInclude Include="EnemyAttackState.h" />
     <ClInclude Include="EnemyBoss.h" />
     <ClInclude Include="EnemyBossAttackState.h" />
@@ -187,7 +185,6 @@
     <ClInclude Include="EnemyBossIdleState.h" />
     <ClInclude Include="EnemyBullet.h" />
     <ClInclude Include="EnemyMoveState.h" />
-    <ClInclude Include="EnemyOnlyAttackState.h" />
     <ClInclude Include="EnemySpawnManager.h" />
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="EnemyTestScene.h" />
@@ -195,6 +192,7 @@
     <ClInclude Include="EntityState.h" />
     <ClInclude Include="EntityStateMachine.h" />
     <ClInclude Include="Enums.h" />
+    <ClInclude Include="FastEnemy.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GameEvent.h" />
     <ClInclude Include="GameManager.h" />
@@ -249,7 +247,6 @@
     <ClCompile Include="ArmorEnemy.cpp" />
     <ClCompile Include="BaseWindow.cpp" />
     <ClCompile Include="BounceBullet.cpp" />
-    <ClCompile Include="BounceEnemy.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CircleCollider.cpp" />
     <ClCompile Include="CoinLabel.cpp" />
@@ -259,7 +256,6 @@
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="EasingManager.cpp" />
     <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="EnemyArmorMoveState.cpp" />
     <ClCompile Include="EnemyAttackState.cpp" />
     <ClCompile Include="EnemyBoss.cpp" />
     <ClCompile Include="EnemyBossAttackState.cpp" />
@@ -268,11 +264,11 @@
     <ClCompile Include="EnemyBossIdleState.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="EnemyMoveState.cpp" />
-    <ClCompile Include="EnemyOnlyAttackState.cpp" />
     <ClCompile Include="EnemySpawnManager.cpp" />
     <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="EnemyTestScene.cpp" />
     <ClCompile Include="EntityState.cpp" />
+    <ClCompile Include="FastEnemy.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GameWindow.cpp" />
