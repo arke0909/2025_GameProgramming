@@ -1,13 +1,20 @@
 #pragma once
 #include "Enemy.h"
 
-class ArmorEnemy : public Enemy
+class ArmorEnemy :
+    public Enemy
 {
 public:
     ArmorEnemy();
-    ~ArmorEnemy() override;
-    void EnterCollision(Collider* _other) override;
-    void Update() override;
+    ~ArmorEnemy() override = default;
+
+private:
+    void EnterCollision(Collider* _other) override {
+        Enemy::EnterCollision(_other);
+    };
+    void Update() override {
+        Enemy::Update();
+    };
 
 private:
     bool _isInvincible = false;

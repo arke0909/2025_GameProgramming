@@ -41,7 +41,6 @@ void Enemy::EnterCollision(Collider* _other)
     {
 		_other->GetOwner()->SetDead();
         GET_SINGLE(SceneManager)->RequestDestroy(_other->GetOwner());
-        GET_SINGLE(SceneManager)->RequestDestroy(this);
     }
 
     if (_other->GetName() == L"PlayerBullet") 

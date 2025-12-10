@@ -5,11 +5,16 @@ class MeleeEnemy :
 {
 public:
     MeleeEnemy();
-    ~MeleeEnemy() override;
-	void EnterCollision(Collider* _other) override;
+    ~MeleeEnemy() override = default;
+
+private:
+	void EnterCollision(Collider* _other) override {
+		Enemy::EnterCollision(_other);
+	};
+	void Update() override {
+		Enemy::Update();
+	};
+
 private:
     float _attackRange;
-
-    void Update() override { Enemy::Update(); };
-    void Render(HDC hdc) override { Enemy::Render(hdc); };
 };

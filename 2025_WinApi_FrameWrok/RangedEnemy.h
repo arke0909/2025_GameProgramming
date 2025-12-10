@@ -5,6 +5,13 @@ class RangedEnemy :
 {
 public:
     RangedEnemy();
-    ~RangedEnemy() override;
-	void EnterCollision(Collider* _other) override;
+    ~RangedEnemy() override = default;
+
+private:
+	void EnterCollision(Collider* _other) override {
+		Enemy::EnterCollision(_other);
+	};
+	void Update() override {
+		Enemy::Update();
+	};
 };
