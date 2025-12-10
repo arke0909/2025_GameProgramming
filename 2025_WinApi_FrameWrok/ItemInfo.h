@@ -1,7 +1,8 @@
 #pragma once
-#include "pch.h"
+#include <unordered_set>
 
 class Texture;
+
 struct ItemInfo
 {
     ItemType type;
@@ -14,3 +15,6 @@ struct ItemInfo
 };
 
 extern std::vector<ItemInfo> AllItems;
+extern std::unordered_set<ItemType> PurchasedItems;
+extern std::unordered_map<ItemType, int> ItemPriceMap;
+extern std::unordered_map<ItemType, int> PriceIncreaseMap;

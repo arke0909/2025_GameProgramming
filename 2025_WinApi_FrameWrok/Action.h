@@ -12,23 +12,14 @@ public:
         _handlers.push_back(handler);
     }
 
-    void Unsubscribe(Handler handler)
-    {
-        _handlers.erase(
-            std::remove(_handlers.begin(), _handlers.end(), handler),
-            _handlers.end());
-    }
-
     void Raise(Args... args)
     {
         for (auto& handler : _handlers)
         {
-            if (handler)
-                handler(args...);
+            if (handler) handler(args...);
         }
     }
 
 private:
     std::vector<Handler> _handlers;
 };
-

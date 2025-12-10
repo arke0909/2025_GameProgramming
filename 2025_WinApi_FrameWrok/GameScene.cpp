@@ -44,7 +44,6 @@ void GameScene::Init()
 
     GameEvents::OnItemPurchased.Subscribe([](const ItemInfo& item) 
         {
-            MessageBox(nullptr, L"구매 완료!", L"구매", MB_OK);
         });
 
     SubUIManager* inGameUI = _inGameWindow->GetUI();
@@ -52,6 +51,7 @@ void GameScene::Init()
     SubUIManager* storeUI = _storeWindow->GetUI();
     StoreUI* shop = new StoreUI({ 250, 150 }, { 500, 300 });
     storeUI->Add(shop);
+	shop->SetWindowHandle(_storeWindow);
 
     GET_SINGLE(GameManager)->storeWindowHandle = _storeWindow->GetHandle();
 
@@ -97,7 +97,7 @@ void GameScene::Init()
 void GameScene::Update()
 {
     Scene::Update();
-    _spawn->Update();
+   // _spawn->Update();
 
     if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::F))
     {
