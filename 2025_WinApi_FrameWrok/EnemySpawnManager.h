@@ -4,6 +4,7 @@
 #include "Window.h"
 #include <vector>
 #include <utility>
+#include <queue>
 
 enum class EnemyType
 {
@@ -11,7 +12,8 @@ enum class EnemyType
     Ranged,
     Armor,
     Fast,
-    Nonemove
+    Nonemove,
+    CircleShot
 };
 
 class EnemySpawnManager
@@ -28,6 +30,7 @@ private:
         std::vector<std::pair<EnemyType, int>> enemies;
     };
 
+    float GetWaveHPMultiplier() const;
     void UpdateWave();
     void TrySpawnWave();
     void SpawnEnemy(EnemyType type);
@@ -51,4 +54,10 @@ private:
     float _noSpawnDistance;
     bool _gameClear = false;
 
+    std::queue<EnemyType> _spawnQueue;
+    float _spawnCoolTime = 2.5f;
+    float _spawnTimer = 0.f;
+    bool _spawning = false;
+
+    int _spawnMargin = 300;
 };

@@ -23,7 +23,9 @@ void StatComponent::AddStat(wstring key, float value)
 
 Stat* StatComponent::GetStat(wstring key)
 {
-	return _statMap[key];
+	if(_statMap.find(key) != _statMap.end())
+		return _statMap[key];
+	return nullptr;
 }
 
 float StatComponent::GetValue(wstring key)
@@ -33,16 +35,7 @@ float StatComponent::GetValue(wstring key)
 
 void StatComponent::Init()
 {
-	GameEvents::OnItemPurchased
-		.Subscribe([this](const ItemInfo& item)
-			{
-				if (_statMap.find(item.name) != _statMap.end())
-				{
-					int currentModifyCount = _statMap.size();
-					wstring str = std::format(L"{0}{1}", item.name, currentModifyCount);
-					_statMap[item.name]->AddModifier(str, item.value);
-				}
-			});
+	
 }
 
 void StatComponent::LateUpdate()

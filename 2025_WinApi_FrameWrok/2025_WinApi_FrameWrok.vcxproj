@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -98,7 +98,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Output\build\Resource\Fmod\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>fmod_vc.lib;fmodL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmod_vc.lib;fmodL_vc.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -136,7 +136,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Output\build\Resource\Fmod\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>fmod_vc.lib;fmodL_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmod_vc.lib;fmodL_vc.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -166,9 +166,11 @@
     <ClInclude Include="Animator.h" />
     <ClInclude Include="ArmorEnemy.h" />
     <ClInclude Include="BaseWindow.h" />
+    <ClInclude Include="BossWindow.h" />
     <ClInclude Include="BounceBullet.h" />
     <ClInclude Include="BoxCollider.h" />
     <ClInclude Include="CircleCollider.h" />
+    <ClInclude Include="CircleShotEnemy.h" />
     <ClInclude Include="CoinLabel.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="CollisionManager.h" />
@@ -176,19 +178,22 @@
     <ClInclude Include="Core.h" />
     <ClInclude Include="Defines.h" />
     <ClInclude Include="EasingManager.h" />
+    <ClInclude Include="Effect.h" />
+    <ClInclude Include="EffectParticle.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyAttackState.h" />
     <ClInclude Include="EnemyBoss.h" />
     <ClInclude Include="EnemyBossAttackState.h" />
     <ClInclude Include="EnemyBossDeadState.h" />
-    <ClInclude Include="EnemyBossHitState.h" />
     <ClInclude Include="EnemyBossIdleState.h" />
     <ClInclude Include="EnemyBullet.h" />
+    <ClInclude Include="EnemyMeleeAttackState.h" />
     <ClInclude Include="EnemyMoveState.h" />
     <ClInclude Include="EnemySpawnManager.h" />
     <ClInclude Include="EnemyState.h" />
     <ClInclude Include="EnemyTestScene.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="EntityHealthComponent.h" />
     <ClInclude Include="EntityState.h" />
     <ClInclude Include="EntityStateMachine.h" />
     <ClInclude Include="Enums.h" />
@@ -218,6 +223,7 @@
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="SkillComponent.h" />
     <ClInclude Include="Splash.h" />
     <ClInclude Include="Stat.h" />
     <ClInclude Include="StatComponent.h" />
@@ -246,27 +252,32 @@
     <ClCompile Include="Animator.cpp" />
     <ClCompile Include="ArmorEnemy.cpp" />
     <ClCompile Include="BaseWindow.cpp" />
+    <ClCompile Include="BossWindow.cpp" />
     <ClCompile Include="BounceBullet.cpp" />
     <ClCompile Include="BoxCollider.cpp" />
     <ClCompile Include="CircleCollider.cpp" />
+    <ClCompile Include="CircleShotEnemy.cpp" />
     <ClCompile Include="CoinLabel.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="EasingManager.cpp" />
+    <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="EffectParticle.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyAttackState.cpp" />
     <ClCompile Include="EnemyBoss.cpp" />
     <ClCompile Include="EnemyBossAttackState.cpp" />
     <ClCompile Include="EnemyBossDeadState.cpp" />
-    <ClCompile Include="EnemyBossHitState.cpp" />
     <ClCompile Include="EnemyBossIdleState.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
+    <ClCompile Include="EnemyMeleeAttackState.cpp" />
     <ClCompile Include="EnemyMoveState.cpp" />
     <ClCompile Include="EnemySpawnManager.cpp" />
     <ClCompile Include="EnemyState.cpp" />
     <ClCompile Include="EnemyTestScene.cpp" />
+    <ClCompile Include="EntityHealthComponent.cpp" />
     <ClCompile Include="EntityState.cpp" />
     <ClCompile Include="FastEnemy.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -290,6 +301,7 @@
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SkillComponent.cpp" />
     <ClCompile Include="Splash.cpp" />
     <ClCompile Include="Stat.cpp" />
     <ClCompile Include="StatComponent.cpp" />

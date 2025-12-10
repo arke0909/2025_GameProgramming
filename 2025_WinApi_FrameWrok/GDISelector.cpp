@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "GDISelector.h"
 #include "ResourceManager.h"
-GDISelector::GDISelector(HDC _hdc, PenType _pen)
+GDISelector::GDISelector(HDC _hdc, MyPenType _pen)
     : m_hDC(_hdc)
     , m_hDefaultBrush(nullptr)
     , m_hDefaultPen(nullptr)
@@ -11,7 +11,7 @@ GDISelector::GDISelector(HDC _hdc, PenType _pen)
     m_hDefaultPen = (HPEN)::SelectObject(_hdc, hColorPen);
 }
 
-GDISelector::GDISelector(HDC _hdc, BrushType _brush)
+GDISelector::GDISelector(HDC _hdc, MyBrushType _brush)
     : m_hDC(_hdc)
     , m_hDefaultBrush(nullptr)
     , m_hDefaultPen(nullptr)

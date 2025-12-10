@@ -6,9 +6,13 @@
 #include "Rigidbody.h"
 #include "CircleCollider.h"
 #include "Animator.h"
+#include "StatComponent.h"
+#include "Stat.h"
 #include "InputManager.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
+#include "GameManager.h"
+#include "GameEvent.h"
 
 
 Player::Player()
@@ -34,7 +38,7 @@ Player::Player()
 	_statCompo->AddStat(STAT_WALLFORCE, 20);
 	_statCompo->AddStat(STAT_GOLDMULTI, 1);
 	_statCompo->AddStat(STAT_MULTISHOT, 1);
-	_statCompo->AddStat(STAT_SPLASH, 0);
+	_statCompo->AddStat(STAT_SPLASH, 1);
 	_statCompo->AddStat(STAT_PENET, 1);
 
 
@@ -191,6 +195,26 @@ void Player::ShotProjectile()
 void Player::AfterInit()
 {
 	//_weapon = CreateWeapon();
+
+	GameEvents::OnItemPurchased
+		.Subscribe([](const ItemInfo& item)
+			{
+				if (item.name == L"HealHP")
+				{
+					GET_SINGLE(GameManager)->playerHealth += item.value;
+				}
+			});
+	GameEvents::OnItemPurchased
+		.Subscribe([this](const ItemInfo& item)
+			{
+				auto* targetStat = _statCompo->GetStat(item.name);
+				if (targetStat != nullptr)
+				{
+					int currentModifyCount = targetStat->GetModifyCnt();
+					wstring str = std::format(L"{0}{1}", item.name, currentModifyCount);
+					targetStat->AddModifier(str, item.value);
+				}
+			});
 
 	_lastFireTime = -_statCompo->GetValue(STAT_ATTACKSPEED);
 }

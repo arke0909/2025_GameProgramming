@@ -11,8 +11,7 @@ NoneMoveEnemy::NoneMoveEnemy()
     _eTex = GET_SINGLE(ResourceManager)
         ->GetTexture(L"CloseEnemy");
 
-    _hp = 20;
-    _maxHP = 20;
+    GetComponent<EntityHealthComponent>()->SetHealth(20);
 
     Vec2 animSize;
     switch (_eTex->GetHeight())
@@ -47,7 +46,7 @@ NoneMoveEnemy::NoneMoveEnemy()
 
     _speed = 0.0f;
     _attackRange = SCREEN_WIDTH * 2;
-    cout << _attackRange << endl;
+    _dropGold = 50;
 
     _stateMachine = new EntityStateMachine();
     _stateMachine->AddState("ATTACK", new EnemyAttackState(this, L"ATTACK"));

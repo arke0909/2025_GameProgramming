@@ -2,8 +2,8 @@
 class GDISelector
 {
 public:
-    GDISelector(HDC _hdc, PenType _pen);
-    GDISelector(HDC _hdc, BrushType _brush);
+    GDISelector(HDC _hdc, MyPenType _pen);
+    GDISelector(HDC _hdc, MyBrushType _brush);
     GDISelector(HDC _hdc, FontType _font);
     ~GDISelector();
 private:

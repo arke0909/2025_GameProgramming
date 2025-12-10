@@ -13,8 +13,7 @@ RangedEnemy::RangedEnemy()
     _eTex = GET_SINGLE(ResourceManager)
         ->GetTexture(L"CloseEnemy");
 
-    _hp = 20;
-    _maxHP = 20;
+    GetComponent<EntityHealthComponent>()->SetHealth(20);
 
     Vec2 animSize;
     switch (_eTex->GetHeight())
@@ -39,6 +38,7 @@ RangedEnemy::RangedEnemy()
 
     _speed = 100.f;
 	_attackRange = 250.f;
+    _dropGold = 50;
 
     _stateMachine = new EntityStateMachine();
     _stateMachine->AddState("MOVE", new EnemyMoveState(this, L"MOVE"));
