@@ -31,17 +31,38 @@ void EnemySpawnManager::Init(Player* player)
     _waveDelayTimer = 0.f;
 
     _waves = {
-        { { {EnemyType::CircleShot, 1}, {EnemyType::Melee, 1} } },
-        { { {EnemyType::Melee, 4}, {EnemyType::Ranged, 2} } },
-        { { {EnemyType::Ranged, 6} } },
-        { { {EnemyType::Melee, 4}, {EnemyType::Armor, 2} } },
-        { { {EnemyType::Melee, 6} } },
-        { { {EnemyType::Melee, 3}, {EnemyType::Ranged, 3}, {EnemyType::Armor, 2} } },
-        { { {EnemyType::Melee, 4}, {EnemyType::Ranged, 4}, {EnemyType::Melee, 2} } },
-        { { {EnemyType::Armor, 4}, {EnemyType::Melee, 4} } },
-        { { {EnemyType::Melee, 5}, {EnemyType::Ranged, 5}, {EnemyType::Armor, 5} } },
-        { { {EnemyType::Melee, 0} } }
+        // 1 wave
+        {{ {EnemyType::Melee, 6} }},
+
+        // 2 wave
+        {{ {EnemyType::Melee, 5}, {EnemyType::Ranged, 2} }},
+
+        // 3 wave
+        {{ {EnemyType::Melee, 6}, {EnemyType::Ranged, 4} }},
+
+        // 4 wave
+        {{ {EnemyType::Ranged, 6}, {EnemyType::Fast, 3} }},
+
+        // 5 wave
+        {{ {EnemyType::Armor, 3}, {EnemyType::Melee, 5} }},
+
+        // 6 wave
+        {{ {EnemyType::Fast, 5}, {EnemyType::Ranged, 4} }},
+
+        // 7 wave
+        {{ {EnemyType::CircleShot, 2}, {EnemyType::Fast, 4}, {EnemyType::Melee, 4} }},
+
+        // 8 wave
+        {{ {EnemyType::Melee, 5}, {EnemyType::Ranged, 4}, {EnemyType::Nonemove, 2} }},
+
+        // 9 wave
+        {{ {EnemyType::CircleShot, 3}, {EnemyType::Fast, 4}, {EnemyType::Nonemove, 3} }},
+
+        // boss
+        {{ {EnemyType::Melee, 0} }}
     };
+
+
     GET_SINGLE(GameManager)->currentWavwe = _currentWave + 1;
 }
 
@@ -72,7 +93,26 @@ void EnemySpawnManager::UpdateWave()
         return;
     }
 
-    if (_spawnedEnemies.empty())
+    if (_spawning)
+    {
+        _spawnTimer += fDT;
+        if (_spawnTimer >= _spawnCoolTime)
+        {
+            _spawnTimer = 0.f;
+
+            if (!_spawnQueue.empty())
+            {
+                SpawnEnemy(_spawnQueue.front());
+                _spawnQueue.pop();
+            }
+            else
+            {
+                _spawning = false;
+            }
+        }
+    }
+
+    if (!_spawning && _spawnedEnemies.empty())
     {
         if (_currentWave < (int)_waves.size() - 1)
         {
@@ -93,7 +133,6 @@ void EnemySpawnManager::TrySpawnWave()
     if (_currentWave == _waves.size() - 1)
     {
         EnemyBoss* e = new EnemyBoss();
-
         e->SetTarget(_player);
         e->SetPos({ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 });
         e->CreateEnemyWindow();
@@ -103,13 +142,18 @@ void EnemySpawnManager::TrySpawnWave()
         return;
     }
 
+    while (!_spawnQueue.empty())
+        _spawnQueue.pop();
+
     for (auto& info : _waves[_currentWave].enemies)
     {
         for (int i = 0; i < info.second; i++)
-            SpawnEnemy(info.first);
+            _spawnQueue.push(info.first);
     }
-}
 
+    _spawning = true;
+    _spawnTimer = 0.f;
+}
 
 void EnemySpawnManager::SpawnEnemy(EnemyType type)
 {
@@ -154,7 +198,6 @@ void EnemySpawnManager::SpawnEnemy(EnemyType type)
 
 Enemy* EnemySpawnManager::CreateEnemy(EnemyType type)
 {
-
     switch (type)
     {
     case EnemyType::Melee:
@@ -216,16 +259,31 @@ Vec2 EnemySpawnManager::GenerateEdgePosition()
 {
     int side = rand() % 4;
 
+    float x = 0.f;
+    float y = 0.f;
+
     if (side == 0)
-        return Vec2((float)(rand() % _mapWidth), 0.f);
+    {
+        x = static_cast<float>(rand() % (_mapWidth - _spawnMargin * 2) + _spawnMargin);
+        y = static_cast<float>(_spawnMargin);
+    }
+    else if (side == 1)
+    {
+        x = static_cast<float>(rand() % (_mapWidth - _spawnMargin * 2) + _spawnMargin);
+        y = static_cast<float>(_mapHeight - _spawnMargin);
+    }
+    else if (side == 2)
+    {
+        x = static_cast<float>(_spawnMargin);
+        y = static_cast<float>(rand() % (_mapHeight - _spawnMargin * 2) + _spawnMargin);
+    }
+    else
+    {
+        x = static_cast<float>(_mapWidth - _spawnMargin);
+        y = static_cast<float>(rand() % (_mapHeight - _spawnMargin * 2) + _spawnMargin);
+    }
 
-    if (side == 1)
-        return Vec2((float)(rand() % _mapWidth), (float)_mapHeight);
-
-    if (side == 2)
-        return Vec2(0.f, (float)(rand() % _mapHeight));
-
-    return Vec2((float)_mapWidth, (float)(rand() % _mapHeight));
+    return Vec2(x, y);
 }
 
 void EnemySpawnManager::DeadEnemy(Enemy* enemy)
