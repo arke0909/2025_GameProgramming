@@ -3,6 +3,7 @@
 class HpLabel;
 class Window;
 class GameWindow;
+class EnemySpawnManager;
 
 class GameScene :
     public Scene
@@ -15,7 +16,7 @@ private:
     GameWindow* _inGameWindow;
     Window* _informationWindow = nullptr;
     Window* _storeWindow = nullptr;
-
+    EnemySpawnManager* _spawn;
     bool _storeVisible = true;
 };
 

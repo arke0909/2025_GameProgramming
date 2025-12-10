@@ -29,11 +29,14 @@ void Splash::Update()
 
 void Splash::Render(HDC hdc)
 {
-	Graphics graphics(hdc);
-	float alpha = std::lerp(0, 255, _ease);
-	Pen pen(Color(alpha, 0, 0, 0));
-	RECT rt = { (int)(_pos.x - _currentRadius / 2),(int)(_pos.y - _currentRadius / 2),(int)(_pos.x + _currentRadius / 2),(int)(_pos.y + _currentRadius / 2) };
-	graphics.DrawEllipse(&pen,rt);
+	//Graphics graphics(hdc);
+	//float alpha = std::lerp(0, 255, _ease);
+	//Pen pen(Color(alpha, 0, 0, 0));
+	//Pen pen(Color(alpha, 255, 0, 0), 3);
+	//graphics.DrawLine(&pen, 10, 10, 200, 10);
+
+	//RECT rt = { (int)(_pos.x - _currentRadius / 2),(int)(_pos.y - _currentRadius / 2),(int)(_pos.x + _currentRadius / 2),(int)(_pos.y + _currentRadius / 2) };
+	//graphics.DrawEllipse(&pen,rt);
 }
 
 void Splash::EnterCollision(Collider* _other)
