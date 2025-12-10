@@ -6,6 +6,7 @@
 #include "Animator.h"
 #include "Rigidbody.h"
 #include "Splash.h"
+#include "Effect.h"
 
 Projectile::Projectile(int level, int splashLvl) : _angle(0.f), _dir(1.f, 1.f)
 {
@@ -65,11 +66,15 @@ void Projectile::Render(HDC hdc)
 
 void Projectile::EnterCollision(Collider* _other)
 {
-	//if (_other->GetName() == L"Enemy")
+	auto* effect = new Effect();
+	effect->SetPos(_pos);
+	effect->CreateParticle();
+	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(effect, Layer::BULLET);
+	if (_other->GetName() == L"Enemy")
 	{
 		_penetration--;
 
-		//if (_splashLvl > 0)
+		if (_splashLvl > 0)
 			CreateSplash();
 
 		if(_penetration == 0)
