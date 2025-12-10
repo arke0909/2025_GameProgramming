@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "EntityStateMachine.h"
 #include "PhaseData.h"
-#include "Window.h"
+#include "BossWindow.h"
 #include <vector>
 
 class EnemyBoss : public Enemy
@@ -37,7 +37,7 @@ private:
     void CheckPhaseTransition();
     void TransitionToPhase(int phase);
 
-    Window* _window;
+    BossWindow* _window;
     int _currentPhase;
     std::vector<PhaseData> _phases;
 

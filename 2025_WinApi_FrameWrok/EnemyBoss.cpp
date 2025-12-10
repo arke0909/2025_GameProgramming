@@ -92,7 +92,7 @@ void EnemyBoss::CreateEnemyWindow()
 {
 	Vec2 pos = GetPos();
 
-	_window = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
+	_window = (BossWindow*)GET_SINGLE(WindowManager)->CreateSubWindow<BossWindow>(
 		L"Boss",
 		{
 			{ pos.x, pos.y },
@@ -115,14 +115,18 @@ void EnemyBoss::Update()
 		{
 			SetPos(_moveTarget);
 			_isMoving = false;
-			_isSprayMoving = false;
+			_window->WindowMoveAndChangeSize(_window->GetWindowSize(), _moveTarget);
 		}
 		else
 		{
 			dir.Normalize();
-			SetPos(pos + dir * _moveSpeed * fDT);
+			Vec2 newPos = pos + dir * _moveSpeed * fDT;
+			SetPos(newPos);
+
+			_window->WindowMoveAndChangeSize(_window->GetWindowSize(), newPos);
 		}
 	}
+
 
 	if (_isSprayMoving)
 	{
