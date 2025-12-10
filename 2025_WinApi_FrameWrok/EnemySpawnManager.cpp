@@ -126,7 +126,7 @@ void EnemySpawnManager::SpawnEnemy(EnemyType type)
         e->CreateEnemyWindow();
 
         float hpMul = GetWaveHPMultiplier();
-        e->ApplyHPScale(hpMul);
+        e->GetComponent<EntityHealthComponent>()->ApplyHPScale(hpMul);
 
         GET_SINGLE(SceneManager)->GetCurScene()->AddObject(e, Layer::ENEMY);
         _spawnedEnemies.push_back(e);
@@ -144,7 +144,7 @@ void EnemySpawnManager::SpawnEnemy(EnemyType type)
     e->SetTarget(_player);
 
     float hpMul = GetWaveHPMultiplier();
-    e->ApplyHPScale(hpMul);
+    e->GetComponent<EntityHealthComponent>()->ApplyHPScale(hpMul);
 
     GET_SINGLE(SceneManager)->GetCurScene()->AddObject(e, Layer::ENEMY);
 
