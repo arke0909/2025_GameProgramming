@@ -90,7 +90,7 @@ void EnemyBoss::InitializePhases()
 
 void EnemyBoss::CreateEnemyWindow()
 {
-	Vec2 pos = this->GetPos();
+	Vec2 pos = GetPos();
 
 	_window = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
 		L"Boss",

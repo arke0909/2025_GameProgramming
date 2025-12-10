@@ -10,7 +10,7 @@ enum class EnemyType
     Melee,
     Ranged,
     Armor,
-    Bounce,
+    Fast,
     Nonemove
 };
 
