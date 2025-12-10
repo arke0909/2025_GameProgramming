@@ -53,7 +53,7 @@ void Core::MainUpdate()
 	GET_SINGLE(TimeManager)->Update();
 	{
 		static float accmulator = 0.f;
-		const float fixedDT = 1.f / 60.f * GET_SINGLE(TimeManager)->GetTimeScale();
+		const float fixedDT = 1.f / 60.f;
 		accmulator += fDT;
 		while (accmulator >= fixedDT)
 		{
