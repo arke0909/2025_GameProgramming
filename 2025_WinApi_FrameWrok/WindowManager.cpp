@@ -55,7 +55,8 @@ void WindowManager::Release()
 	for (auto window : _subWindows)
 	{
 		::ReleaseDC(window->GetHandle(), window->GetHDC());
-		SAFE_DELETE(window);
 	}
+	CloseAllSubWindows();
+	_subWindows.clear();
 }
 
