@@ -17,7 +17,6 @@ public:
 private:
     float _coolTime;
     float _currentTime;
-	float _attackRange;
 
 	bool _isAttack;
 
