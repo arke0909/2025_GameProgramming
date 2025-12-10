@@ -16,6 +16,8 @@ Enemy::Enemy()
     auto* col = AddComponent<BoxCollider>();
     col->SetName(L"Enemy");
     col->SetTrigger(true);
+
+	AddComponent<EntityHealthComponent>();
 }
 
 Enemy::~Enemy()
@@ -41,13 +43,13 @@ void Enemy::EnterCollision(Collider* _other)
     {
 		_other->GetOwner()->SetDead();
         GET_SINGLE(SceneManager)->RequestDestroy(_other->GetOwner());
-        GET_SINGLE(SceneManager)->RequestDestroy(this);
     }
 
     if (_other->GetName() == L"PlayerBullet") 
     {
-        UpdateHP(-10);
-        if (GetHP() <= 0) {
+		auto* healthComp = GetComponent<EntityHealthComponent>();
+        healthComp->UpdateHP(-10);
+        if (healthComp->GetCurrentHP() <= 0) {
             GET_SINGLE(EnemySpawnManager)->DeadEnemy(this);
         }
     }

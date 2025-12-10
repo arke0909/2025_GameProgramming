@@ -225,25 +225,16 @@
     <ClInclude Include="EntityState.h">
       <Filter>Engine\11.FSM\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyOnlyAttackState.h">
-      <Filter>Engine\11.FSM\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyMoveState.h">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="EnemyAttackState.h">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyArmorMoveState.h">
-      <Filter>Engine\11.FSM\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyBullet.h">
       <Filter>Engine\03.Object\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="ArmorEnemy.h">
-      <Filter>Engine\03.Object\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="BounceEnemy.h">
       <Filter>Engine\03.Object\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="NoneMoveEnemy.h">
@@ -300,9 +291,6 @@
     <ClInclude Include="EnemyState.h">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyArmorMoveState.h">
-      <Filter>Engine\11.FSM\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyAttackState.h">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClInclude>
@@ -313,9 +301,6 @@
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBossDeadState.h">
-      <Filter>Engine\11.FSM\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyBossHitState.h">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBossIdleState.h">
@@ -343,6 +328,21 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="StoreUI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="FastEnemy.h">
+      <Filter>Engine\03.Object\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="BossWindow.h">
+      <Filter>Engine\09.Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleShotEnemy.h">
+      <Filter>Engine\03.Object\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityHealthComponent.h">
+      <Filter>Engine\06.Component</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillComponent.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -480,25 +480,16 @@
     <ClCompile Include="EnemyState.cpp">
       <Filter>Engine\11.FSM\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyOnlyAttackState.cpp">
-      <Filter>Engine\11.FSM\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyMoveState.cpp">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="EnemyAttackState.cpp">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyArmorMoveState.cpp">
-      <Filter>Engine\11.FSM\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyBullet.cpp">
       <Filter>Engine\03.Object\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="ArmorEnemy.cpp">
-      <Filter>Engine\03.Object\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="BounceEnemy.cpp">
       <Filter>Engine\03.Object\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="NoneMoveEnemy.cpp">
@@ -543,9 +534,6 @@
     <ClCompile Include="EnemyState.cpp">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyArmorMoveState.cpp">
-      <Filter>Engine\11.FSM\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyAttackState.cpp">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClCompile>
@@ -556,9 +544,6 @@
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBossDeadState.cpp">
-      <Filter>Engine\11.FSM\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyBossHitState.cpp">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBossIdleState.cpp">
@@ -583,6 +568,21 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="StoreUI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="FastEnemy.cpp">
+      <Filter>Engine\03.Object\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="BossWindow.cpp">
+      <Filter>Engine\09.Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleShotEnemy.cpp">
+      <Filter>Engine\03.Object\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityHealthComponent.cpp">
+      <Filter>Engine\06.Component</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillComponent.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

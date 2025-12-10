@@ -4,14 +4,16 @@
 #include "Animator.h"
 #include "EnemyMoveState.h"
 #include "EnemySpawnManager.h"
+#include "EnemyAttackState.h"
 #include "SceneManager.h"
 
 MeleeEnemy::MeleeEnemy()
 {
     _eTex = GET_SINGLE(ResourceManager)
         ->GetTexture(L"CloseEnemy");
-    _hp = 20;
-	_maxHP = 20;
+
+	GetComponent<EntityHealthComponent>()->SetHealth(20);
+    
     Vec2 animSize;
     switch (_eTex->GetHeight())
     {
@@ -36,21 +38,13 @@ MeleeEnemy::MeleeEnemy()
         animSize, 
         { 0.f, 0.f }, 
         1, 1);
-    _speed = 150.f;
+
+    _speed = 100.f;
+    _attackRange = 0.0f;
 
     _stateMachine = new EntityStateMachine();
-    EnemyMoveState* moveState = new EnemyMoveState(this, L"MOVE");
-    moveState->_attackRange = 0;
-    _stateMachine->AddState("MOVE", moveState);
+
+    _stateMachine->AddState("MOVE", new EnemyMoveState(this, L"MOVE"));
+    _stateMachine->AddState("ATTACK", new EnemyAttackState(this, L"ATTACK"));
     _stateMachine->ChangeState("MOVE");
-}
-
-MeleeEnemy::~MeleeEnemy()
-{
-	Enemy::~Enemy();
-}
-
-void MeleeEnemy::EnterCollision(Collider* _other)
-{
-	Enemy::EnterCollision(_other);
 }

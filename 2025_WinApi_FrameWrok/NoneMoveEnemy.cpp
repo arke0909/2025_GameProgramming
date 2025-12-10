@@ -3,15 +3,16 @@
 #include "WindowManager.h"
 #include "ResourceManager.h"
 #include "EnemySpawnManager.h"
+#include "EnemyMoveState.h"
 #include "EnemyAttackState.h"
-#include "EnemyOnlyAttackState.h"
 
 NoneMoveEnemy::NoneMoveEnemy()
 {
     _eTex = GET_SINGLE(ResourceManager)
         ->GetTexture(L"CloseEnemy");
-    _hp = 20;
-    _maxHP = 20;
+
+    GetComponent<EntityHealthComponent>()->SetHealth(20);
+
     Vec2 animSize;
     switch (_eTex->GetHeight())
     {
@@ -30,29 +31,33 @@ NoneMoveEnemy::NoneMoveEnemy()
     }
 
     auto* animator = AddComponent<Animator>();
-    animator->CreateAnimation(L"OnlyAttack",
+    animator->CreateAnimation(L"ATTACK",
+        _eTex,
+        { 0.f, 0.f },
+        animSize,
+        { 0.f, 0.f },
+        1, 1);
+    animator->CreateAnimation(L"MOVE",
         _eTex,
         { 0.f, 0.f },
         animSize,
         { 0.f, 0.f },
         1, 1);
 
+    _speed = 0.0f;
+    _attackRange = SCREEN_WIDTH * 2;
+    cout << _attackRange << endl;
+
     _stateMachine = new EntityStateMachine();
-    EnemyOnlyAttackState* attackState = new EnemyOnlyAttackState(this, L"OnlyAttack");
-    _stateMachine->AddState("OnlyAttack", attackState);
-    _stateMachine->ChangeState("OnlyAttack");
-
-   
-}
-
-NoneMoveEnemy::~NoneMoveEnemy()
-{
-
+    _stateMachine->AddState("ATTACK", new EnemyAttackState(this, L"ATTACK"));
+    _stateMachine->AddState("MOVE", new EnemyMoveState(this, L"MOVE"));
+    _stateMachine->ChangeState("ATTACK");
+    
 }
 
 void NoneMoveEnemy::CreateEnemyWindow()
 {
-    Vec2 pos = this->GetPos();
+    Vec2 pos = GetPos();
 
     _window = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
         L"NonemoveEnemy",
@@ -60,10 +65,4 @@ void NoneMoveEnemy::CreateEnemyWindow()
             { pos.x, pos.y },
             { 250, 250 }
         });
-}
-
-
-void NoneMoveEnemy::EnterCollision(Collider* _other)
-{
-	Enemy::EnterCollision(_other);
 }

@@ -2,16 +2,18 @@
 #include "ArmorEnemy.h"
 #include "ResourceManager.h"
 #include "EnemyMoveState.h"
-#include "EnemyArmorMoveState.h"
 #include "EnemySpawnManager.h"
+#include "EnemyAttackState.h"
 #include "SceneManager.h"
 
 ArmorEnemy::ArmorEnemy()
 {
 	_eTex = GET_SINGLE(ResourceManager)
 		->GetTexture(L"CloseEnemy");
-    _hp = 100;
-    _maxHP = 100;
+
+
+    GetComponent<EntityHealthComponent>()->SetHealth(30);
+
     Vec2 animSize;
     switch (_eTex->GetHeight())
     {
@@ -43,39 +45,12 @@ ArmorEnemy::ArmorEnemy()
         animSize,
         { 0.f, 0.f },
         1, 1);
-    _speed = 100.f;
+
+    _speed = 50.f;
+    _attackRange = 0.f;
 
     _stateMachine = new EntityStateMachine();
-    EnemyMoveState* moveState = new EnemyMoveState(this, L"MOVE");
-    moveState->_attackRange = 0;
-    _stateMachine->AddState("MOVE", moveState);
-    EnemyArmorMoveState* armormoveState = new EnemyArmorMoveState(this, L"AROMORMOVE");
-    armormoveState->_attackRange = 0;
-    _stateMachine->AddState("AROMORMOVE", armormoveState);
-    _stateMachine->ChangeState("AROMORMOVE");
-}
-
-ArmorEnemy::~ArmorEnemy()
-{
-
-}
-
-void ArmorEnemy::Update()
-{
-    if (_isInvincible)
-    {
-        _invincibleTime += fDT;
-        if (_invincibleTime >= _maxInvincibleTime)
-        {
-            _isInvincible = false;
-            _invincibleTime = 0.f;
-        }
-    }
-
-    Enemy::Update();
-}
-
-void ArmorEnemy::EnterCollision(Collider* _other)
-{
-	Enemy::EnterCollision(_other);
+    _stateMachine->AddState("MOVE", new EnemyMoveState(this, L"MOVE"));
+    _stateMachine->AddState("ATTACK", new EnemyAttackState(this, L"ATTACK"));
+    _stateMachine->ChangeState("MOVE");
 }

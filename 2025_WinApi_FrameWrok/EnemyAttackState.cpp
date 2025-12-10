@@ -3,14 +3,24 @@
 #include "SceneManager.h"
 #include "EnemyBullet.h"
 
+EnemyAttackState::EnemyAttackState(Enemy* owner, std::wstring animetionName)
+    : EnemyState(owner, L"ATTACK"),
+	_attackCooldown(0.f),
+	_attackRange(0.f),
+    _canAttack(false)
+{
+    _attackRange = owner->GetAttackRange();
+}
+
 void EnemyAttackState::Enter()
 {
+	EntityState::Enter();
     _attackCooldown = 0.f;
-    _attackRange = 200.f;
 }
 
 void EnemyAttackState::Update()
 {
+    EntityState::Update();
     Vec2 enemyPos = _enemy->GetPos();
     Vec2 targetPos = _enemy->GetTarget()->GetPos();
 
@@ -33,15 +43,13 @@ void EnemyAttackState::Update()
     }
 }
 
-
-void EnemyAttackState::Render(HDC hdc)
-{
-
-}
-
 void EnemyAttackState::Attack()
 {
-    Vec2 playerPos = _enemy->GetTarget()->GetPos();
+	Player* player = _enemy->GetTarget();
+    if (player == nullptr)
+        return;
+
+    Vec2 playerPos = player->GetPos();
 	Vec2 _pos = _enemy->GetPos();
     EnemyBullet* bullet = new EnemyBullet(_pos, playerPos, 200.0f);
     GET_SINGLE(SceneManager)->GetCurScene()->AddObject(bullet, Layer::PROJECTILE);
