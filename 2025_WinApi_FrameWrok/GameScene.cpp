@@ -14,6 +14,7 @@
 #include "CoinLabel.h"
 #include "InputManager.h"
 #include "ResourceManager.h"
+#include "EnemySpawnManager.h"
 #include "GameWindow.h"
 #include "StoreUI.h"
 #include "GameEvent.h"
@@ -41,7 +42,7 @@ void GameScene::Init()
     _storeWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>
     (L"Store", { {SCREEN_WIDTH - 300,SCREEN_HEIGHT / 2 + 150},{500,300} });
 
-    GameEvents::OnItemPurchased.Subscribe([](const ItemType& item) 
+    GameEvents::OnItemPurchased.Subscribe([](const ItemInfo& item) 
         {
             MessageBox(nullptr, L"구매 완료!", L"구매", MB_OK);
         });
@@ -69,12 +70,11 @@ void GameScene::Init()
 
 	infoUI->Add(hpLabel);
 
-
-
-
     auto* player = Spawn<Player>(Layer::PLAYER, _inGameWindow->GetPos(), { 75, 75 });
     player->SetWindow(_inGameWindow);
 
+    _spawn = GET_SINGLE(EnemySpawnManager);
+    _spawn->Init(player);
 
     WallSet wallSets[4] = { {false,false}, {false,true}, {true,false}, {true,true} };
     for (int i = 0; i < 4; ++i)
@@ -95,7 +95,7 @@ void GameScene::Init()
 void GameScene::Update()
 {
     Scene::Update();
-
+    _spawn->Update();
 
     if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::F))
     {
