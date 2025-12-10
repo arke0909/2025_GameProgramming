@@ -1,6 +1,7 @@
 #pragma once
 #include "UIElement.h"
 #include "ItemInfo.h"
+#include <functional>
 
 class UIImage;
 class UILabel;
@@ -14,17 +15,15 @@ public:
     void Render(HDC hdc) override;
     void Update() override;
     bool IsClicked(POINT pt) const;
-
-private:
-    bool ContainsPoint(int x, int y) const;
     void OnClick();
 
 private:
     ItemInfo _info;
-    std::function<void()> _onClick;
+    UIImage* _background;
+    UILabel* _nameLabel;
+    UILabel* _descLabel;
+    UILabel* _priceLabel;
 
-    UIImage* _background = nullptr;
-    UILabel* _nameLabel = nullptr;
-    UILabel* _descLabel = nullptr;
-    UILabel* _priceLabel = nullptr;
+    std::function<void()> _onClick;
+    bool ContainsPoint(int x, int y) const;
 };

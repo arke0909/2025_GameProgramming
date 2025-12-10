@@ -15,6 +15,5 @@ struct ItemInfo
 };
 
 extern std::vector<ItemInfo> AllItems;
-std::vector<ItemInfo> AllItems;
-std::unordered_set<ItemType> PurchasedItems; 
-std::unordered_map<ItemType, int> ItemPriceMap;
+extern std::unordered_set<ItemType> PurchasedItems;
+extern std::unordered_map<ItemType, int> ItemPriceMap;
