@@ -14,27 +14,9 @@ ItemButton::ItemButton(const ItemInfo& info, const Vec2& pos, const Vec2& size)
     Texture* tex = GET_SINGLE(ResourceManager)->GetTexture(L"SkillPanel");
 
     _background = new UIImage(tex, pos, size);
-
-    _nameLabel = new UILabel(
-        _info.displayName,
-        Vec2(pos.x, pos.y - 60),
-        Vec2(size.x, 30.0f),
-        FontType::UI
-    );
-
-    _descLabel = new UILabel(
-        _info.description,
-        Vec2(pos.x, pos.y),
-        Vec2(size.x, 60.0f),
-        FontType::UI
-    );
-
-    _priceLabel = new UILabel(
-        L"가격: " + std::to_wstring(_info.price),
-        Vec2(pos.x, pos.y + 60),
-        Vec2(size.x, 30.0f),
-        FontType::UI
-    );
+    _nameLabel = new UILabel(_info.displayName, Vec2(pos.x, pos.y - 60), Vec2(size.x, 30.0f), FontType::UI);
+    _descLabel = new UILabel(_info.description, Vec2(pos.x, pos.y), Vec2(size.x, 60.0f), FontType::UI);
+    _priceLabel = new UILabel(L"가격: " + std::to_wstring(_info.price), Vec2(pos.x, pos.y + 60), Vec2(size.x, 30.0f), FontType::UI);
 
     _onClick = [this]()
         {
@@ -61,7 +43,6 @@ ItemButton::~ItemButton()
 void ItemButton::Render(HDC hdc)
 {
     if (!_visible) return;
-
     _background->Render(hdc);
     _nameLabel->Render(hdc);
     _descLabel->Render(hdc);

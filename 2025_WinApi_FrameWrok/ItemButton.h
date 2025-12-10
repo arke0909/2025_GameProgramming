@@ -13,11 +13,11 @@ public:
 
     void Render(HDC hdc) override;
     void Update() override;
-
     bool IsClicked(POINT pt) const;
-    void OnClick();
 
-    const ItemInfo& GetInfo() const { return _info; }
+private:
+    bool ContainsPoint(int x, int y) const;
+    void OnClick();
 
 private:
     ItemInfo _info;
@@ -27,6 +27,4 @@ private:
     UILabel* _nameLabel = nullptr;
     UILabel* _descLabel = nullptr;
     UILabel* _priceLabel = nullptr;
-
-    bool ContainsPoint(int x, int y) const;
 };
