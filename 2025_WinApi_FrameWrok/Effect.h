@@ -16,13 +16,13 @@ public:
     void Render(HDC hdc) override;
 private:
     int _maxParticle = 13;
-    int _minParticle = 8;
-    float _maxLifeTime = 1.2f;
-    float _minLifeTime = 0.5f;
-    float _maxSpeed = 250;
-    float _minSpeed = 100;
-    float _maxSize = 50;
-    float _minSize = 20;
+    int _minParticle = 10;
+    float _maxLifeTime = 0.5f;
+    float _minLifeTime = 0.2f;
+    float _maxSpeed = 80;
+    float _minSpeed = 50;
+    float _maxSize = 30;
+    float _minSize = 10;
     vector<EffectParticle*> _particles;
 };
 
