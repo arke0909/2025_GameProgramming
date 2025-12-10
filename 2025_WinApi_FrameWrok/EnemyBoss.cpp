@@ -49,11 +49,6 @@ EnemyBoss::EnemyBoss()
 	_stateMachine->ChangeState("IDLE");
 }
 
-EnemyBoss::~EnemyBoss()
-{
-	delete _stateMachine;
-}
-
 void EnemyBoss::InitializePhases()
 {
 	PhaseData phase1;

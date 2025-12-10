@@ -23,6 +23,12 @@ Enemy::~Enemy()
     delete _stateMachine;
 }
 
+void Enemy::ApplyHPScale(float multiplier)
+{
+    _maxHP = static_cast<int>(_maxHP * multiplier);
+    _hp = _maxHP;
+}
+
 void Enemy::Update()
 {
 	Entity::Update();

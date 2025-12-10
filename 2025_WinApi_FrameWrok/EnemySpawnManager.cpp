@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "EnemySpawnManager.h"
 #include "SceneManager.h"
+#include "GameManager.h"
 #include "MeleeEnemy.h"
 #include "RangedEnemy.h"
 #include "EnemyBoss.h"
@@ -18,8 +19,8 @@ void EnemySpawnManager::Init(Player* player)
 
     srand(unsigned int(time(nullptr)));
 
-    _mapWidth = WINDOW_WIDTH;
-    _mapHeight = WINDOW_HEIGHT;
+    _mapWidth = SCREEN_WIDTH;
+    _mapHeight = SCREEN_HEIGHT;
 
     _waveDelay = 2.f;
     _noSpawnDistance = 150.f;
@@ -29,8 +30,8 @@ void EnemySpawnManager::Init(Player* player)
     _waveDelayTimer = 0.f;
 
     _waves = {
-        { { {EnemyType::Nonemove, 1}, {EnemyType::Melee, 1} } },
-        { { {EnemyType::Nonemove, 4}, {EnemyType::Ranged, 2} } },
+        { { {EnemyType::Melee, 1}, {EnemyType::Melee, 1} } },
+        { { {EnemyType::Melee, 4}, {EnemyType::Ranged, 2} } },
         { { {EnemyType::Ranged, 6} } },
         { { {EnemyType::Melee, 4}, {EnemyType::Armor, 2} } },
         { { {EnemyType::Melee, 6} } },
@@ -40,11 +41,17 @@ void EnemySpawnManager::Init(Player* player)
         { { {EnemyType::Melee, 5}, {EnemyType::Ranged, 5}, {EnemyType::Armor, 5} } },
         { { {EnemyType::Melee, 0} } }
     };
+    GET_SINGLE(GameManager)->currentWavwe = _currentWave + 1;
 }
 
 void EnemySpawnManager::Update()
 {
     UpdateWave();
+}
+
+float EnemySpawnManager::GetWaveHPMultiplier() const
+{
+    return 1.0f + (_currentWave * 0.2f);
 }
 
 void EnemySpawnManager::UpdateWave()
@@ -69,6 +76,7 @@ void EnemySpawnManager::UpdateWave()
         if (_currentWave < (int)_waves.size() - 1)
         {
             _currentWave++;
+            GET_SINGLE(GameManager)->currentWavwe = _currentWave + 1;
             _waveActive = false;
         }
         else
@@ -115,6 +123,10 @@ void EnemySpawnManager::SpawnEnemy(EnemyType type)
         e->SetPos(pos);
         e->SetTarget(_player);
         e->CreateEnemyWindow();
+
+        float hpMul = GetWaveHPMultiplier();
+        e->ApplyHPScale(hpMul);
+
         GET_SINGLE(SceneManager)->GetCurScene()->AddObject(e, Layer::ENEMY);
         _spawnedEnemies.push_back(e);
         return;
@@ -129,6 +141,9 @@ void EnemySpawnManager::SpawnEnemy(EnemyType type)
 
     e->SetPos(pos);
     e->SetTarget(_player);
+
+    float hpMul = GetWaveHPMultiplier();
+    e->ApplyHPScale(hpMul);
 
     GET_SINGLE(SceneManager)->GetCurScene()->AddObject(e, Layer::ENEMY);
 

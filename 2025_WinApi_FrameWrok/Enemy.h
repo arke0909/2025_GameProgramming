@@ -18,6 +18,7 @@ public:
     void SetTarget(Player* player) { _player = player; };
 	Player* GetTarget() const { return _player; }
 
+    void ApplyHPScale(float multiplier);
     void UpdateHP(int value) {
         _hp += value;
         if (_hp < 0)
