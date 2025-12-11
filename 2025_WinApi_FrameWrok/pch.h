@@ -52,6 +52,14 @@ using std::list;
 using std::map;
 using std::wstring;
 
+#ifdef _DEBUG
+#ifdef UNICODE
+#pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
+#else
+#pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
+#endif
+#endif
+
 #define PI 3.14159265358979f
 #define CLASS_NAME L"M!uqom"
 const float SCREEN_WIDTH = ::GetSystemMetrics(SM_CXSCREEN);

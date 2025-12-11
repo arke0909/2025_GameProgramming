@@ -42,12 +42,12 @@ enum class ButtonEvent
 enum class ItemType
 {
 	PlayerSpeed,
-	AttackSpeed,
+	WeaponSpeed,
 	WallPunch,
 	MoneyDrop,
 	MaxHealth,
 	Heal20HP,
-	MultiShot,
+	WeaponSize,
 	SplashDamage,
 	Pierce,
 

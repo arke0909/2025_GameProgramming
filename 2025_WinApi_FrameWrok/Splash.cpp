@@ -33,10 +33,10 @@ void Splash::Render(HDC hdc)
 	float alpha = std::lerp(255, 0, _ease);
 	Pen pen(Color(alpha, 255, 255, 255));
 	RectF rect(
-		(int)(_pos.x - _currentRadius / 2),
-		(int)(_pos.y - _currentRadius / 2),
-		(int)(_currentRadius),
-		(int)(_currentRadius)
+		(int)(_pos.x - _currentRadius),
+		(int)(_pos.y - _currentRadius),
+		(int)(_currentRadius * 2),
+		(int)(_currentRadius * 2)
 	);
 	graphics.DrawEllipse(&pen, rect);
 }

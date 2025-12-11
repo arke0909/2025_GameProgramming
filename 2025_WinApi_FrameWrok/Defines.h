@@ -30,11 +30,15 @@ public:							 \
 const std::wstring STAT_HP = L"MaxHP";
 // 이속
 const std::wstring STAT_SPEED = L"MoveSpeed";
+// 무기 이속
+const std::wstring STAT_WEAPONSPEED = L"WeaponSpeed";
 // 윈도우를 미는 힘
 const std::wstring STAT_WALLFORCE = L"WallForce";
 // 돈 배율
 const std::wstring STAT_GOLDMULTI = L"GoldMultiplier";
 // 멀티샷
-const std::wstring STAT_MULTISHOT = L"MultiShot";
+const std::wstring STAT_WEAPON_SIZE = L"WeaponSize";
 // 스플래쉬
 const std::wstring STAT_SPLASH = L"Splash";
+
+const std::wstring HEAL = L"HealHP";

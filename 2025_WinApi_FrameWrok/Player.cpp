@@ -33,11 +33,9 @@ Player::Player()
 
 	_statCompo->AddStat(STAT_HP, 5);
 	_statCompo->AddStat(STAT_SPEED, 250);
-	_statCompo->AddStat(STAT_WALLFORCE, 20);
+	_statCompo->AddStat(STAT_WEAPONSPEED, 800);
+	_statCompo->AddStat(STAT_WALLFORCE, 60);
 	_statCompo->AddStat(STAT_GOLDMULTI, 1);
-	_statCompo->AddStat(STAT_MULTISHOT, 1);
-	_statCompo->AddStat(STAT_SPLASH, 0);
-
 
 	Vec2 animSize = { (float)_pTex->GetWidth() , (float)_pTex->GetHeight() };
 
@@ -149,56 +147,49 @@ Weapon* Player::CreateWeapon()
 
 void Player::ShotProjectile()
 {
-	float time = GET_SINGLE(TimeManager)->GetTime();
-	float currentLapse = time - _lastFireTime;
+	//float time = GET_SINGLE(TimeManager)->GetTime();
+	//float currentLapse = time - _lastFireTime;
 
-	//if (currentLapse < _statCompo->GetValue(STAT_ATTACKSPEED))
+	////if (currentLapse < _statCompo->GetValue(STAT_ATTACKSPEED))
 
-	_lastFireTime = time;
+	//_lastFireTime = time;
 
-	Vec2 mousePos = GET_SINGLE(InputManager)->GetMousePos();
-	Vec2 dir = mousePos - _pos;
+	//Vec2 mousePos = GET_SINGLE(InputManager)->GetMousePos();
+	//Vec2 dir = mousePos - _pos;
 
-	int splashLvl = _statCompo->GetValue(STAT_SPLASH);
-	//int damageLvl = _statCompo->GetValue(STAT_ATTACK);
-	int bulletCnt = (int)_statCompo->GetValue(STAT_MULTISHOT);
+	////int splashLvl = _statCompo->GetValue(STAT_SPLASH);
+	////int damageLvl = _statCompo->GetValue(STAT_ATTACK);
+	////int bulletCnt = (int)_statCompo->GetValue(STAT_WEAPON_SIZE);
 
-	float baseAngle = atan2(dir.y, dir.x);
+	//float baseAngle = atan2(dir.y, dir.x);
 
-	float term = _bulletTermAngle * PI / 180.f;
+	//float term = _bulletTermAngle * PI / 180.f;
 
-	float start = -(bulletCnt - 1) * term * 0.5f;
+	//float start = -(bulletCnt - 1) * term * 0.5f;
 
-	for (int i = 0; i < bulletCnt; ++i)
-	{
-		Projectile* proj = new Projectile(splashLvl);
+	//for (int i = 0; i < bulletCnt; ++i)
+	//{
+	//	//Projectile* proj = new Projectile(splashLvl);
 
-		float angle = baseAngle + start + term * i;
-		float x = cos(angle);
-		float y = sin(angle);
+	//	float angle = baseAngle + start + term * i;
+	//	float x = cos(angle);
+	//	float y = sin(angle);
 
-		proj->Init(_pos, { x, y });
-		proj->SetWallForce(_statCompo->GetValue(STAT_WALLFORCE));
-		//proj->SetPenetration(_statCompo->GetValue(STAT_PENET));
+	//	//proj->Init(_pos, { x, y });
+	//	//proj->SetWallForce(_statCompo->GetValue(STAT_WALLFORCE));
+	//	//proj->SetPenetration(_statCompo->GetValue(STAT_PENET));
 
-		GET_SINGLE(SceneManager)->GetCurScene()
-			->AddObject(proj, Layer::BULLET);
-	}
+	//	//GET_SINGLE(SceneManager)->GetCurScene()
+	//	//	->AddObject(proj, Layer::BULLET);
+	//}
 }
 
 void Player::AfterInit()
 {
 	_weapon = CreateWeapon();
 	_weapon->SetWallForce(_statCompo->GetValue(STAT_WALLFORCE));
+	_weapon->AddSpeed(_statCompo->GetValue(STAT_WEAPONSPEED));
 
-	GameEvents::OnItemPurchased
-		.Subscribe([](const ItemInfo& item)
-			{
-				if (item.name == L"HealHP")
-				{
-					GET_SINGLE(GameManager)->playerHealth += item.value;
-				}
-			});
 	GameEvents::OnItemPurchased
 		.Subscribe([this](const ItemInfo& item)
 			{
@@ -209,7 +200,22 @@ void Player::AfterInit()
 					wstring str = std::format(L"{0}{1}", item.name, currentModifyCount);
 					targetStat->AddModifier(str, item.value);
 				}
-
+				else if (item.name == HEAL)
+				{
+					GET_SINGLE(GameManager)->playerHealth += item.value;
+				}
+				else if (item.name == STAT_WEAPONSPEED)
+				{
+					_weapon->AddSpeed(item.value);
+				}
+				else if (item.name == STAT_WEAPON_SIZE)
+				{
+					_weapon->SizeUp(item.value);
+				}
+				else if (item.name == STAT_SPLASH)
+				{
+					_weapon->SetSplashLevelUp(item.value);
+				}
 			});
 
 	//_lastFireTime = -_statCompo->GetValue(STAT_ATTACKSPEED);

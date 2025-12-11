@@ -44,6 +44,11 @@ void GameWindow::Update()
 
         _timer += dt;
         _isChangeing = _timer <= _duration;
+        if (_isChangeing)
+        {
+            _restoreTimer = 0;
+            _isRestoring = false;
+        }
 
         return;
     }
@@ -61,7 +66,7 @@ void GameWindow::Update()
     }
 
     if (_windowSize.x > _originSize.x ||
-        _windowSize.y > _originSize.y)
+        _windowSize.y > _originSize.y && _isRestoring)
     {
         _targetSize.x = std::lerp(_windowSize.x, _originSize.x, dt);
         _targetSize.y = std::lerp(_windowSize.y, _originSize.y, dt);

@@ -22,10 +22,22 @@ public:
     {
         _player = player;
     }
+    void AddSpeed(float value)
+    {
+		_moveSpeed += value;
+    }
+    void SizeUp(float value);
+    void SetSplashLevelUp(int level)
+    {
+        _splashLvl += level;
+	}
+private:
+    void CreateSplash();
 private:
     Player* _player;
     Rigidbody* _rigidbody;
-    Texture* _wTex;
-    float _moveSpeed = 800;
+    float _moveSpeed = 0;
+    float _currentRadius = 15;
+    int _splashLvl = 0;
 };
 
