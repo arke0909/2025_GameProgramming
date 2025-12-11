@@ -237,9 +237,6 @@
     <ClInclude Include="ArmorEnemy.h">
       <Filter>Engine\03.Object\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="NoneMoveEnemy.h">
-      <Filter>Engine\03.Object\Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyState.h">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClInclude>
@@ -505,9 +502,6 @@
       <Filter>Engine\03.Object\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="ArmorEnemy.cpp">
-      <Filter>Engine\03.Object\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="NoneMoveEnemy.cpp">
       <Filter>Engine\03.Object\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="EnemyTestScene.cpp">
