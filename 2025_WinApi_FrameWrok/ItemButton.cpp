@@ -7,6 +7,9 @@
 #include "InputManager.h"
 #include "GameEvent.h"
 
+extern std::unordered_map<ItemType, int> ItemPriceMap;
+extern std::unordered_map<ItemType, int> PriceIncreaseMap;
+
 ItemButton::ItemButton(const ItemInfo& info, const Vec2& pos, const Vec2& size)
     : UIElement(pos, size), _info(info)
 {
@@ -27,7 +30,6 @@ ItemButton::ItemButton(const ItemInfo& info, const Vec2& pos, const Vec2& size)
 
                 GameEvents::OnItemPurchased.Raise(_info);
             }
-
         };
 }
 
@@ -38,6 +40,7 @@ ItemButton::~ItemButton()
     delete _descLabel;
     delete _priceLabel;
 }
+
 
 void ItemButton::Render(HDC hdc)
 {

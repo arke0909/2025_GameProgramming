@@ -15,16 +15,20 @@ void TitleScene::Init()
 {
     GET_SINGLE(ResourceManager)->Play(L"BGM");
     Texture* buttonTex = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
-    UIButton* startBtn = new UIButton(L"Start", { 325, 430 }, { 350, 70 }, FontType::UI, buttonTex);
-    UIButton* settingBtn = new UIButton(L"Setting", { 325, 515 }, { 350, 70 }, FontType::UI, buttonTex);
-    UIButton* exitBtn = new UIButton(L"Exit", { 325, 600 }, { 350, 70 }, FontType::UI, buttonTex);
+    Texture* tiltleTex = GET_SINGLE(ResourceManager)->GetTexture(L"Title");
+    _startBtn = new UIButton(L"Start", { 325, 430 }, { 350, 70 }, FontType::UI, buttonTex);
+    _settingBtn = new UIButton(L"Setting", { 325, 515 }, { 350, 70 }, FontType::UI, buttonTex);
+    _exitBtn = new UIButton(L"Exit", { 325, 600 }, { 350, 70 }, FontType::UI, buttonTex);
+    _titleImage = new UIImage(
+        tiltleTex,
+		{ 325, 150 }, { 500, 300 });
 
-    startBtn->SetOnClick([]()
+    _startBtn->SetOnClick([]()
         {
             GET_SINGLE(SceneManager)->LoadScene(L"GameScene");
         });
 
-    settingBtn->SetOnClick([]()
+    _settingBtn->SetOnClick([]()
         {
             Texture* buttonTex = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
             Window* soundWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
@@ -62,7 +66,7 @@ void TitleScene::Init()
             soudUI->Add(volumeSlider);
             soudUI->Add(sfxSlider);
         });
-    exitBtn->SetOnClick([]()
+    _exitBtn->SetOnClick([]()
         {
             PostQuitMessage(0);
         });
@@ -70,10 +74,18 @@ void TitleScene::Init()
     Window* TitleWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
         L"TilteWindow", { {SCREEN_WIDTH / 2 - 400, SCREEN_HEIGHT / 2 }, {650,650} });
     SubUIManager* tilteUI = TitleWindow->GetUI();
-    tilteUI->Add(startBtn);
-    tilteUI->Add(settingBtn);
-    tilteUI->Add(exitBtn);
+    tilteUI->Add(_startBtn);
+    tilteUI->Add(_settingBtn);
+    tilteUI->Add(_exitBtn);
+	tilteUI->Add(_titleImage);
 
 
+}
 
+void TitleScene::Release()
+{
+    delete _startBtn;
+    delete _settingBtn;
+    delete _exitBtn;
+    delete _titleImage;
 }

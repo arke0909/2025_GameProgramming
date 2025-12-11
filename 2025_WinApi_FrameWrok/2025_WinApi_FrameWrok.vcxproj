@@ -212,7 +212,6 @@
     <ClInclude Include="ItemButton.h" />
     <ClInclude Include="ItemInfo.h" />
     <ClInclude Include="MeleeEnemy.h" />
-    <ClInclude Include="NoneMoveEnemy.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
@@ -294,7 +293,6 @@
     <ClCompile Include="ItemInfo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeleeEnemy.cpp" />
-    <ClCompile Include="NoneMoveEnemy.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerDevScene.cpp" />

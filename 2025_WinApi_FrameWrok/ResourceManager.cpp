@@ -40,6 +40,7 @@ bool ResourceManager::Init()
    LoadTexture(L"GameClear", L"Texture\\GameClear.bmp"); 
    LoadTexture(L"FastEnemy", L"Texture\\FastEnemy.bmp"); 
    LoadTexture(L"CircleEnemy", L"Texture\\CircleEnemy.bmp"); 
+   LoadTexture(L"Title", L"Texture\\Muqom_title_bg_255_0_255.bmp"); 
    LoadSound(L"BGM", L"Sound\\Test.mp3", true);
    LoadSound(L"BossShotSound", L"Sound\\bossshot.wav", false);
    LoadSound(L"EnemyDieSound", L"Sound\\enemydie.wav", false);

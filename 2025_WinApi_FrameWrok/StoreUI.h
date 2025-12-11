@@ -10,6 +10,7 @@ class StoreUI : public UIElement
 {
 public:
     StoreUI(const Vec2& pos, const Vec2& size);
+	~StoreUI();
     void SetWindowHandle(Window* storeWindow);
     void Update() override;
     void Render(HDC hdc) override;
