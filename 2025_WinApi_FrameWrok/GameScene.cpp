@@ -117,13 +117,4 @@ void GameScene::Update()
         GET_SINGLE(TimeManager)->SetTimeScale(_storeVisible ? 0 : 1);
         _storeWindow->SetVisible(_storeVisible);
     }
-
-    if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::CTRL))
-    {
-        GET_SINGLE(SceneManager)->LoadScene(L"GameClear");
-    }
-    if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::R))
-    {
-        GET_SINGLE(GameManager)->coin += 10000;
-    }
 }
