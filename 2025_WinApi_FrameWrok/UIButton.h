@@ -11,7 +11,7 @@ private:
 
 public:
     UIButton(const std::wstring& text, const Vec2& pos, const Vec2& size, FontType fontType, Texture* texture);
-
+    ~UIButton() override = default;
     void SetFont(FontType type) { _fontType = type; };
     void SetOnClick(std::function<void()> cb) { _onClick = cb; }
 

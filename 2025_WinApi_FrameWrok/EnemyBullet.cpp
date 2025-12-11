@@ -20,7 +20,6 @@ EnemyBullet::EnemyBullet(const Vec2& startPos, const Vec2& targetPos, float spee
 
 	switch (_eTex->GetHeight())
 	{
-		break;
 	case 32:
 		animSize = { 32.f,32.f };
 		break;
@@ -69,10 +68,10 @@ void EnemyBullet::Update()
     Translate(_dir * _speed * fDT);
 	Vec2 pos = GetPos();
 
-	if (pos.x + _halfSize.x < 0 ||
-		pos.y + _halfSize.y < 0 ||
-		pos.x - _halfSize.x > _screenSize.x ||
-		pos.y - _halfSize.y > _screenSize.y)
+	if (pos.x + _halfSize.x <= 0 ||
+		pos.y + _halfSize.y <= 0 ||
+		pos.x - _halfSize.x >= _screenSize.x ||
+		pos.y - _halfSize.y >= _screenSize.y)
 	{
 		GET_SINGLE(SceneManager)->RequestDestroy(this);
 
@@ -87,7 +86,7 @@ void EnemyBullet::Render(HDC hdc)
 void EnemyBullet::EnterCollision(Collider* _other)
 {
 	if (_other->GetName() == L"Player") {
-		this->SetDead();
 		GET_SINGLE(GameManager)->playerHealth--;
+		this->SetDead();
 	}
 }

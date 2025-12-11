@@ -56,8 +56,6 @@ CircleShotEnemy::CircleShotEnemy()
 
 CircleShotEnemy::~CircleShotEnemy()
 {
-	GET_SINGLE(WindowManager)->CloseSubWindow(_window);
-	delete _eTex;
 }
 
 void CircleShotEnemy::Update()

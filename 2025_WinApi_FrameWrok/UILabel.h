@@ -10,7 +10,7 @@ private:
 
 public:
     UILabel(const wstring& text, const Vec2& pos, const Vec2& size, FontType fontType);
-
+    ~UILabel() override = default;
     void SetColor(COLORREF color);
     void SetText(const wstring& text);
     const wstring& GetText() const { return _text; }
