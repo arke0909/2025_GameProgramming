@@ -4,7 +4,9 @@
 #include "Rigidbody.h"
 #include "ResourceManager.h"
 #include "SceneManager.h"
+#include "GameManager.h"
 #include "CircleCollider.h"
+#include "Window.h"
 #include "Animator.h"
 #include "Wall.h"
 #include "Splash.h"
@@ -14,7 +16,7 @@ Weapon::Weapon()
 {
 	_rigidbody = AddComponent<Rigidbody>();
 	_rigidbody->SetUseGravity(false);
-	_rigidbody->SetAirDrag(1.f);
+	_rigidbody->SetAirDrag(0.2f);
 	auto* col = AddComponent<CircleCollider>();
 	col->SetName(L"Weapon");
 	col->SetRadius(_currentRadius);
@@ -27,7 +29,26 @@ Weapon::~Weapon()
 
 void Weapon::Update()
 {
+	float left = _pos.x - _currentRadius;
+	float right = _pos.x + _currentRadius;
+	float top = _pos.y - _currentRadius;
+	float bottom = _pos.y + _currentRadius;
 
+	Vec2 lt = GET_LT(_inGameWindow->GetSize(), _inGameWindow->GetPos());
+
+	int x = lt.x;
+	int y = lt.y;
+	int w = _inGameWindow->GetWindowSize().x + x;
+	int h = _inGameWindow->GetWindowSize().y + y;
+
+	if (left < x)
+		_pos.x = x + _currentRadius;
+	if (right > w)
+		_pos.x = w - _currentRadius;
+	if (top < y)
+		_pos.y = y + _currentRadius;
+	if (bottom > h)
+		_pos.y = h - _currentRadius;
 }
 
 void Weapon::Render(HDC hdc)
@@ -44,6 +65,11 @@ void Weapon::EnterCollision(Collider* _other)
 	effect->SetColor(Color(255, 255, 255, 255));
 	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(effect, Layer::EFFECT);
 
+
+	if(_other->GetName() == L"Player")
+	{
+		GET_SINGLE(GameManager)->playerHealth--;
+	}
 
 	if(_other->GetName() == L"Enemy")
 		if (_splashLvl > 0)

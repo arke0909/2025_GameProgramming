@@ -68,8 +68,8 @@ void GameWindow::Update()
     if (_windowSize.x > _originSize.x ||
         _windowSize.y > _originSize.y && _isRestoring)
     {
-        _targetSize.x = std::lerp(_windowSize.x, _originSize.x, dt);
-        _targetSize.y = std::lerp(_windowSize.y, _originSize.y, dt);
+        _targetSize.x = std::lerp(_windowSize.x, _originSize.x, dt * 0.2f);
+        _targetSize.y = std::lerp(_windowSize.y, _originSize.y, dt * 0.2f);
         SetSizeAndPos(_targetSize, _pos);
 
         if (fabs(_targetSize.x - _originSize.x) < 0.5f &&

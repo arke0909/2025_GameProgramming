@@ -3,6 +3,7 @@
 class Player;
 class Rigidbody;
 class Texture;
+class Window;
 
 class Weapon :
     public WallForceObject
@@ -22,6 +23,10 @@ public:
     {
         _player = player;
     }
+    void SetWindow(Window* window)
+    {
+        _inGameWindow = window;
+    }
     void AddSpeed(float value)
     {
 		_moveSpeed += value;
@@ -36,6 +41,7 @@ private:
 private:
     Player* _player;
     Rigidbody* _rigidbody;
+    Window* _inGameWindow;
     float _moveSpeed = 0;
     float _currentRadius = 15;
     int _splashLvl = 0;
