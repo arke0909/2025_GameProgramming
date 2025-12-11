@@ -2,6 +2,7 @@
 #include "StatComponent.h"
 #include "Stat.h"
 #include "GameEvent.h"
+#include "ItemInfo.h"
 
 StatComponent::StatComponent()
 {
@@ -15,7 +16,7 @@ StatComponent::~StatComponent()
 	}
 }
 
-void StatComponent::AddStat(wstring key, float value)
+void StatComponent::AddStat(ItemType key, float value)
 {
 	auto it = _statMap.find(key);
 	if (it != _statMap.end())
@@ -25,14 +26,14 @@ void StatComponent::AddStat(wstring key, float value)
 	_statMap.insert(std::make_pair(key, newStat));
 }
 
-Stat* StatComponent::GetStat(wstring key)
+Stat* StatComponent::GetStat(ItemType key)
 {
 	if(_statMap.find(key) != _statMap.end())
 		return _statMap[key];
 	return nullptr;
 }
 
-float StatComponent::GetValue(wstring key)
+float StatComponent::GetValue(ItemType key)
 {
 	return GetStat(key)->GetValue();
 }

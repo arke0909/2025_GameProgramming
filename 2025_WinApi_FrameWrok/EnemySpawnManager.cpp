@@ -281,7 +281,7 @@ void EnemySpawnManager::DeadEnemy(Enemy* enemy)
         _spawnedEnemies.erase(it);
         enemy->SetDead();
 
-		GET_SINGLE(GameManager)->coin += enemy->GetDropGold() * _player->GetComponent<StatComponent>()->GetValue(STAT_GOLDMULTI);
+		GET_SINGLE(GameManager)->coin += enemy->GetDropGold() * _player->GetComponent<StatComponent>()->GetValue(ItemType::MoneyDrop);
 
         if (auto cse = dynamic_cast<CircleShotEnemy*>(enemy))
             cse->RemoveEnemyWindow();

@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+enum class ItemType;
 
 class Stat;
 
@@ -14,10 +15,10 @@ public:
     void Init() override;
     void LateUpdate() override;
     void Render(HDC hDC) override;
-    void AddStat(wstring key, float value);
-    Stat* GetStat(wstring key);
-    float GetValue(wstring key);
+    void AddStat(ItemType key, float value);
+    Stat* GetStat(ItemType key);
+    float GetValue(ItemType key);
 private:
-    map<wstring, Stat*> _statMap;
+    map<ItemType, Stat*> _statMap;
 
 };

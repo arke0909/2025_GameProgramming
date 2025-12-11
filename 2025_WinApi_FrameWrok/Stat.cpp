@@ -1,27 +1,27 @@
 #include "pch.h"
 #include "Stat.h"
+#include "ItemInfo.h"
 
 Stat::Stat()
 {
 }
 
-Stat::Stat(float value, wstring statIcon)
+Stat::Stat(float value, ItemType statIcon)
 {
 	_baseValue = value;
-	_statName = statIcon;
 }
 
 Stat::~Stat()
 {
 }
 
-void Stat::AddModifier(wstring key, float value)
+void Stat::AddModifier(ItemType key, float value)
 {
 	_modifiedMap.insert({ key, value });
 	_modifiedValue += value;
 }
 
-void Stat::RemoveModifier(wstring key)
+void Stat::RemoveModifier(ItemType key)
 {
 	float value = _modifiedMap[key];
 	_modifiedValue -= value;

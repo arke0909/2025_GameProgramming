@@ -13,6 +13,7 @@
 #include "SceneManager.h"
 #include "GameManager.h"
 #include "GameEvent.h"
+#include "ItemInfo.h"
 
 
 Player::Player()
@@ -31,11 +32,10 @@ Player::Player()
 	static_assert(std::is_same_v<decltype(_statCompo), StatComponent*>,
 		"_statCompo is NOT StatComponent* !!");
 
-	_statCompo->AddStat(STAT_HP, 5);
-	_statCompo->AddStat(STAT_SPEED, 250);
-	_statCompo->AddStat(STAT_WEAPONSPEED, 800);
-	_statCompo->AddStat(STAT_WALLFORCE, 60);
-	_statCompo->AddStat(STAT_GOLDMULTI, 1);
+	_statCompo->AddStat(ItemType::PlayerSpeed, 250);
+	_statCompo->AddStat(ItemType::WeaponSpeed, 800);
+	_statCompo->AddStat(ItemType::WallPunch, 60);
+	_statCompo->AddStat(ItemType::MoneyDrop, 1);
 
 	Vec2 animSize = { (float)_pTex->GetWidth() , (float)_pTex->GetHeight() };
 
@@ -71,7 +71,7 @@ void Player::Update()
 		velocity.x += 1;
 
 	velocity.Normalize();
-	float moveSpeed = _statCompo->GetValue(STAT_SPEED);
+	float moveSpeed = _statCompo->GetValue(ItemType::PlayerSpeed);
 	_rigidbody->SetVelocity(velocity * moveSpeed);
 
 	float left = _pos.x - _circleColRadius;
@@ -188,21 +188,21 @@ void Player::ShotProjectile()
 void Player::AfterInit()
 {
 	_weapon = CreateWeapon();
-	_weapon->SetWallForce(_statCompo->GetValue(STAT_WALLFORCE));
-	_weapon->AddSpeed(_statCompo->GetValue(STAT_WEAPONSPEED));
+	_weapon->SetWallForce(_statCompo->GetValue(ItemType::WallPunch));
+	_weapon->AddSpeed(_statCompo->GetValue(ItemType::WeaponSpeed));
 
 	GameEvents::OnItemPurchased
 		.Subscribe([this](const ItemInfo& item)
 			{
 				std::wcout << item.name;
-				auto* targetStat = _statCompo->GetStat(item.name);
+				auto* targetStat = _statCompo->GetStat(item.type);
 				if (targetStat != nullptr)
 				{
 					int currentModifyCount = targetStat->GetModifyCnt();
 					wstring str = std::format(L"{0}{1}", item.name, currentModifyCount);
-					targetStat->AddModifier(str, item.value);
+					targetStat->AddModifier(item.type, item.value);
 				}
-				else if (item.name == HEAL)
+				else if (item.type == ItemType::Heal20HP)
 				{
 					if (GET_SINGLE(GameManager)->playerHealth + item.value > GET_SINGLE(GameManager)->playerMaxHealth)
 					{
@@ -211,20 +211,20 @@ void Player::AfterInit()
 					}
 					GET_SINGLE(GameManager)->playerHealth += item.value;
 				}
-				else if (item.name == STAT_HP)
+				else if (item.type == ItemType::MaxHealth)
 				{
 					GET_SINGLE(GameManager)->playerMaxHealth += item.value;
 					GET_SINGLE(GameManager)->playerHealth += item.value;
 				}
-				else if (item.name == STAT_WEAPONSPEED)
+				else if (item.type == ItemType::WeaponSpeed)
 				{
 					_weapon->AddSpeed(item.value);
 				}
-				else if (item.name == STAT_WEAPON_SIZE)
+				else if (item.type == ItemType::WeaponSize)
 				{
 					_weapon->SizeUp(item.value);
 				}
-				else if (item.name == STAT_SPLASH)
+				else if (item.type == ItemType::SplashDamage)
 				{
 					_weapon->SetSplashLevelUp(item.value);
 				}

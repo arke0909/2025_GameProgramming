@@ -106,6 +106,11 @@ void GameScene::Update()
         return;
     }
 
+    if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::R))
+    {
+        GET_SINGLE(GameManager)->coin += 10000;
+    }
+
     if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::TAB))
     {
         _storeVisible = !_storeVisible;

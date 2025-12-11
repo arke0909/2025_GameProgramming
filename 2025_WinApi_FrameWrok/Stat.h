@@ -1,16 +1,18 @@
 #pragma once
+enum class ItemType;
+
 class Stat
 {
 public:
 	Stat();
-	Stat(float value, wstring _statName);
+	Stat(float value, ItemType _statName);
 	~Stat();
 public:
-	void AddModifier(wstring key, float value);
-	void RemoveModifier(wstring key);
-	wstring GetStatName()
+	void AddModifier(ItemType key, float value);
+	void RemoveModifier(ItemType key);
+	ItemType GetStatType()
 	{
-		return _statName;
+		return _type;
 	}
 	float GetValue()
 	{
@@ -21,8 +23,8 @@ public:
 		return _modifiedMap.size();
 	}
 private:
-	map<wstring, float> _modifiedMap;
+	map<ItemType, float> _modifiedMap;
 	float _baseValue = 0;
 	float _modifiedValue = 0;
-	wstring _statName;
+	ItemType _type;
 };

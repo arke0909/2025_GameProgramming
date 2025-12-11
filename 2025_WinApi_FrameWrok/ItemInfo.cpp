@@ -18,7 +18,7 @@ std::unordered_map<ItemType, int> PriceIncreaseMap = {
     { ItemType::WallPunch, 50 },
     { ItemType::MoneyDrop, 50 },
     { ItemType::MaxHealth, 50 },
-    { ItemType::Heal20HP, 0 },
+    { ItemType::Heal20HP, 50 },
     { ItemType::WeaponSize, 50 },
     { ItemType::SplashDamage, 250 },
     { ItemType::Pierce, 50 },
