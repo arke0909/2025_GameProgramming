@@ -6,6 +6,8 @@
 #include "PlayerDevScene.h"
 #include "WindowManager.h"
 #include "GameScene.h"
+#include "GameOverUI.h"
+#include "GameClear.h"
 
 void SceneManager::Init()
 {
@@ -17,6 +19,8 @@ void SceneManager::Init()
 	RegisterScene(L"TitleScene", std::make_shared<TitleScene>());
 	RegisterScene(L"PlayerDevScene", std::make_shared<PlayerDevScene>());
 	RegisterScene(L"GameScene", std::make_shared<GameScene>());
+	RegisterScene(L"GameOver", std::make_shared<GameOverUI>());
+	RegisterScene(L"GameClear", std::make_shared<GameClear>());
 	LoadScene(L"TitleScene");
 }
 

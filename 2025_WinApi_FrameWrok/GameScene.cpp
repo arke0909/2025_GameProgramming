@@ -18,6 +18,7 @@
 #include "GameWindow.h"
 #include "StoreUI.h"
 #include "GameEvent.h"
+#include "SceneManager.h"
 
 void GameScene::Init()
 {
@@ -126,5 +127,10 @@ void GameScene::Update()
             GET_SINGLE(TimeManager)->SetTimeScale(1);
         }
         _storeWindow->SetVisible(_storeVisible);
+    }
+
+    if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::CTRL))
+    {
+        GET_SINGLE(SceneManager)->LoadScene(L"GameClear");
     }
 }
