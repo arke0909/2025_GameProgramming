@@ -8,9 +8,8 @@
 #include "Splash.h"
 #include "Effect.h"
 
-Projectile::Projectile(int level, int splashLvl) : _angle(0.f), _dir(1.f, 1.f)
+Projectile::Projectile(int splashLvl) : _angle(0.f), _dir(1.f, 1.f)
 {
-	_damage *= level; 
 	_splashLvl = splashLvl;
 	_projecTex = GET_SINGLE(ResourceManager)->GetTexture(L"Bullet");
 	_rigidbody = AddComponent<Rigidbody>();
@@ -68,7 +67,8 @@ void Projectile::EnterCollision(Collider* _other)
 {
 	auto* effect = new Effect();
 	effect->SetPos(_pos);
-	effect->CreateParticle();
+	effect->CreateParticle(13,10, 80,50, 0.5f,0.2f,30,10);
+	effect->SetColor(Color(255, 255, 255, 255));
 	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(effect, Layer::EFFECT);
 	
 	if (_other->GetName() == L"Enemy")

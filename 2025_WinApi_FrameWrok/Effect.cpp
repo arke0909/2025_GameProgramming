@@ -11,14 +11,14 @@ Effect::Effect()
 	
 }
 
-void Effect::CreateParticle()
+void Effect::CreateParticle(float maxParticle, float minParticle, float maxSpeed, float minSpeed, float maxLifeTime, float minLifeTime, float maxSize, float minSize)
 {
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	DistributionInt cntDist(_minParticle, _maxParticle);
-	DistributionFloat speedDist(_minSpeed, _maxSpeed);
-	DistributionFloat lifeTimeDist(_minLifeTime, _maxLifeTime);
-	DistributionFloat sizeDist(_minSize, _maxSize);
+	DistributionInt cntDist(minParticle, maxParticle);
+	DistributionFloat speedDist(minSpeed, maxSpeed);
+	DistributionFloat lifeTimeDist(minLifeTime, maxLifeTime);
+	DistributionFloat sizeDist(minSize, maxSize);
 	
 	for (int i = 0; i < cntDist(gen); ++i)
 	{
@@ -32,6 +32,7 @@ void Effect::CreateParticle()
 
 		Vec2 dir = { x,y };
 		ep->Init(dir, speedDist(gen), lifeTimeDist(gen), sizeDist(gen));
+		ep->SetColor(_color);
 		_particles.push_back(ep);
 	}
 }

@@ -28,12 +28,8 @@ public:							 \
 // Stat 관련
 // 최대 체력
 const std::wstring STAT_HP = L"MaxHP";
-// 대미지
-const std::wstring STAT_ATTACK = L"Attack";
 // 이속
 const std::wstring STAT_SPEED = L"MoveSpeed";
-// 공격 속도
-const std::wstring STAT_ATTACKSPEED = L"AttackSpeed";
 // 윈도우를 미는 힘
 const std::wstring STAT_WALLFORCE = L"WallForce";
 // 돈 배율
@@ -42,5 +38,3 @@ const std::wstring STAT_GOLDMULTI = L"GoldMultiplier";
 const std::wstring STAT_MULTISHOT = L"MultiShot";
 // 스플래쉬
 const std::wstring STAT_SPLASH = L"Splash";
-// 탄환 관통
-const std::wstring STAT_PENET = L"Penetration";

@@ -242,6 +242,7 @@
     <ClInclude Include="UISlider.h" />
     <ClInclude Include="Vec2.h" />
     <ClInclude Include="Wall.h" />
+    <ClInclude Include="WallForceObject.h" />
     <ClInclude Include="WaveLabel.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="Window.h" />
@@ -317,6 +318,7 @@
     <ClCompile Include="UIManager.cpp" />
     <ClCompile Include="UISlider.cpp" />
     <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="WallForceObject.cpp" />
     <ClCompile Include="WaveLabel.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="Window.cpp" />

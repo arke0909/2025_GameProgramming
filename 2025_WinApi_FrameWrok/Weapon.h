@@ -1,11 +1,11 @@
 #pragma once
-#include "Object.h"
+#include "WallForceObject.h"
 class Player;
 class Rigidbody;
 class Texture;
 
 class Weapon :
-    public Object
+    public WallForceObject
 {
 public:
     Weapon();

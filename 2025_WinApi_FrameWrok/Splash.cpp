@@ -6,7 +6,7 @@
 
 Splash::Splash(int level)
 { 
-	_damage *= level;
+	_targetRadius += _lvlPerRadius * level;
 	_cirCol = AddComponent<CircleCollider>();
 	_cirCol->SetName(L"Splash");
 }

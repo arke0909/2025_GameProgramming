@@ -10,19 +10,16 @@ public:
     Effect();
     ~Effect();
 public:
-    void CreateParticle();
+    void CreateParticle(float maxParticle, float minParticle, float maxSpeed, float minSpeed, float maxLifeTime, float minLifeTime, float maxSize, float minSize);
+    void SetColor(Color color)
+    {
+        _color = color;
+    }
     // Object을(를) 통해 상속됨
     void Update() override;
     void Render(HDC hdc) override;
 private:
-    int _maxParticle = 13;
-    int _minParticle = 10;
-    float _maxLifeTime = 0.5f;
-    float _minLifeTime = 0.2f;
-    float _maxSpeed = 80;
-    float _minSpeed = 50;
-    float _maxSize = 30;
-    float _minSize = 10;
+    Color _color;
     vector<EffectParticle*> _particles;
 };
 

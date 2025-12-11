@@ -17,6 +17,10 @@ StatComponent::~StatComponent()
 
 void StatComponent::AddStat(wstring key, float value)
 {
+	auto it = _statMap.find(key);
+	if (it != _statMap.end())
+		return;
+
 	Stat* newStat = new Stat(value, key);
 	_statMap.insert(std::make_pair(key, newStat));
 }

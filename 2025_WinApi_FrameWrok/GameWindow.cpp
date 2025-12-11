@@ -2,6 +2,8 @@
 #include "GameWindow.h"
 #include "EasingManager.h"
 
+#undef min
+
 GameWindow::GameWindow(LPCWSTR windowName, const WindowSet& windowSet)
 	: Window(windowName, windowSet)
 {
@@ -18,36 +20,35 @@ void GameWindow::Update()
 
     float dt = GET_SINGLE(TimeManager)->GetDeltaTime();
 
+    _windowSize.x = std::clamp(_windowSize.x, 1.0f, (float)SCREEN_WIDTH);
+    _windowSize.y = std::clamp(_windowSize.y, 1.0f, (float)SCREEN_HEIGHT);
+
+    _targetSize.x = std::clamp(_targetSize.x, 1.0f, (float)SCREEN_WIDTH);
+    _targetSize.y = std::clamp(_targetSize.y, 1.0f, (float)SCREEN_HEIGHT);
+
     if (_isChangeing)
     {
-
         float ratio = _timer / _duration;
         float ease = GET_SINGLE(EasingManager)->OutSine(ratio);
 
         float xL = std::lerp(_moveStartPos.x, _destination.x, ease);
         float yL = std::lerp(_moveStartPos.y, _destination.y, ease);
-        
-        xL = std::clamp(xL, _size.x * 0.5f, SCREEN_WIDTH - _size.x * 0.5f);
-        yL = std::clamp(yL, _size.y * 0.5f, SCREEN_HEIGHT - _size.y * 0.5f);
 
         float sizeX = std::lerp(_windowSize.x, _targetSize.x, ease);
         float sizeY = std::lerp(_windowSize.y, _targetSize.y, ease);
 
-        SetSizeAndPos({sizeX, sizeY}, { xL, yL });
-        
+        sizeX = std::clamp(sizeX, 1.0f, (float)SCREEN_WIDTH);
+        sizeY = std::clamp(sizeY, 1.0f, (float)SCREEN_HEIGHT);
+
+        SetSizeAndPos({ sizeX, sizeY }, { xL, yL });
+
         _timer += dt;
         _isChangeing = _timer <= _duration;
 
-        //if (!_isChangeing)
-        //{
-        //    _restoreTimer = 0;
-        //    _isRestoring = false;
-        //}
-
-        //return;
+        return;
     }
 
- /*   if (!_isRestoring)
+    if (!_isRestoring)
     {
         _restoreTimer += dt;
 
@@ -57,7 +58,7 @@ void GameWindow::Update()
         }
 
         return;
-    }*/
+    }
 
     if (_windowSize.x > _originSize.x ||
         _windowSize.y > _originSize.y)

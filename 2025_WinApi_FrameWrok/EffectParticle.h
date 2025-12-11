@@ -17,7 +17,12 @@ public:
 		_lifeTime = lifeTime;
 		_targetRadius = targetRadius;
 	}
+	void SetColor(Color color)
+	{
+		_color = color;
+	}
 private:
+	Color _color;
 	Vec2 _dir;
 	float _speed;
 	float _lifeTime;

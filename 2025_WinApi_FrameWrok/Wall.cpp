@@ -4,6 +4,7 @@
 #include "BoxCollider.h"
 #include "Rigidbody.h"
 #include "Projectile.h"
+#include "WallForceObject.h"
 
 Wall::Wall(GameWindow* inGameWindow)
 {
@@ -59,7 +60,7 @@ void Wall::EnterCollision(Collider* _other)
 	
 	if (rigidbody)
 	{
-		auto* proj = dynamic_cast<Projectile*>(_other->GetOwner());
+		auto* proj = dynamic_cast<WallForceObject*>(_other->GetOwner());
 		float wallForce = proj->GetWallForce();
 		Vec2 velocity = rigidbody->GetVelocity();
 		velocity.Normalize();
