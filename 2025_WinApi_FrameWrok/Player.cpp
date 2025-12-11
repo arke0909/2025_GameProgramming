@@ -98,7 +98,7 @@ void Player::Update()
 
 	if (GET_KEYDOWN(KEY_TYPE::SPACE))
 	{
-		ShotProjectile();
+		//ShotProjectile();
 		_weapon->PullWeapon();
 	}
 }
