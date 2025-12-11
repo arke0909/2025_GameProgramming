@@ -38,7 +38,7 @@ void Enemy::Render(HDC hdc)
 
 void Enemy::EnterCollision(Collider* _other)
 {
-    if (_other->GetName() == L"Weapon") 
+    if (_other->GetName() == L"Weapon" || _other->GetName() == L"Splash")
     {
         GET_SINGLE(ResourceManager)->Play(L"EnemyDieSound");
         GET_SINGLE(EnemySpawnManager)->DeadEnemy(this);
