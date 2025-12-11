@@ -69,7 +69,8 @@ void Projectile::EnterCollision(Collider* _other)
 	auto* effect = new Effect();
 	effect->SetPos(_pos);
 	effect->CreateParticle();
-	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(effect, Layer::BULLET);
+	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(effect, Layer::EFFECT);
+	
 	if (_other->GetName() == L"Enemy")
 	{
 		_penetration--;

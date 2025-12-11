@@ -15,7 +15,7 @@ void EffectParticle::Update()
 	Translate(_dir * fDT * _speed);
 
 	_ease = GET_SINGLE(EasingManager)->InQuint(_timer / _lifeTime);
-	_currentRadius = std::lerp(0, _targetRadius, _ease);
+	_currentRadius = std::lerp(_targetRadius, 0, _ease);
 	_timer += GET_SINGLE(TimeManager)->GetDeltaTime();
 
 	if (_timer >= _lifeTime)
@@ -26,12 +26,12 @@ void EffectParticle::Render(HDC hdc)
 {
 	Graphics graphics(hdc);
 	float alpha = std::lerp(255, 0, _ease);
-	Pen pen(Color(alpha, 255, 255, 255));
+	SolidBrush brush(Color(alpha, 255, 255, 255));
 	RectF rect(
 		(int)(_pos.x - _currentRadius / 2),
 		(int)(_pos.y - _currentRadius / 2),
 		(int)(_currentRadius),
 		(int)(_currentRadius)
 	);
-	graphics.DrawEllipse(&pen, rect);
+	graphics.FillEllipse(&brush, rect);
 }

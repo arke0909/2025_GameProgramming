@@ -12,8 +12,8 @@ enum class EnemyType
     Ranged,
     Armor,
     Fast,
-    Nonemove,
-    CircleShot
+    CircleShot,
+    Boss
 };
 
 class EnemySpawnManager

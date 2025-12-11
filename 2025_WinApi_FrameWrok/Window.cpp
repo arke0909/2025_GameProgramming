@@ -125,14 +125,14 @@ LRESULT Window::HandleWnd(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 
-		break;
+	return 0;
 	case WM_PAINT:
 	{
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(hWnd, &ps);
 		EndPaint(hWnd, &ps);
 	}
-	break;
+	return 0;
 	case WM_MOVE:
 	{
 		RECT rt;
@@ -145,7 +145,7 @@ LRESULT Window::HandleWnd(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		_topLeft = { left, top };
 		_pos = { left + _size.x * 0.5f, top + _size.y * 0.5f };
 	}
-	break;
+	return 0;
 
 	case WM_SIZE:
 	{
@@ -159,7 +159,7 @@ LRESULT Window::HandleWnd(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		_size.x = rt.right - rt.left;
 		_size.y = rt.bottom - rt.top;
 	}
-	break;
+	return 0;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
@@ -182,6 +182,8 @@ void Window::SetSizeAndPos(const Vec2& size, const Vec2& centerPos)
 	_size = { w, h };
 	_pos = centerPos;
 	_topLeft = { left, top };
+
+	if (_hWnd == nullptr) return;
 
 	::MoveWindow(_hWnd, left, top, w, h, true);
 }

@@ -8,7 +8,6 @@
 #include "ArmorEnemy.h"
 #include "CircleShotEnemy.h"
 #include "FastEnemy.h"
-#include "NoneMoveEnemy.h"
 #include "WindowManager.h"
 #include "Window.h"
 #include <cstdlib>
@@ -53,13 +52,13 @@ void EnemySpawnManager::Init(Player* player)
         {{ {EnemyType::CircleShot, 2}, {EnemyType::Fast, 4}, {EnemyType::Melee, 4} }},
 
         // 8 wave
-        {{ {EnemyType::Melee, 5}, {EnemyType::Ranged, 4}, {EnemyType::Nonemove, 2} }},
+        {{ {EnemyType::Melee, 5}, {EnemyType::Ranged, 4}, {EnemyType::CircleShot, 2} }},
 
         // 9 wave
-        {{ {EnemyType::CircleShot, 3}, {EnemyType::Fast, 4}, {EnemyType::Nonemove, 3} }},
+        {{ {EnemyType::CircleShot, 3}, {EnemyType::Fast, 4}, {EnemyType::CircleShot, 3} }},
 
         // boss
-        {{ {EnemyType::Melee, 0} }}
+        {{ {EnemyType::Boss, 1} }}
     };
 
 
@@ -73,7 +72,7 @@ void EnemySpawnManager::Update()
 
 float EnemySpawnManager::GetWaveHPMultiplier() const
 {
-    return 1.0f + (_currentWave * 0.2f);
+    return 1.0f + (_currentWave * 0.1f);
 }
 
 void EnemySpawnManager::UpdateWave()
@@ -130,18 +129,6 @@ void EnemySpawnManager::UpdateWave()
 
 void EnemySpawnManager::TrySpawnWave()
 {
-    if (_currentWave == _waves.size() - 1)
-    {
-        EnemyBoss* e = new EnemyBoss();
-        e->SetTarget(_player);
-        e->SetPos({ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 });
-        e->CreateEnemyWindow();
-
-        _spawnedEnemies.push_back(e);
-        GET_SINGLE(SceneManager)->GetCurScene()->AddObject(e, Layer::ENEMY);
-        return;
-    }
-
     while (!_spawnQueue.empty())
         _spawnQueue.pop();
 
@@ -157,8 +144,19 @@ void EnemySpawnManager::TrySpawnWave()
 
 void EnemySpawnManager::SpawnEnemy(EnemyType type)
 {
-    if (type == EnemyType::Nonemove) {
-        NoneMoveEnemy* e = new NoneMoveEnemy();
+    if (type == EnemyType::Boss) {
+        EnemyBoss* e = new EnemyBoss();
+        e->SetTarget(_player);
+        e->SetPos({ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 });
+        e->CreateEnemyWindow();
+
+        _spawnedEnemies.push_back(e);
+        GET_SINGLE(SceneManager)->GetCurScene()->AddObject(e, Layer::ENEMY);
+        return;
+    }
+
+    if (type == EnemyType::CircleShot) {
+        CircleShotEnemy* e = new CircleShotEnemy();
         Vec2 pos;
         float fx = static_cast<float>(rand()) / RAND_MAX;
         float fy = static_cast<float>(rand()) / RAND_MAX;
@@ -212,8 +210,6 @@ Enemy* EnemySpawnManager::CreateEnemy(EnemyType type)
     case EnemyType::Fast:
         return new FastEnemy();
         break;
-    case EnemyType::Nonemove:
-        return new NoneMoveEnemy();
         break;
     case EnemyType::CircleShot:
         return new CircleShotEnemy();

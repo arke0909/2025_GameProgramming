@@ -3,7 +3,8 @@
 #include "EffectParticle.h"
 #include <random>
 
-std::uniform_int_distribution<> typedef Distribution;
+std::uniform_int_distribution<> typedef DistributionInt;
+std::uniform_real_distribution<float> typedef DistributionFloat;
 
 Effect::Effect()
 {
@@ -14,17 +15,17 @@ void Effect::CreateParticle()
 {
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	Distribution cntDist(_minParticle, _maxParticle);
-	Distribution speedDist(_minSpeed, _maxSpeed);
-	Distribution lifeTimeDist(_minLifeTime, _maxLifeTime);
-	Distribution sizeDist(_minSize, _maxSize);
+	DistributionInt cntDist(_minParticle, _maxParticle);
+	DistributionFloat speedDist(_minSpeed, _maxSpeed);
+	DistributionFloat lifeTimeDist(_minLifeTime, _maxLifeTime);
+	DistributionFloat sizeDist(_minSize, _maxSize);
 	
 	for (int i = 0; i < cntDist(gen); ++i)
 	{
 		EffectParticle* ep = new EffectParticle();
 		ep->SetPos(_pos);
-		srand(time(NULL));
 
+		srand(i * time(NULL));
 		float angle = (rand() % 360) * PI / 180.f;
 		float x = ::cos(angle);
 		float y = ::sin(angle);

@@ -46,7 +46,7 @@ CircleShotEnemy::CircleShotEnemy()
 		{ 0.f, 0.f },
 		1, 1);
 
-	_speed = 100.f;
+	_speed = 0.0f;
 	_attackRange = 250.0f;
 	_dropGold = 70;
 
@@ -83,4 +83,17 @@ void CircleShotEnemy::Attack()
 		EnemyBullet* bullet = new EnemyBullet(bossPos, targetPos, 150);
 		GET_SINGLE(SceneManager)->GetCurScene()->AddObject(bullet, Layer::PROJECTILE);
 	}
+}
+
+
+void CircleShotEnemy::CreateEnemyWindow()
+{
+	Vec2 pos = GetPos();
+
+	_window = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
+		L"NonemoveEnemy",
+		{
+			{ pos.x, pos.y },
+			{ 250, 250 }
+		});
 }
