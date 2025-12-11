@@ -52,7 +52,7 @@ void UISlider::Render(HDC hdc)
 
 void UISlider::Update()
 {
-    const POINT& mouse = GET_SINGLE(InputManager)->GetMousePos();
+    const POINT& mouse = GET_SINGLE(InputManager)->GetMousePosClient();
 
     bool down = GET_SINGLE(InputManager)->IsDown(KEY_TYPE::LBUTTON);
     bool press = GET_SINGLE(InputManager)->IsPress(KEY_TYPE::LBUTTON);
