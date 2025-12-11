@@ -120,6 +120,7 @@ void StoreUI::Reroll()
         return;
     }
 
+	GET_SINGLE(ResourceManager)->Play(L"ReRollSound");
     GET_SINGLE(GameManager)->coin -= cost;
 
     for (auto*& btn : _itemSlots)

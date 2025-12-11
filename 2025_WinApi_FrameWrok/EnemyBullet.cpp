@@ -74,7 +74,6 @@ void EnemyBullet::Update()
 		pos.x - _halfSize.x > _screenSize.x ||
 		pos.y - _halfSize.y > _screenSize.y)
 	{
-		cout << "Destroy" << endl;
 		GET_SINGLE(SceneManager)->RequestDestroy(this);
 
 	}

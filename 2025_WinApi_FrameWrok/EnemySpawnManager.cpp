@@ -25,7 +25,7 @@ void EnemySpawnManager::Init(Player* player)
     _waveDelay = 2.f;
     _noSpawnDistance = 150.f;
 
-    _currentWave = 9;
+    _currentWave = 0;
     _waveActive = false;
     _waveDelayTimer = 0.f;
 
@@ -35,6 +35,7 @@ void EnemySpawnManager::Init(Player* player)
 
         // 2 wave
         {{ {EnemyType::Melee, 5}, {EnemyType::Ranged, 2} }},
+
 
         // 3 wave
         {{ {EnemyType::Melee, 6}, {EnemyType::Ranged, 4} }},

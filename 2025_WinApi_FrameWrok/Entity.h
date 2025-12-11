@@ -6,7 +6,7 @@ class Entity :
 {
 protected:
 	Entity() {};
-	virtual ~Entity();
+	virtual ~Entity() {};
 public:
 	Texture* _eTex;
 
