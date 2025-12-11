@@ -199,8 +199,10 @@
     <ClInclude Include="Enums.h" />
     <ClInclude Include="FastEnemy.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="GameClear.h" />
     <ClInclude Include="GameEvent.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameOverUI.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="GDISelector.h" />
@@ -280,7 +282,9 @@
     <ClCompile Include="EntityHealthComponent.cpp" />
     <ClCompile Include="EntityState.cpp" />
     <ClCompile Include="FastEnemy.cpp" />
+    <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GameOverUI.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="GDISelector.cpp" />
