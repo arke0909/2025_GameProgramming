@@ -17,9 +17,6 @@ StoreUI::StoreUI(const Vec2& pos, const Vec2& size)
 {
     GameEvents::OnItemPurchased.Subscribe([this](const ItemInfo& item)
         {
-            std::wstring msg = item.displayName + L" 을(를) 구매했습니다!";
-            MessageBox(nullptr, msg.c_str(), L"구매 완료", MB_OK);
-
             Reroll(false);
         });
 
@@ -75,7 +72,7 @@ void StoreUI::InitWithItems(const std::vector<ItemInfo>& items)
     }
 
     auto tex = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
-    _rerollButton = new UIButton(L"리롤", { pos.x + 170, pos.y + 130 }, { 100, 40 }, FontType::UI, tex);
+    _rerollButton = new UIButton(L"리롤 50", { pos.x + 170, pos.y + 130 }, { 100, 40 }, FontType::UI, tex);
     _rerollButton->SetOnClick([this]() { Reroll(true); });
 
     _coinLabel = new UILabel(L"Coin: 0", Vec2(pos.x + 150, pos.y + 70), Vec2(200, 30), FontType::UI);
@@ -116,7 +113,6 @@ void StoreUI::Reroll(bool charge)
 
     if (charge && !_itemSlots.empty() && GET_SINGLE(GameManager)->coin < cost)
     {
-        MessageBox(nullptr, L"코인이 부족합니다!", L"리롤 실패", MB_OK);
         return;
     }
 
