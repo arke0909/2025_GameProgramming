@@ -275,6 +275,7 @@ Vec2 EnemySpawnManager::GenerateEdgePosition()
 void EnemySpawnManager::DeadEnemy(Enemy* enemy)
 {
     auto it = std::find(_spawnedEnemies.begin(), _spawnedEnemies.end(), enemy);
+    GET_SINGLE(SceneManager)->RequestDestroy(enemy);
     if (it != _spawnedEnemies.end())
     {
         _spawnedEnemies.erase(it);
@@ -285,6 +286,5 @@ void EnemySpawnManager::DeadEnemy(Enemy* enemy)
         if (auto cse = dynamic_cast<CircleShotEnemy*>(enemy))
             cse->RemoveEnemyWindow();
 
-        GET_SINGLE(SceneManager)->RequestDestroy(enemy);
     }
 }

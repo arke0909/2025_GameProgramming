@@ -38,11 +38,10 @@ void Enemy::Render(HDC hdc)
 
 void Enemy::EnterCollision(Collider* _other)
 {
-    if (_other->GetName() == L"PlayerBullet") 
+    if (_other->GetName() == L"Weapon") 
     {
         GET_SINGLE(ResourceManager)->Play(L"EnemyDieSound");
         GET_SINGLE(EnemySpawnManager)->DeadEnemy(this);
-		this->SetDead();
     }
 }
 
