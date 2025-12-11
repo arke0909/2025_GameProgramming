@@ -24,6 +24,17 @@ StoreUI::StoreUI(const Vec2& pos, const Vec2& size)
     Init();
 }
 
+StoreUI::~StoreUI()
+{
+    for (auto* btn : _itemSlots)
+        delete btn;
+    _itemSlots.clear();
+
+    delete _rerollButton;
+    delete _coinLabel;
+}
+
+
 void StoreUI::SetWindowHandle(Window* storeWindow)
 {
     _storeWindow = storeWindow;

@@ -41,6 +41,7 @@ ItemButton::~ItemButton()
     delete _priceLabel;
 }
 
+
 void ItemButton::Render(HDC hdc)
 {
     if (!_visible) return;

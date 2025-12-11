@@ -17,7 +17,6 @@ class ResourceManager
 	DECLARE_SINGLE(ResourceManager);
 public:
 	bool Init();
-	void Release();
 	void FmodUpdate();
 public:
 	// Sound

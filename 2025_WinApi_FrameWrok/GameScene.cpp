@@ -22,62 +22,50 @@
 
 void GameScene::Init()
 {
-	_inGameWindow = GET_SINGLE(WindowManager)
-		->CreateSubWindow<GameWindow>(
-			L"InGame",
-			{
-				{SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2},
-				{400,400}
-			});
-	GET_SINGLE(WindowManager)
-		->CreateSubWindow<GameWindow>(
-			L"Temp",
-			{
-				{SCREEN_WIDTH / 2 - 500, SCREEN_HEIGHT / 2},
-				{400,400}
-			});
+    _inGameWindow = GET_SINGLE(WindowManager)->CreateSubWindow<GameWindow>(
+        L"InGame", { {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2}, {400, 400} });
+
+    GET_SINGLE(WindowManager)->CreateSubWindow<GameWindow>(
+        L"Temp", { {SCREEN_WIDTH / 2 - 500, SCREEN_HEIGHT / 2}, {400, 400} });
 
     _informationWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
         L"Information", { {SCREEN_WIDTH - 300, SCREEN_HEIGHT / 2 - 150}, {120, 85} });
 
-    _storeWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>
-    (L"Store", { {SCREEN_WIDTH - 300,SCREEN_HEIGHT / 2 + 150},{500,300} });
+    _storeWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
+        L"Store", { {SCREEN_WIDTH - 300, SCREEN_HEIGHT / 2 + 150}, {500, 300} });
 
-    GameEvents::OnItemPurchased.Subscribe([](const ItemInfo& item) 
-        {
-        });
+    GameEvents::OnItemPurchased.Subscribe([](const ItemInfo& item) {});
 
     SubUIManager* inGameUI = _inGameWindow->GetUI();
     SubUIManager* infoUI = _informationWindow->GetUI();
     SubUIManager* storeUI = _storeWindow->GetUI();
-    StoreUI* shop = new StoreUI({ 250, 150 }, { 500, 300 });
-    storeUI->Add(shop);
-	shop->SetWindowHandle(_storeWindow);
+
+    _shop = new StoreUI({ 250, 150 }, { 500, 300 });
+    storeUI->Add(_shop);
+    _shop->SetWindowHandle(_storeWindow);
 
     GET_SINGLE(GameManager)->storeWindowHandle = _storeWindow->GetHandle();
 
-    WaveLabel* waveLabel = new WaveLabel({ 200, 20 }, { 200, 50 }, FontType::UI);
-    inGameUI->Add(waveLabel);
+    _waveLabel = new WaveLabel({ 200, 20 }, { 200, 50 }, FontType::UI);
+    inGameUI->Add(_waveLabel);
 
-    CoinLabel* coinLabel = new CoinLabel({ 50, 20 }, { 200, 50 }, FontType::UI);
-    inGameUI->Add(coinLabel);
+    _coinLabel = new CoinLabel({ 50, 20 }, { 200, 50 }, FontType::UI);
+    inGameUI->Add(_coinLabel);
 
     Texture* hpTexture = GET_SINGLE(ResourceManager)->GetTexture(L"Heart");
+    _heart = new UIImage(hpTexture, { 45, 40 }, { 80, 80 });
+    infoUI->Add(_heart);
 
-	UIImage* heart = new UIImage(hpTexture, { 45, 40 }, {80,80 });
-	infoUI->Add(heart);
+    _hpLabel = new HpLabel({ 100, 40 }, { 100, 30 }, FontType::UI);
+    infoUI->Add(_hpLabel);
 
-    HpLabel* hpLabel = new HpLabel({ 100, 40 }, { 100, 30 }, FontType::UI);
-
-	infoUI->Add(hpLabel);
-
-    auto* player = Spawn<Player>(Layer::PLAYER, _inGameWindow->GetPos(), { 75, 75 });
-    player->SetWindow(_inGameWindow);
+    _player = Spawn<Player>(Layer::PLAYER, _inGameWindow->GetPos(), { 75, 75 });
+    _player->SetWindow(_inGameWindow);
 
     _spawn = GET_SINGLE(EnemySpawnManager);
-    _spawn->Init(player);
+    _spawn->Init(_player);
 
-    WallSet wallSets[4] = { {false,false}, {false,true}, {true,false}, {true,true} };
+    WallSet wallSets[4] = { {false, false}, {false, true}, {true, false}, {true, true} };
     for (int i = 0; i < 4; ++i)
     {
         auto* wall = new Wall(_inGameWindow);
@@ -85,19 +73,19 @@ void GameScene::Init()
         AddObject(wall, Layer::WALL);
     }
 
-
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::PLAYER);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::WALL);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::BULLET, Layer::WALL);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::BULLET, Layer::ENEMY);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::PLAYER, Layer::DEFAULT);
+
     _storeWindow->SetVisible(false);
 }
 
 void GameScene::Update()
 {
     Scene::Update();
-   _spawn->Update();
+    _spawn->Update();
 
     if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::F))
     {
@@ -117,15 +105,8 @@ void GameScene::Update()
 
     if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::TAB))
     {
-       
         _storeVisible = !_storeVisible;
-        if (_storeVisible == true) {
-            GET_SINGLE(TimeManager)->SetTimeScale(0);
-        }
-        else
-        {
-            GET_SINGLE(TimeManager)->SetTimeScale(1);
-        }
+        GET_SINGLE(TimeManager)->SetTimeScale(_storeVisible ? 0 : 1);
         _storeWindow->SetVisible(_storeVisible);
     }
 
@@ -133,4 +114,53 @@ void GameScene::Update()
     {
         GET_SINGLE(SceneManager)->LoadScene(L"GameClear");
     }
+}
+
+void GameScene::Release()
+{
+    if (_shop)
+    {
+        delete _shop;
+        _shop = nullptr;
+    }
+
+    if (_waveLabel)
+    {
+        delete _waveLabel;
+        _waveLabel = nullptr;
+    }
+
+    if (_coinLabel)
+    {
+        delete _coinLabel;
+        _coinLabel = nullptr;
+    }
+
+    if (_heart)
+    {
+        delete _heart;
+        _heart = nullptr;
+    }
+
+    if (_hpLabel)
+    {
+        delete _hpLabel;
+        _hpLabel = nullptr;
+    }
+
+    if (_player)
+    {
+        delete _player;
+        _player = nullptr;
+    }
+
+    if (_spawn)
+    {
+        delete _spawn;
+        _spawn = nullptr;
+    }
+
+    _inGameWindow = nullptr;
+    _storeWindow = nullptr;
+    _informationWindow = nullptr;
 }
