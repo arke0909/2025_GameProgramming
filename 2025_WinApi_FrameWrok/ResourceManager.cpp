@@ -41,6 +41,16 @@ bool ResourceManager::Init()
    LoadTexture(L"FastEnemy", L"Texture\\FastEnemy.bmp"); 
    LoadTexture(L"CircleEnemy", L"Texture\\CircleEnemy.bmp"); 
    LoadSound(L"BGM", L"Sound\\Test.mp3", true);
+   LoadSound(L"BossShotSound", L"Sound\\bossshot.wav", false);
+   LoadSound(L"EnemyDieSound", L"Sound\\enemydie.wav", false);
+   LoadSound(L"EnemyHitSound", L"Sound\\enemyHit.wav", false);
+   LoadSound(L"PlayerHitSound", L"Sound\\hitHurt.wav", false);
+   LoadSound(L"EnemyShotSound", L"Sound\\laserShoot (1).wav", false);
+   LoadSound(L"PlayerShotSound", L"Sound\\laserShoot.wav", false);
+   LoadSound(L"PickupCoinSound", L"Sound\\pickupCoin.wav", false);
+   LoadSound(L"GameOverSound", L"Sound\\pixel-game-over-319170.mp3", false);
+   LoadSound(L"GameClaerSound", L"Sound\\win-sfx-38507.wav", false);
+   LoadSound(L"ReRollSound", L"Sound\\reroll.mp3", false);
     RegisterSound();
 
 	return true;
