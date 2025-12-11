@@ -237,9 +237,6 @@
     <ClInclude Include="ArmorEnemy.h">
       <Filter>Engine\03.Object\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="NoneMoveEnemy.h">
-      <Filter>Engine\03.Object\Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyState.h">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClInclude>
@@ -355,6 +352,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="WallForceObject.h">
+    <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverUI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GameClear.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -504,9 +507,6 @@
     <ClCompile Include="ArmorEnemy.cpp">
       <Filter>Engine\03.Object\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="NoneMoveEnemy.cpp">
-      <Filter>Engine\03.Object\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyTestScene.cpp">
       <Filter>Engine\04.Scene</Filter>
     </ClCompile>
@@ -606,7 +606,10 @@
     <ClCompile Include="EnemyMeleeAttackState.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="WallForceObject.cpp">
+    <ClCompile Include="GameOverUI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GameClear.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

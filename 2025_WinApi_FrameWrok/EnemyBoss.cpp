@@ -16,9 +16,10 @@ EnemyBoss::EnemyBoss()
 	: _currentPhase(0)
 {
 	_eTex = GET_SINGLE(ResourceManager)
-		->GetTexture(L"CloseEnemy");
+		->GetTexture(L"Pumpkin");
 
-	GetComponent<EntityHealthComponent>()->SetHealth(100);
+	auto* health = AddComponent<EntityHealthComponent>();
+	health->SetHealth(100);
 
 	Vec2 animSize = { 32.f, 32.f };
 	if (_eTex)
@@ -37,12 +38,17 @@ EnemyBoss::EnemyBoss()
 	animator->CreateAnimation(L"DEAD", _eTex, { 0.f, 0.f }, animSize, { 0.f, 0.f }, 1, 1);
 
 	InitializePhases();
-
+		
 	_stateMachine = new EntityStateMachine();
 	_stateMachine->AddState("IDLE", new EnemyBossIdleState(this, L"IDLE"));
 	_stateMachine->AddState("ATTACK", new EnemyBossAttackState(this, L"ATTACK"));
 	_stateMachine->AddState("DEAD", new EnemyBossDeadState(this, L"DEAD"));
 	_stateMachine->ChangeState("IDLE");
+}
+
+EnemyBoss::~EnemyBoss()
+{
+	GET_SINGLE(WindowManager)->CloseSubWindow(_window);
 }
 
 void EnemyBoss::InitializePhases()
@@ -51,32 +57,35 @@ void EnemyBoss::InitializePhases()
 	phase1.attackInterval = 1.0f;
 	phase1.patterns =
 	{
-		{ PatternType::CIRCLESHOT, 1.0f, 50.0f, 100.0f },
-		{ PatternType::LINEARSHOT, 1.0f, 20.0f, 100.0f },
-		{ PatternType::WARPBLAST, 3.0f, 30.f, 220.f },
+		{ PatternType::CIRCLESHOT, 1.4f, 50.0f, 150.0f },
+		{ PatternType::LINEARSHOT, 1.0f, 30.0f, 150.0f },
+		{ PatternType::WARPBLAST, 3.0f, 20.f, 220.f },
 	};
 
 	PhaseData phase2;
-	phase2.attackInterval = 1.2f;
+	phase2.attackInterval = 0.9f;
 	phase2.patterns =
 	{
-		{ PatternType::CIRCLESHOT, 1.2f, 50.0f, 100.0f },
-		{ PatternType::BOUNCESHOT, 5.0f, 30.0f, 100.0f },
+		{ PatternType::CIRCLESHOT, 1.2f, 40.0f, 150.0f },
+		{ PatternType::BOUNCESHOT, 4.0f, 30.0f, 150.0f },
+		{ PatternType::MOVESPRAYSHOT, 5.0f, 10.f, 220.f },
 		{ PatternType::WARPBLAST, 3.0f, 20.f, 220.f }
 	};
 
 	PhaseData phase3;
-	phase3.attackInterval = 1.0f;
+	phase3.attackInterval = 0.8f;
 	phase3.patterns =
 	{
-		{ PatternType::CIRCLESHOT, 1.0f, 50.0f, 100.0f },
-		{ PatternType::TRACKINGSHOT, 2.0f, 25.0f, 100.0f },
-		{ PatternType::MOVESPRAYSHOT, 3.0f, 25.f, 220.f }
+		{ PatternType::CIRCLESHOT, 1.0f, 30.0f, 170.0f },
+		{ PatternType::TRACKINGSHOT, 2.0f, 20.0f, 170.0f },
+		{ PatternType::MOVESPRAYSHOT, 3.0f, 20.f, 220.f },
+		{ PatternType::BOUNCESHOT, 5.0f, 20.0f, 160.0f },
+		{ PatternType::WARPBLAST, 3.0f, 10.f, 220.f }
 	};
 
-	_phases.push_back(phase3);
 	_phases.push_back(phase1);
 	_phases.push_back(phase2);
+	_phases.push_back(phase3);
 }
 
 void EnemyBoss::CreateEnemyWindow()
@@ -142,6 +151,7 @@ void EnemyBoss::Update()
 
 			EnemyBullet* bullet = new EnemyBullet(bossPos, target, 220.f);
 			GET_SINGLE(SceneManager)->GetCurScene()->AddObject(bullet, Layer::PROJECTILE);
+			GET_SINGLE(ResourceManager)->Play(L"BossShotSound");
 		}
 
 		if (_sprayTime >= _sprayDuration)
@@ -167,9 +177,18 @@ void EnemyBoss::EnterCollision(Collider* _other)
 {
 	if (_other->GetName() == L"PlayerBullet")
 	{
+
+		int damage = 10;
+		if (_currentPhase == 0)
+			damage = 8;
+		else if (_currentPhase == 1)
+			damage = 6;
+		else if (_currentPhase == 2) 
+			damage = 4;
+
 		auto* healthComp = GetComponent<EntityHealthComponent>();
 		healthComp->UpdateHP(-10);
-
+		GET_SINGLE(ResourceManager)->Play(L"EnemyDieSound");
 		if (healthComp->GetCurrentHP() <= 0)
 		{
 			ChangeState("DEAD");
@@ -191,12 +210,12 @@ void EnemyBoss::CheckPhaseTransition()
 
 	float hpRatio = ((float)healthComp->GetCurrentHP() / (float)healthComp->GetMaxHP()) * 100.0f;
 
-	if (hpRatio > 50.0f)
+	if (hpRatio > 66.0f)
 	{
 		if (_currentPhase != 0)
 			TransitionToPhase(0);
 	}
-	else if (hpRatio > 25.0f)
+	else if (hpRatio > 33.0f)
 	{
 		if (_currentPhase != 1)
 			TransitionToPhase(1);
@@ -267,6 +286,7 @@ void EnemyBoss::ExecuteCircleShot(const PatternData& pattern)
 
 		EnemyBullet* bullet = new EnemyBullet(bossPos, targetPos, pattern.speed);
 		GET_SINGLE(SceneManager)->GetCurScene()->AddObject(bullet, Layer::PROJECTILE);
+		GET_SINGLE(ResourceManager)->Play(L"BossShotSound");
 	}
 }
 
@@ -277,6 +297,7 @@ void EnemyBoss::ExecuteLinearShot(const PatternData& pattern)
 	Vec2 pos = GetPos();
 	EnemyBullet* bullet = new EnemyBullet(pos, playerPos, pattern.speed);
 	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(bullet, Layer::PROJECTILE);
+	GET_SINGLE(ResourceManager)->Play(L"BossShotSound");
 }
 
 void EnemyBoss::ExecuteBounceShot(const PatternData& pattern)
@@ -286,6 +307,7 @@ void EnemyBoss::ExecuteBounceShot(const PatternData& pattern)
 	Vec2 pos = GetPos();
 	BounceBullet* bullet = new BounceBullet(pos, playerPos, pattern.speed);
 	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(bullet, Layer::PROJECTILE);
+	GET_SINGLE(ResourceManager)->Play(L"BossShotSound");
 }
 
 void EnemyBoss::ExecuteTrackingShot(const PatternData& pattern)
@@ -294,6 +316,7 @@ void EnemyBoss::ExecuteTrackingShot(const PatternData& pattern)
 	Vec2 pos = GetPos();
 	TrackingBullet* bullet = new TrackingBullet(pos, _player, pattern.speed);
 	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(bullet, Layer::PROJECTILE);
+	GET_SINGLE(ResourceManager)->Play(L"BossShotSound");
 }
 
 void EnemyBoss::ExecuteMoveSprayShot(const PatternData& pattern)
@@ -348,5 +371,6 @@ void EnemyBoss::ExecuteCircularSector(const PatternData& pattern)
 
 		EnemyBullet* bullet = new EnemyBullet(bossPos, target, pattern.speed);
 		GET_SINGLE(SceneManager)->GetCurScene()->AddObject(bullet, Layer::PROJECTILE);
+		GET_SINGLE(ResourceManager)->Play(L"BossShotSound");
 	}
 }

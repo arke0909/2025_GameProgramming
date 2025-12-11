@@ -7,9 +7,7 @@
 FastEnemy::FastEnemy()
 {
     _eTex = GET_SINGLE(ResourceManager)
-        ->GetTexture(L"CloseEnemy");
-
-    GetComponent<EntityHealthComponent>()->SetHealth(10);
+        ->GetTexture(L"FastEnemy");
     
     Vec2 animSize;
     switch (_eTex->GetHeight())

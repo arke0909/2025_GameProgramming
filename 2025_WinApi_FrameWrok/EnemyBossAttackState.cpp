@@ -26,8 +26,16 @@ void EnemyBossAttackState::Enter()
 void EnemyBossAttackState::Update()
 {
 	EntityState::Update();
-
 	float dt = fDT;
+
+	const PhaseData& currentPhase = _owner->GetCurrentPhaseData();
+
+	if (_patternCooldowns.size() != currentPhase.patterns.size())
+	{
+		_patternCooldowns.clear();
+		_patternCooldowns.resize(currentPhase.patterns.size(), 0.f);
+		SelectNextPattern();
+	}
 
 	for (float& time : _patternCooldowns)
 	{
@@ -37,18 +45,14 @@ void EnemyBossAttackState::Update()
 
 	_attackTimer += dt;
 
-	const PhaseData& currentPhase = _owner->GetCurrentPhaseData();
-
 	if (_attackTimer >= currentPhase.attackInterval)
 	{
 		ExecuteCurrentPattern();
-
 		if (_currentPatternIndex < _patternCooldowns.size())
 		{
 			_patternCooldowns[_currentPatternIndex] =
 				currentPhase.patterns[_currentPatternIndex].collTime;
 		}
-
 		_attackTimer = 0.f;
 		SelectNextPattern();
 	}
@@ -65,7 +69,7 @@ void EnemyBossAttackState::SelectNextPattern()
 	const PhaseData& phase = _owner->GetCurrentPhaseData();
 
 	int totalWeight = 0;
-	for (size_t i = 0; i < phase.patterns.size(); ++i)
+	for (int i = 0; i < phase.patterns.size(); ++i)
 	{
 		if (_patternCooldowns[i] <= 0.f)
 			totalWeight += (int)phase.patterns[i].weight;
@@ -80,7 +84,7 @@ void EnemyBossAttackState::SelectNextPattern()
 	int randomValue = rand() % totalWeight;
 	int acc = 0;
 
-	for (size_t i = 0; i < phase.patterns.size(); ++i)
+	for (int i = 0; i < phase.patterns.size(); ++i)
 	{
 		if (_patternCooldowns[i] > 0.f)
 			continue;

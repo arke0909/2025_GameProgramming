@@ -14,7 +14,7 @@ EnemyBullet::EnemyBullet(const Vec2& startPos, const Vec2& targetPos, float spee
 	col->SetTrigger(true);
 
 	_eTex = GET_SINGLE(ResourceManager)
-		->GetTexture(L"Player");
+		->GetTexture(L"EnumyBullet");
 
 	Vec2 animSize;
 
@@ -61,6 +61,7 @@ EnemyBullet::EnemyBullet(const Vec2& startPos, const Vec2& targetPos, float spee
 
 EnemyBullet::~EnemyBullet()
 {	
+	
 }
 
 void EnemyBullet::Update()
@@ -74,6 +75,7 @@ void EnemyBullet::Update()
 		pos.y - _halfSize.y > _screenSize.y)
 	{
 		GET_SINGLE(SceneManager)->RequestDestroy(this);
+
 	}
 }
 

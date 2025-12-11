@@ -199,8 +199,10 @@
     <ClInclude Include="Enums.h" />
     <ClInclude Include="FastEnemy.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="GameClear.h" />
     <ClInclude Include="GameEvent.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameOverUI.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="GDISelector.h" />
@@ -210,7 +212,6 @@
     <ClInclude Include="ItemButton.h" />
     <ClInclude Include="ItemInfo.h" />
     <ClInclude Include="MeleeEnemy.h" />
-    <ClInclude Include="NoneMoveEnemy.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
@@ -281,7 +282,9 @@
     <ClCompile Include="EntityHealthComponent.cpp" />
     <ClCompile Include="EntityState.cpp" />
     <ClCompile Include="FastEnemy.cpp" />
+    <ClCompile Include="GameClear.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GameOverUI.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="GDISelector.cpp" />
@@ -291,7 +294,6 @@
     <ClCompile Include="ItemInfo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MeleeEnemy.cpp" />
-    <ClCompile Include="NoneMoveEnemy.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerDevScene.cpp" />

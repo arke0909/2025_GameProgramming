@@ -9,10 +9,7 @@
 ArmorEnemy::ArmorEnemy()
 {
 	_eTex = GET_SINGLE(ResourceManager)
-		->GetTexture(L"CloseEnemy");
-
-
-    GetComponent<EntityHealthComponent>()->SetHealth(30);
+		->GetTexture(L"Zoombie");
 
     Vec2 animSize;
     switch (_eTex->GetHeight())

@@ -12,8 +12,8 @@ enum class EnemyType
     Ranged,
     Armor,
     Fast,
-    Nonemove,
-    CircleShot
+    CircleShot,
+    Boss
 };
 
 class EnemySpawnManager
@@ -30,7 +30,6 @@ private:
         std::vector<std::pair<EnemyType, int>> enemies;
     };
 
-    float GetWaveHPMultiplier() const;
     void UpdateWave();
     void TrySpawnWave();
     void SpawnEnemy(EnemyType type);

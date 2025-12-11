@@ -11,9 +11,7 @@
 RangedEnemy::RangedEnemy()
 {
     _eTex = GET_SINGLE(ResourceManager)
-        ->GetTexture(L"CloseEnemy");
-
-    GetComponent<EntityHealthComponent>()->SetHealth(20);
+        ->GetTexture(L"Skeleton");
 
     Vec2 animSize;
     switch (_eTex->GetHeight())

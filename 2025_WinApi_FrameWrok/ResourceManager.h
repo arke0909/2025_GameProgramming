@@ -17,7 +17,6 @@ class ResourceManager
 	DECLARE_SINGLE(ResourceManager);
 public:
 	bool Init();
-	void Release();
 	void FmodUpdate();
 public:
 	// Sound
@@ -26,6 +25,7 @@ public:
 	void Stop(SOUND_CHANNEL _channel);
 	void Volume(SOUND_CHANNEL _channel, float _vol);
 	void Pause(SOUND_CHANNEL _channel, bool _ispause);
+	void Release();
 public:
 	void RegisterGDI();
 	void ReleaseGDI();

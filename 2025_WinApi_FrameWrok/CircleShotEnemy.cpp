@@ -11,9 +11,7 @@ CircleShotEnemy::CircleShotEnemy()
 	_accTime(0.f)
 {
 	_eTex = GET_SINGLE(ResourceManager)
-		->GetTexture(L"CloseEnemy");
-
-	GetComponent<EntityHealthComponent>()->SetHealth(20);
+		->GetTexture(L"CircleEnemy");
 
 	Vec2 animSize;
 	switch (_eTex->GetHeight())
@@ -46,7 +44,7 @@ CircleShotEnemy::CircleShotEnemy()
 		{ 0.f, 0.f },
 		1, 1);
 
-	_speed = 100.f;
+	_speed = 0.0f;
 	_attackRange = 250.0f;
 	_dropGold = 70;
 
@@ -54,6 +52,12 @@ CircleShotEnemy::CircleShotEnemy()
 	_stateMachine->AddState("MOVE", new EnemyMoveState(this, L"MOVE"));
 	_stateMachine->AddState("ATTACK", new EnemyAttackState(this, L"ATTACK"));
 	_stateMachine->ChangeState("MOVE");
+}
+
+CircleShotEnemy::~CircleShotEnemy()
+{
+	GET_SINGLE(WindowManager)->CloseSubWindow(_window);
+	delete _eTex;
 }
 
 void CircleShotEnemy::Update()
@@ -82,5 +86,19 @@ void CircleShotEnemy::Attack()
 
 		EnemyBullet* bullet = new EnemyBullet(bossPos, targetPos, 150);
 		GET_SINGLE(SceneManager)->GetCurScene()->AddObject(bullet, Layer::PROJECTILE);
+		GET_SINGLE(ResourceManager)->Play(L"EnemyShotSound");
 	}
+}
+
+
+void CircleShotEnemy::CreateEnemyWindow()
+{
+	Vec2 pos = GetPos();
+
+	_window = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
+		L"NonemoveEnemy",
+		{
+			{ pos.x, pos.y },
+			{ 250, 250 }
+		});
 }

@@ -17,13 +17,12 @@ Enemy::Enemy()
 {
     auto* col = AddComponent<BoxCollider>();
     col->SetName(L"Enemy");
-
-	AddComponent<EntityHealthComponent>();
 }
 
 Enemy::~Enemy()
 {
     delete _stateMachine;
+    delete _eTex;
 }
 
 void Enemy::Update()
@@ -42,11 +41,8 @@ void Enemy::EnterCollision(Collider* _other)
 {
     if (_other->GetName() == L"PlayerBullet") 
     {
-		auto* healthComp = GetComponent<EntityHealthComponent>();
-        healthComp->UpdateHP(-10);
-        if (healthComp->GetCurrentHP() <= 0) {
-            GET_SINGLE(EnemySpawnManager)->DeadEnemy(this);
-        }
+        GET_SINGLE(ResourceManager)->Play(L"EnemyDieSound");
+        GET_SINGLE(EnemySpawnManager)->DeadEnemy(this);
     }
 }
 
