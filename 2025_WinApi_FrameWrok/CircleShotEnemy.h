@@ -12,6 +12,10 @@ public:
 
 public:
     void CreateEnemyWindow();
+    void RemoveEnemyWindow()
+    {
+        GET_SINGLE(WindowManager)->CloseSubWindow(_window);
+	}
 
 private:
     void Update() override;
