@@ -2,6 +2,7 @@
 // Microsoft Visual C++에서 생성한 포함 파일입니다.
 // 2025_WinApi_FrameWrok.rc에서 사용되고 있습니다.
 //
+#define IDI_ICON1                       129
 #define IDC_MYICON                      2
 #define IDD_MY2025WINAPIFRAMEWROK_DIALOG 102
 #define IDS_APP_TITLE                   103
@@ -12,7 +13,6 @@
 #define IDI_SMALL                       108
 #define IDC_MY2025WINAPIFRAMEWROK       109
 #define IDR_MAINFRAME                   128
-#define IDI_ICON1                       129
 #define IDI_ICON2                       130
 #define IDC_STATIC                      -1
 
