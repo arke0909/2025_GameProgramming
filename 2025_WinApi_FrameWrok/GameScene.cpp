@@ -32,13 +32,13 @@ void GameScene::Init()
 				{SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2},
 				{400,400}
 			});
-	GET_SINGLE(WindowManager)
+	/*GET_SINGLE(WindowManager)
 		->CreateSubWindow<GameWindow>(
 			L"Temp",
 			{
 				{SCREEN_WIDTH / 2 - 500, SCREEN_HEIGHT / 2},
 				{400,400}
-			});
+			});*/
 
     _informationWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
         L"Information", { {SCREEN_WIDTH - 300, SCREEN_HEIGHT / 2 - 150}, {120, 85} });
@@ -91,6 +91,7 @@ void GameScene::Init()
 
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::ENEMY);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::BULLET, Layer::ENEMY);
+    GET_SINGLE(CollisionManager)->CheckLayer(Layer::BULLET, Layer::PLAYER);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::PLAYER);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::WALL);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::BULLET, Layer::WALL);
@@ -115,14 +116,5 @@ void GameScene::Update()
         _storeVisible = !_storeVisible;
         GET_SINGLE(TimeManager)->SetTimeScale(_storeVisible ? 0 : 1);
         _storeWindow->SetVisible(_storeVisible);
-    }
-
-    if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::CTRL))
-    {
-        GET_SINGLE(SceneManager)->LoadScene(L"GameClear");
-    }
-    if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::R))
-    {
-        GET_SINGLE(GameManager)->coin += 10000;
     }
 }

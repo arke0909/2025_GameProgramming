@@ -17,5 +17,5 @@ void CircleCollider::Render(HDC hDC)
 
 void CircleCollider::GizmoRender(HDC hDC)
 {
-	ELLIPSE_RENDER(hDC, m_updatedPos.x, m_updatedPos.y, _radius * 2, _radius * 2);
+	//ELLIPSE_RENDER(hDC, m_updatedPos.x, m_updatedPos.y, _radius * 2, _radius * 2);
 }
