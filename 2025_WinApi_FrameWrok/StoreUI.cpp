@@ -15,8 +15,9 @@ StoreUI::StoreUI(const Vec2& pos, const Vec2& size)
 {
     GameEvents::OnItemPurchased.Subscribe([this](const ItemInfo& item)
         {
-            // 아이템 가격 증가
-            ItemPriceMap[item.type] += PriceIncreaseMap[item.type];
+            std::wstring msg = item.displayName + L" 을(를) 구매했습니다!";
+            MessageBox(nullptr, msg.c_str(), L"구매 완료", MB_OK);
+
             Reroll();
         });
 
@@ -30,7 +31,6 @@ void StoreUI::SetWindowHandle(Window* storeWindow)
 
 void StoreUI::Init()
 {
-    // 기존 버튼 삭제
     for (auto*& btn : _itemSlots)
     {
         delete btn;
@@ -42,7 +42,6 @@ void StoreUI::Init()
 
     if (items.empty())
     {
-
         MessageBox(nullptr, L"아이템을 더 이상 표시할 수 없습니다.", L"상점", MB_OK);
         return;
     }
@@ -58,19 +57,12 @@ void StoreUI::Init()
             continue;
         }
 
-        ItemInfo item = items[i];
-
-        // 현재 가격 반영
-        if (ItemPriceMap.count(item.type))
-            item.price = ItemPriceMap[item.type];
-        else
-            ItemPriceMap[item.type] = item.price;
+        auto& item = items[i];
 
         auto* btn = new ItemButton(item, slotPos, slotSize);
         _itemSlots.push_back(btn);
     }
 
-    // 리롤 버튼
     auto tex = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
     _rerollButton = new UIButton(L"리롤", { pos.x + 170, pos.y + 130 }, { 100, 40 }, FontType::UI, tex);
     _rerollButton->SetOnClick([this]() { Reroll(); });
@@ -137,10 +129,14 @@ std::vector<ItemInfo> StoreUI::GetRandomItems(int count)
     std::unordered_set<ItemType> selected;
     std::vector<ItemInfo> result;
 
-    for (const auto& item : candidates)
+    for (auto& item : candidates)
     {
         if (selected.count(item.type)) continue;
         selected.insert(item.type);
+
+        if (ItemPriceMap.count(item.type))
+            item.price = ItemPriceMap[item.type];
+
         result.push_back(item);
 
         if ((int)result.size() >= count)
