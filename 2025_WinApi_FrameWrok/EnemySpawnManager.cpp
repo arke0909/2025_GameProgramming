@@ -25,7 +25,7 @@ void EnemySpawnManager::Init(Player* player)
     _waveDelay = 2.f;
     _noSpawnDistance = 150.f;
 
-    _currentWave = 0;
+    _currentWave = 6;
     _waveActive = false;
     _waveDelayTimer = 0.f;
 
@@ -50,13 +50,13 @@ void EnemySpawnManager::Init(Player* player)
         {{ {EnemyType::Fast, 5}, {EnemyType::Ranged, 4} }},
 
         // 7 wave
-        {{ {EnemyType::CircleShot, 2}, {EnemyType::Fast, 4}, {EnemyType::Melee, 4} }},
+        {{ {EnemyType::CircleShot, 1}, {EnemyType::Fast, 4}, {EnemyType::Melee, 4} }},
 
         // 8 wave
-        {{ {EnemyType::Melee, 5}, {EnemyType::Ranged, 4}, {EnemyType::CircleShot, 2} }},
+        {{ {EnemyType::Melee, 5}, {EnemyType::Ranged, 4}, {EnemyType::CircleShot, 1} }},
 
         // 9 wave
-        {{ {EnemyType::CircleShot, 3}, {EnemyType::Fast, 4}, {EnemyType::CircleShot, 3} }},
+        {{ {EnemyType::Ranged, 3}, {EnemyType::CircleShot, 1}, {EnemyType::Fast, 4}, {EnemyType::CircleShot, 1} }},
 
         // boss
         {{ {EnemyType::Boss, 1} }}
