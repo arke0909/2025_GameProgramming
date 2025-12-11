@@ -4,7 +4,9 @@
 #include "InputManager.h"
 #include "ResourceManager.h"
 #include "GameEvent.h"
+#include "Window.h"
 #include <random>
+#include <unordered_set>
 
 extern std::vector<ItemInfo> AllItems;
 extern std::unordered_map<ItemType, int> ItemPriceMap;
@@ -18,7 +20,7 @@ StoreUI::StoreUI(const Vec2& pos, const Vec2& size)
             std::wstring msg = item.displayName + L" 을(를) 구매했습니다!";
             MessageBox(nullptr, msg.c_str(), L"구매 완료", MB_OK);
 
-            Reroll();
+            Reroll(false);
         });
 
     Init();
@@ -34,7 +36,6 @@ StoreUI::~StoreUI()
     delete _coinLabel;
 }
 
-
 void StoreUI::SetWindowHandle(Window* storeWindow)
 {
     _storeWindow = storeWindow;
@@ -42,20 +43,20 @@ void StoreUI::SetWindowHandle(Window* storeWindow)
 
 void StoreUI::Init()
 {
+    auto items = GetRandomItems(3);
+    InitWithItems(items);
+}
+
+void StoreUI::InitWithItems(const std::vector<ItemInfo>& items)
+{
+    _currentItems = items;
+
     for (auto*& btn : _itemSlots)
     {
         delete btn;
         btn = nullptr;
     }
     _itemSlots.clear();
-
-    auto items = GetRandomItems(3);
-
-    if (items.empty())
-    {
-        MessageBox(nullptr, L"아이템을 더 이상 표시할 수 없습니다.", L"상점", MB_OK);
-        return;
-    }
 
     for (int i = 0; i < 3; ++i)
     {
@@ -68,15 +69,14 @@ void StoreUI::Init()
             continue;
         }
 
-        auto& item = items[i];
-
+        const auto& item = items[i];
         auto* btn = new ItemButton(item, slotPos, slotSize);
         _itemSlots.push_back(btn);
     }
 
     auto tex = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
     _rerollButton = new UIButton(L"리롤", { pos.x + 170, pos.y + 130 }, { 100, 40 }, FontType::UI, tex);
-    _rerollButton->SetOnClick([this]() { Reroll(); });
+    _rerollButton->SetOnClick([this]() { Reroll(true); });
 
     _coinLabel = new UILabel(L"Coin: 0", Vec2(pos.x + 150, pos.y + 70), Vec2(200, 30), FontType::UI);
 }
@@ -110,18 +110,21 @@ void StoreUI::Render(HDC hdc)
     }
 }
 
-void StoreUI::Reroll()
+void StoreUI::Reroll(bool charge)
 {
     const int cost = 50;
 
-    if (!_itemSlots.empty() && GET_SINGLE(GameManager)->coin < cost)
+    if (charge && !_itemSlots.empty() && GET_SINGLE(GameManager)->coin < cost)
     {
         MessageBox(nullptr, L"코인이 부족합니다!", L"리롤 실패", MB_OK);
         return;
     }
 
-	GET_SINGLE(ResourceManager)->Play(L"ReRollSound");
-    GET_SINGLE(GameManager)->coin -= cost;
+    if (charge)
+    {
+        GET_SINGLE(GameManager)->coin -= cost;
+        GET_SINGLE(ResourceManager)->Play(L"ReRollSound");
+    }
 
     for (auto*& btn : _itemSlots)
     {
@@ -130,7 +133,8 @@ void StoreUI::Reroll()
     }
     _itemSlots.clear();
 
-    Init();
+    auto rerolledItems = GetRandomItems(3);
+    InitWithItems(rerolledItems);
 }
 
 std::vector<ItemInfo> StoreUI::GetRandomItems(int count)
@@ -156,4 +160,9 @@ std::vector<ItemInfo> StoreUI::GetRandomItems(int count)
     }
 
     return result;
+}
+
+const std::vector<ItemInfo>& StoreUI::GetCurrentItems() const
+{
+    return _currentItems;
 }
