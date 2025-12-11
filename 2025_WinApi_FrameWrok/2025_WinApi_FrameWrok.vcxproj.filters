@@ -352,7 +352,7 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="WallForceObject.h">
-    <Filter>헤더 파일</Filter>
+      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="GameOverUI.h">
       <Filter>헤더 파일</Filter>
@@ -610,6 +610,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="GameClear.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="WallForceObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

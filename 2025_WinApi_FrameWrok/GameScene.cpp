@@ -32,13 +32,13 @@ void GameScene::Init()
 				{SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2},
 				{400,400}
 			});
-	GET_SINGLE(WindowManager)
+	/*GET_SINGLE(WindowManager)
 		->CreateSubWindow<GameWindow>(
 			L"Temp",
 			{
 				{SCREEN_WIDTH / 2 - 500, SCREEN_HEIGHT / 2},
 				{400,400}
-			});
+			});*/
 
     _informationWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
         L"Information", { {SCREEN_WIDTH - 300, SCREEN_HEIGHT / 2 - 150}, {120, 85} });
