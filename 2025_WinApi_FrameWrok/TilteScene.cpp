@@ -77,7 +77,9 @@ void TitleScene::Init()
         soundUI->Add(exitSoundBtn);
         });
 
-    exitBtn->SetOnClick([]() {
+    exitBtn->SetOnClick([]() 
+        {
+            GET_SINGLE(WindowManager)->CloseAllSubWindows();
         PostQuitMessage(0);
         });
 
