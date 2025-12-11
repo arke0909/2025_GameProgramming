@@ -11,6 +11,9 @@ ArmorEnemy::ArmorEnemy()
 	_eTex = GET_SINGLE(ResourceManager)
 		->GetTexture(L"Zoombie");
 
+	auto* health = AddComponent<EntityHealthComponent>();
+	health->SetHealth(2);
+
     Vec2 animSize;
     switch (_eTex->GetHeight())
     {
@@ -51,4 +54,19 @@ ArmorEnemy::ArmorEnemy()
     _stateMachine->AddState("MOVE", new EnemyMoveState(this, L"MOVE"));
     _stateMachine->AddState("ATTACK", new EnemyMeleeAttackState(this, L"ATTACK"));
     _stateMachine->ChangeState("MOVE");
+}
+
+void ArmorEnemy::EnterCollision(Collider* _other)
+{
+    if (_other->GetName() == L"Weapon" || _other->GetName() == L"Splash")
+    {
+        auto* health = GetComponent<EntityHealthComponent>();
+		health->UpdateHP(-1);
+		int currentHP = health->GetCurrentHP();
+		GET_SINGLE(ResourceManager)->Play(L"EnemyHitSound");
+        if (currentHP <= 0) {
+            GET_SINGLE(ResourceManager)->Play(L"EnemyDieSound");
+            GET_SINGLE(EnemySpawnManager)->DeadEnemy(this);
+        }
+    }
 }

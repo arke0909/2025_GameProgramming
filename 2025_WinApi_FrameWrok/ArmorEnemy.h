@@ -9,9 +9,7 @@ public:
     ~ArmorEnemy() override = default;
 
 private:
-    void EnterCollision(Collider* _other) override {
-        Enemy::EnterCollision(_other);
-    };
+    void EnterCollision(Collider* _other) override;
     void Update() override {
         Enemy::Update();
     };
