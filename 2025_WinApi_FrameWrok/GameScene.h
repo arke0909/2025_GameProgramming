@@ -1,19 +1,20 @@
 #pragma once
-#include "Scene.h"
 
-class Window;
-class StoreUI;
-class WaveLabel;
-class CoinLabel;
-class UIImage;
-class HpLabel;
-class Player;
-class EnemySpawnManager;
+#include "Scene.h"
+#include "GameWindow.h"
+#include "Window.h"
+#include "StoreUI.h"
+#include "WaveLabel.h"
+#include "CoinLabel.h"
+#include "UIImage.h"
+#include "HPImage.h"
+#include "Player.h"
+#include "EnemySpawnManager.h"
 
 class GameScene : public Scene
 {
 private:
-    Window* _inGameWindow = nullptr;
+    GameWindow* _inGameWindow = nullptr;
     Window* _storeWindow = nullptr;
     Window* _informationWindow = nullptr;
 
