@@ -8,8 +8,6 @@ FastEnemy::FastEnemy()
 {
     _eTex = GET_SINGLE(ResourceManager)
         ->GetTexture(L"FastEnemy");
-
-    GetComponent<EntityHealthComponent>()->SetHealth(10);
     
     Vec2 animSize;
     switch (_eTex->GetHeight())

@@ -13,8 +13,6 @@ CircleShotEnemy::CircleShotEnemy()
 	_eTex = GET_SINGLE(ResourceManager)
 		->GetTexture(L"CircleEnemy");
 
-	GetComponent<EntityHealthComponent>()->SetHealth(20);
-
 	Vec2 animSize;
 	switch (_eTex->GetHeight())
 	{
@@ -54,6 +52,12 @@ CircleShotEnemy::CircleShotEnemy()
 	_stateMachine->AddState("MOVE", new EnemyMoveState(this, L"MOVE"));
 	_stateMachine->AddState("ATTACK", new EnemyAttackState(this, L"ATTACK"));
 	_stateMachine->ChangeState("MOVE");
+}
+
+CircleShotEnemy::~CircleShotEnemy()
+{
+	GET_SINGLE(WindowManager)->CloseSubWindow(_window);
+	delete _eTex;
 }
 
 void CircleShotEnemy::Update()

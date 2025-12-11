@@ -22,6 +22,7 @@ Enemy::Enemy()
 Enemy::~Enemy()
 {
     delete _stateMachine;
+    delete _eTex;
 }
 
 void Enemy::Update()

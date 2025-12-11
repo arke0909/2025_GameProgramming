@@ -12,8 +12,6 @@ MeleeEnemy::MeleeEnemy()
     _eTex = GET_SINGLE(ResourceManager)
         ->GetTexture(L"CloseEnemy");
 
-    GetComponent<EntityHealthComponent>()->SetHealth(20);
-
     Vec2 animSize;
     switch (_eTex->GetHeight())
     {

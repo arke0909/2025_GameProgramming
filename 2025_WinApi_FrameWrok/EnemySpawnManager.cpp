@@ -25,7 +25,7 @@ void EnemySpawnManager::Init(Player* player)
     _waveDelay = 2.f;
     _noSpawnDistance = 150.f;
 
-    _currentWave = 0;
+    _currentWave = 9;
     _waveActive = false;
     _waveDelayTimer = 0.f;
 
@@ -68,11 +68,6 @@ void EnemySpawnManager::Init(Player* player)
 void EnemySpawnManager::Update()
 {
     UpdateWave();
-}
-
-float EnemySpawnManager::GetWaveHPMultiplier() const
-{
-    return 1.0f + (_currentWave * 0.1f);
 }
 
 void EnemySpawnManager::UpdateWave()
@@ -167,9 +162,6 @@ void EnemySpawnManager::SpawnEnemy(EnemyType type)
         e->SetTarget(_player);
         e->CreateEnemyWindow();
 
-        float hpMul = GetWaveHPMultiplier();
-        e->GetComponent<EntityHealthComponent>()->ApplyHPScale(hpMul);
-
         GET_SINGLE(SceneManager)->GetCurScene()->AddObject(e, Layer::ENEMY);
         _spawnedEnemies.push_back(e);
         return;
@@ -184,9 +176,6 @@ void EnemySpawnManager::SpawnEnemy(EnemyType type)
 
     e->SetPos(pos);
     e->SetTarget(_player);
-
-    float hpMul = GetWaveHPMultiplier();
-    e->GetComponent<EntityHealthComponent>()->ApplyHPScale(hpMul);
 
     GET_SINGLE(SceneManager)->GetCurScene()->AddObject(e, Layer::ENEMY);
 

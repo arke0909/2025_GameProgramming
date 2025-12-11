@@ -10,7 +10,7 @@ class EnemyBoss : public Enemy
 {
 public:
     EnemyBoss();
-    ~EnemyBoss() override = default;
+    ~EnemyBoss() override;
 
     void CreateEnemyWindow();
     void Update() override;

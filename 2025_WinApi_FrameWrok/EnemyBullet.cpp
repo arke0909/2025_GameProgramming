@@ -61,6 +61,7 @@ EnemyBullet::EnemyBullet(const Vec2& startPos, const Vec2& targetPos, float spee
 
 EnemyBullet::~EnemyBullet()
 {	
+	
 }
 
 void EnemyBullet::Update()
@@ -73,7 +74,9 @@ void EnemyBullet::Update()
 		pos.x - _halfSize.x > _screenSize.x ||
 		pos.y - _halfSize.y > _screenSize.y)
 	{
+		cout << "Destroy" << endl;
 		GET_SINGLE(SceneManager)->RequestDestroy(this);
+
 	}
 }
 

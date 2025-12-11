@@ -46,6 +46,11 @@ EnemyBoss::EnemyBoss()
 	_stateMachine->ChangeState("IDLE");
 }
 
+EnemyBoss::~EnemyBoss()
+{
+	GET_SINGLE(WindowManager)->CloseSubWindow(_window);
+}
+
 void EnemyBoss::InitializePhases()
 {
 	PhaseData phase1;
@@ -183,7 +188,7 @@ void EnemyBoss::EnterCollision(Collider* _other)
 
 		auto* healthComp = GetComponent<EntityHealthComponent>();
 		healthComp->UpdateHP(-10);
-		GET_SINGLE(ResourceManager)->Play(L"EnemyHitSound");
+		GET_SINGLE(ResourceManager)->Play(L"EnemyDieSound");
 		if (healthComp->GetCurrentHP() <= 0)
 		{
 			ChangeState("DEAD");

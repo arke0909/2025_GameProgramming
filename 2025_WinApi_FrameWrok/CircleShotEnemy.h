@@ -8,7 +8,7 @@ class CircleShotEnemy :
 {
 public:
     CircleShotEnemy();
-	~CircleShotEnemy() override = default;
+	~CircleShotEnemy() override;
 
 public:
     void CreateEnemyWindow();
