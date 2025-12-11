@@ -18,7 +18,8 @@ EnemyBoss::EnemyBoss()
 	_eTex = GET_SINGLE(ResourceManager)
 		->GetTexture(L"Pumpkin");
 
-	GetComponent<EntityHealthComponent>()->SetHealth(100);
+	auto* health = AddComponent<EntityHealthComponent>();
+	health->SetHealth(100);
 
 	Vec2 animSize = { 32.f, 32.f };
 	if (_eTex)
@@ -37,7 +38,7 @@ EnemyBoss::EnemyBoss()
 	animator->CreateAnimation(L"DEAD", _eTex, { 0.f, 0.f }, animSize, { 0.f, 0.f }, 1, 1);
 
 	InitializePhases();
-
+		
 	_stateMachine = new EntityStateMachine();
 	_stateMachine->AddState("IDLE", new EnemyBossIdleState(this, L"IDLE"));
 	_stateMachine->AddState("ATTACK", new EnemyBossAttackState(this, L"ATTACK"));
@@ -145,6 +146,7 @@ void EnemyBoss::Update()
 
 			EnemyBullet* bullet = new EnemyBullet(bossPos, target, 220.f);
 			GET_SINGLE(SceneManager)->GetCurScene()->AddObject(bullet, Layer::PROJECTILE);
+			GET_SINGLE(ResourceManager)->Play(L"BossShotSound");
 		}
 
 		if (_sprayTime >= _sprayDuration)
@@ -181,7 +183,7 @@ void EnemyBoss::EnterCollision(Collider* _other)
 
 		auto* healthComp = GetComponent<EntityHealthComponent>();
 		healthComp->UpdateHP(-10);
-		
+		GET_SINGLE(ResourceManager)->Play(L"EnemyHitSound");
 		if (healthComp->GetCurrentHP() <= 0)
 		{
 			ChangeState("DEAD");
@@ -279,6 +281,7 @@ void EnemyBoss::ExecuteCircleShot(const PatternData& pattern)
 
 		EnemyBullet* bullet = new EnemyBullet(bossPos, targetPos, pattern.speed);
 		GET_SINGLE(SceneManager)->GetCurScene()->AddObject(bullet, Layer::PROJECTILE);
+		GET_SINGLE(ResourceManager)->Play(L"BossShotSound");
 	}
 }
 
@@ -289,6 +292,7 @@ void EnemyBoss::ExecuteLinearShot(const PatternData& pattern)
 	Vec2 pos = GetPos();
 	EnemyBullet* bullet = new EnemyBullet(pos, playerPos, pattern.speed);
 	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(bullet, Layer::PROJECTILE);
+	GET_SINGLE(ResourceManager)->Play(L"BossShotSound");
 }
 
 void EnemyBoss::ExecuteBounceShot(const PatternData& pattern)
@@ -298,6 +302,7 @@ void EnemyBoss::ExecuteBounceShot(const PatternData& pattern)
 	Vec2 pos = GetPos();
 	BounceBullet* bullet = new BounceBullet(pos, playerPos, pattern.speed);
 	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(bullet, Layer::PROJECTILE);
+	GET_SINGLE(ResourceManager)->Play(L"BossShotSound");
 }
 
 void EnemyBoss::ExecuteTrackingShot(const PatternData& pattern)
@@ -306,6 +311,7 @@ void EnemyBoss::ExecuteTrackingShot(const PatternData& pattern)
 	Vec2 pos = GetPos();
 	TrackingBullet* bullet = new TrackingBullet(pos, _player, pattern.speed);
 	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(bullet, Layer::PROJECTILE);
+	GET_SINGLE(ResourceManager)->Play(L"BossShotSound");
 }
 
 void EnemyBoss::ExecuteMoveSprayShot(const PatternData& pattern)
@@ -360,5 +366,6 @@ void EnemyBoss::ExecuteCircularSector(const PatternData& pattern)
 
 		EnemyBullet* bullet = new EnemyBullet(bossPos, target, pattern.speed);
 		GET_SINGLE(SceneManager)->GetCurScene()->AddObject(bullet, Layer::PROJECTILE);
+		GET_SINGLE(ResourceManager)->Play(L"BossShotSound");
 	}
 }

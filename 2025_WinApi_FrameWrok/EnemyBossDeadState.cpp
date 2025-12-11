@@ -2,6 +2,7 @@
 #include "EnemyBossDeadState.h"
 #include "EnemySpawnManager.h"
 #include "SceneManager.h"
+#include "ResourceManager.h"
 
 EnemyBossDeadState::EnemyBossDeadState(EnemyBoss* owner, std::wstring animationName)
     : EntityState(owner, L"DEAD"),
@@ -28,6 +29,7 @@ void EnemyBossDeadState::Update()
 
     if (_currentTime >= _deathTime)
     {
+        GET_SINGLE(ResourceManager)->Play(L"EnemyDieSound");
         GET_SINGLE(EnemySpawnManager)->DeadEnemy(_owner);
     }
 }

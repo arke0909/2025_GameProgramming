@@ -82,6 +82,7 @@ void CircleShotEnemy::Attack()
 
 		EnemyBullet* bullet = new EnemyBullet(bossPos, targetPos, 150);
 		GET_SINGLE(SceneManager)->GetCurScene()->AddObject(bullet, Layer::PROJECTILE);
+		GET_SINGLE(ResourceManager)->Play(L"EnemyShotSound");
 	}
 }
 
