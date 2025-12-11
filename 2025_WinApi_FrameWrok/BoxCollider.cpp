@@ -17,5 +17,5 @@ void BoxCollider::Render(HDC hDC)
 
 void BoxCollider::GizmoRender(HDC hDC)
 {
-	RECT_RENDER(hDC, m_updatedPos.x, m_updatedPos.y, m_size.x, m_size.y);
+	//RECT_RENDER(hDC, m_updatedPos.x, m_updatedPos.y, m_size.x, m_size.y);
 }
