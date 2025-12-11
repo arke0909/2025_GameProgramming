@@ -25,7 +25,7 @@ void EnemySpawnManager::Init(Player* player)
     _waveDelay = 2.f;
     _noSpawnDistance = 150.f;
 
-    _currentWave = 6;
+    _currentWave = 0;
     _waveActive = false;
     _waveDelayTimer = 0.f;
 
@@ -34,20 +34,20 @@ void EnemySpawnManager::Init(Player* player)
         {{ {EnemyType::Melee, 6} }},
 
         // 2 wave
-        {{ {EnemyType::Melee, 5}, {EnemyType::Ranged, 2} }},
+        {{ {EnemyType::Melee, 5}, {EnemyType::Ranged, 2}, {EnemyType::Melee, 1} }},
 
 
         // 3 wave
-        {{ {EnemyType::Melee, 6}, {EnemyType::Ranged, 4} }},
+        {{ {EnemyType::Melee, 6}, {EnemyType::Ranged, 4}, {EnemyType::Melee, 2} }},
 
         // 4 wave
-        {{ {EnemyType::Ranged, 6}, {EnemyType::Fast, 3} }},
+        {{ {EnemyType::Ranged, 6}, {EnemyType::Fast, 3}, {EnemyType::Melee, 1} }},
 
         // 5 wave
-        {{ {EnemyType::Armor, 3}, {EnemyType::Melee, 5} }},
+        {{ {EnemyType::Armor, 3}, {EnemyType::Melee, 5}, {EnemyType::Ranged, 1} }},
 
         // 6 wave
-        {{ {EnemyType::Fast, 5}, {EnemyType::Ranged, 4} }},
+        {{ {EnemyType::Fast, 5}, {EnemyType::Ranged, 4}, {EnemyType::Fast, 1} }},
 
         // 7 wave
         {{ {EnemyType::CircleShot, 1}, {EnemyType::Fast, 4}, {EnemyType::Melee, 4} }},
