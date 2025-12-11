@@ -21,6 +21,9 @@
 
 void GameScene::Init()
 {
+
+	GET_SINGLE(GameManager)->ResetGame();
+
 	_inGameWindow = GET_SINGLE(WindowManager)
 		->CreateSubWindow<GameWindow>(
 			L"InGame",

@@ -7,5 +7,11 @@ public:
 	int playerHealth = 5;
 	int coin = 0;
 	HWND storeWindowHandle;
+	void ResetGame()
+	{
+		currentWavwe = 1;
+		playerHealth = 5;
+		coin = 0;
+	}
 };
 
