@@ -42,7 +42,7 @@ FastEnemy::FastEnemy()
         1, 1);
 
     _speed = 200.f;
-    _attackRange = 0.f;
+    _attackRange = 16.f;
     _dropGold = 30;
 
     _stateMachine = new EntityStateMachine();

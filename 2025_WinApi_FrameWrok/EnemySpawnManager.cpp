@@ -279,7 +279,12 @@ void EnemySpawnManager::DeadEnemy(Enemy* enemy)
     {
         _spawnedEnemies.erase(it);
         enemy->SetDead();
+
 		GET_SINGLE(GameManager)->coin += enemy->GetDropGold();
+
+        if (auto cse = dynamic_cast<CircleShotEnemy*>(enemy))
+            cse->RemoveEnemyWindow();
+
         GET_SINGLE(SceneManager)->RequestDestroy(enemy);
     }
 }
