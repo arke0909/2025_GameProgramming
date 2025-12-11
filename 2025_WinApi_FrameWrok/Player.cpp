@@ -204,6 +204,16 @@ void Player::AfterInit()
 				}
 				else if (item.name == HEAL)
 				{
+					if (GET_SINGLE(GameManager)->playerHealth + item.value > GET_SINGLE(GameManager)->playerMaxHealth)
+					{
+						GET_SINGLE(GameManager)->playerHealth = GET_SINGLE(GameManager)->playerMaxHealth;
+						return;
+					}
+					GET_SINGLE(GameManager)->playerHealth += item.value;
+				}
+				else if (item.name == STAT_HP)
+				{
+					GET_SINGLE(GameManager)->playerMaxHealth += item.value;
 					GET_SINGLE(GameManager)->playerHealth += item.value;
 				}
 				else if (item.name == STAT_WEAPONSPEED)
