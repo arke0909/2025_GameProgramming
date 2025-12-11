@@ -87,6 +87,7 @@ void EnemyBullet::EnterCollision(Collider* _other)
 {
 	if (_other->GetName() == L"Player") {
 		GET_SINGLE(GameManager)->playerHealth--;
+		GET_SINGLE(SceneManager)->RequestDestroy(this);
 		this->SetDead();
 	}
 }

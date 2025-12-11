@@ -42,6 +42,7 @@ void Enemy::EnterCollision(Collider* _other)
     {
         GET_SINGLE(ResourceManager)->Play(L"EnemyDieSound");
         GET_SINGLE(EnemySpawnManager)->DeadEnemy(this);
+		this->SetDead();
     }
 }
 
