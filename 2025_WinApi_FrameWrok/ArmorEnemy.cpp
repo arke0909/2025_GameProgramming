@@ -9,7 +9,7 @@
 ArmorEnemy::ArmorEnemy()
 {
 	_eTex = GET_SINGLE(ResourceManager)
-		->GetTexture(L"CloseEnemy");
+		->GetTexture(L"Zoombie");
 
 
     GetComponent<EntityHealthComponent>()->SetHealth(30);

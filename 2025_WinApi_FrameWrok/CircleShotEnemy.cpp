@@ -11,7 +11,7 @@ CircleShotEnemy::CircleShotEnemy()
 	_accTime(0.f)
 {
 	_eTex = GET_SINGLE(ResourceManager)
-		->GetTexture(L"CloseEnemy");
+		->GetTexture(L"CircleEnemy");
 
 	GetComponent<EntityHealthComponent>()->SetHealth(20);
 

@@ -8,6 +8,12 @@ class EntityStateMachine {
 public:
     EntityStateMachine() 
         : _currentState(nullptr) {}
+    ~EntityStateMachine() {
+        for (auto& pair : _states) {
+            delete pair.second;
+        }
+        _states.clear();
+    }
 
     void AddState(const std::string& name, EntityState* state) {
         _states[name] = state;

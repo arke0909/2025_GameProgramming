@@ -11,7 +11,7 @@
 RangedEnemy::RangedEnemy()
 {
     _eTex = GET_SINGLE(ResourceManager)
-        ->GetTexture(L"CloseEnemy");
+        ->GetTexture(L"Skeleton");
 
     GetComponent<EntityHealthComponent>()->SetHealth(20);
 

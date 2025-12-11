@@ -7,7 +7,7 @@
 FastEnemy::FastEnemy()
 {
     _eTex = GET_SINGLE(ResourceManager)
-        ->GetTexture(L"CloseEnemy");
+        ->GetTexture(L"FastEnemy");
 
     GetComponent<EntityHealthComponent>()->SetHealth(10);
     

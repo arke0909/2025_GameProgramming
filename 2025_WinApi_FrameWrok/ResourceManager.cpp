@@ -36,6 +36,8 @@ bool ResourceManager::Init()
    LoadTexture(L"Zoombie", L"Texture\\Zoombie_24.bmp"); 
    LoadTexture(L"Bullet", L"Texture\\Bullet_24.bmp"); 
    LoadTexture(L"EnumyBullet", L"Texture\\EnumyBullet_24.bmp"); 
+   LoadTexture(L"FastEnemy", L"Texture\\FastEnemy.bmp"); 
+   LoadTexture(L"CircleEnemy", L"Texture\\CircleEnemy.bmp"); 
    LoadSound(L"BGM", L"Sound\\Test.mp3", true);
     RegisterSound();
 

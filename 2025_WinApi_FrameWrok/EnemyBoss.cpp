@@ -16,7 +16,7 @@ EnemyBoss::EnemyBoss()
 	: _currentPhase(0)
 {
 	_eTex = GET_SINGLE(ResourceManager)
-		->GetTexture(L"CloseEnemy");
+		->GetTexture(L"Pumpkin");
 
 	GetComponent<EntityHealthComponent>()->SetHealth(100);
 
