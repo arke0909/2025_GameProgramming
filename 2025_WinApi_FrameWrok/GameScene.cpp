@@ -18,6 +18,7 @@
 #include "GameWindow.h"
 #include "StoreUI.h"
 #include "GameEvent.h"
+#include "SceneManager.h"
 
 void GameScene::Init()
 {
@@ -66,7 +67,7 @@ void GameScene::Init()
 
     Texture* hpTexture = GET_SINGLE(ResourceManager)->GetTexture(L"Heart");
 
-	UIImage* heart = new UIImage(hpTexture, { 45, 40 }, {80,80 });
+	UIImage* heart = new UIImage(hpTexture, { 45, 40 }, {60,60 });
 	infoUI->Add(heart);
 
     HpLabel* hpLabel = new HpLabel({ 100, 40 }, { 100, 30 }, FontType::UI);
@@ -93,6 +94,8 @@ void GameScene::Init()
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::WALL);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::BULLET, Layer::WALL);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::PLAYER, Layer::DEFAULT);
+
+    _storeWindow->SetVisible(false);
 }
 
 void GameScene::Update()
@@ -100,25 +103,25 @@ void GameScene::Update()
     Scene::Update();
     _spawn->Update();
 
-    if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::F))
+    if (GET_SINGLE(GameManager)->playerHealth <= 0)
     {
-        GET_SINGLE(GameManager)->currentWavwe++;
-    }
-
-    if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::R))
-    {
-        GET_SINGLE(GameManager)->coin += 100;
-    }
-
-    if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::Q))
-    {
-        if (GET_SINGLE(GameManager)->playerHealth > 0)
-            GET_SINGLE(GameManager)->playerHealth++;
+        GET_SINGLE(SceneManager)->LoadScene(L"GameOver");
+        return;
     }
 
     if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::TAB))
     {
         _storeVisible = !_storeVisible;
+        GET_SINGLE(TimeManager)->SetTimeScale(_storeVisible ? 0 : 1);
         _storeWindow->SetVisible(_storeVisible);
+    }
+
+    if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::CTRL))
+    {
+        GET_SINGLE(SceneManager)->LoadScene(L"GameClear");
+    }
+    if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::R))
+    {
+        GET_SINGLE(GameManager)->coin += 10000;
     }
 }
