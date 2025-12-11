@@ -38,6 +38,8 @@ bool ResourceManager::Init()
    LoadTexture(L"EnumyBullet", L"Texture\\EnumyBullet_24.bmp"); 
    LoadTexture(L"GameOver", L"Texture\\GameOver_bg_exact_255_0_255.bmp"); 
    LoadTexture(L"GameClear", L"Texture\\GameClear.bmp"); 
+   LoadTexture(L"FastEnemy", L"Texture\\FastEnemy.bmp"); 
+   LoadTexture(L"CircleEnemy", L"Texture\\CircleEnemy.bmp"); 
    LoadSound(L"BGM", L"Sound\\Test.mp3", true);
     RegisterSound();
 
