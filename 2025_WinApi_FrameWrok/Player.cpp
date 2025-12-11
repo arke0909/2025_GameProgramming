@@ -138,9 +138,10 @@ Weapon* Player::CreateWeapon()
 
 	weapon->SetPos({_pos.x + x, _pos.y + y});
 	weapon->SetSize({50.f, 50.f});
+	weapon->SetWindow(_inGameWindow);
 
 	GET_SINGLE(SceneManager)->GetCurScene()
-		->AddObject(weapon, Layer::PROJECTILE);
+		->AddObject(weapon, Layer::BULLET);
 
 	return weapon;
 }
@@ -193,6 +194,7 @@ void Player::AfterInit()
 	GameEvents::OnItemPurchased
 		.Subscribe([this](const ItemInfo& item)
 			{
+				std::wcout << item.name;
 				auto* targetStat = _statCompo->GetStat(item.name);
 				if (targetStat != nullptr)
 				{

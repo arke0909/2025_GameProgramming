@@ -79,6 +79,7 @@ void GameScene::Init()
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::PLAYER);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::PROJECTILE, Layer::WALL);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::BULLET, Layer::WALL);
+    GET_SINGLE(CollisionManager)->CheckLayer(Layer::BULLET, Layer::PLAYER);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::BULLET, Layer::ENEMY);
     GET_SINGLE(CollisionManager)->CheckLayer(Layer::PLAYER, Layer::DEFAULT);
 
@@ -106,5 +107,9 @@ void GameScene::Update()
     if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::CTRL))
     {
         GET_SINGLE(SceneManager)->LoadScene(L"GameClear");
+    }
+    if (GET_SINGLE(InputManager)->IsDown(KEY_TYPE::R))
+    {
+        GET_SINGLE(GameManager)->coin += 10000;
     }
 }
