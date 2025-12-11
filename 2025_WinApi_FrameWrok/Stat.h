@@ -1,7 +1,7 @@
 #pragma once
 class Stat
 {
-public : 
+public:
 	Stat();
 	Stat(float value, wstring _statName);
 	~Stat();
@@ -15,6 +15,10 @@ public:
 	float GetValue()
 	{
 		return _baseValue + _modifiedValue;
+	}
+	int GetModifyCnt()
+	{
+		return _modifiedMap.size();
 	}
 private:
 	map<wstring, float> _modifiedMap;

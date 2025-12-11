@@ -3,6 +3,7 @@
 #include "BoxCollider.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
+#include "GameManager.h"
 
 EnemyBullet::EnemyBullet(const Vec2& startPos, const Vec2& targetPos, float speed)
 {
@@ -13,13 +14,12 @@ EnemyBullet::EnemyBullet(const Vec2& startPos, const Vec2& targetPos, float spee
 	col->SetTrigger(true);
 
 	_eTex = GET_SINGLE(ResourceManager)
-		->GetTexture(L"Player");
+		->GetTexture(L"EnumyBullet");
 
 	Vec2 animSize;
 
 	switch (_eTex->GetHeight())
 	{
-		break;
 	case 32:
 		animSize = { 32.f,32.f };
 		break;
@@ -60,6 +60,7 @@ EnemyBullet::EnemyBullet(const Vec2& startPos, const Vec2& targetPos, float spee
 
 EnemyBullet::~EnemyBullet()
 {	
+	
 }
 
 void EnemyBullet::Update()
@@ -67,15 +68,15 @@ void EnemyBullet::Update()
     Translate(_dir * _speed * fDT);
 	Vec2 pos = GetPos();
 
-	if (pos.x + _halfSize.x < 0 ||
-		pos.y + _halfSize.y < 0 ||
-		pos.x - _halfSize.x > _screenSize.x ||
-		pos.y - _halfSize.y > _screenSize.y)
+	if (pos.x + _halfSize.x <= 0 ||
+		pos.y + _halfSize.y <= 0 ||
+		pos.x - _halfSize.x >= _screenSize.x ||
+		pos.y - _halfSize.y >= _screenSize.y)
 	{
 		GET_SINGLE(SceneManager)->RequestDestroy(this);
+
 	}
 }
-
 
 void EnemyBullet::Render(HDC hdc)
 {
@@ -85,7 +86,8 @@ void EnemyBullet::Render(HDC hdc)
 void EnemyBullet::EnterCollision(Collider* _other)
 {
 	if (_other->GetName() == L"Player") {
-		_other->GetOwner()->SetDead();
-		GET_SINGLE(SceneManager)->RequestDestroy(_other->GetOwner());
+		GET_SINGLE(GameManager)->playerHealth--;
+		GET_SINGLE(SceneManager)->RequestDestroy(this);
+		this->SetDead();
 	}
 }

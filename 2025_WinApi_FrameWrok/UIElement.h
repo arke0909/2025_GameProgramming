@@ -11,6 +11,7 @@ public:
     UIElement(const Vec2& _pos, const Vec2& _size)
         : pos(_pos), size(_size) {
     }
+    virtual ~UIElement() {}
     void SetVisible(bool v) { _visible = v; }
     bool IsVisible() const { return _visible; }
 

@@ -25,11 +25,11 @@ void Collider::LateUpdate()
 
 void Collider::Render(HDC hDC)
 {
-	PenType colorPen = PenType::GREEN;
+	MyPenType colorPen = MyPenType::GREEN;
 	if (_showDebug)
-		colorPen = PenType::RED;
+		colorPen = MyPenType::RED;
 	GDISelector pen(hDC, colorPen);
-	GDISelector brush(hDC, BrushType::HOLLOW);
+	GDISelector brush(hDC, MyBrushType::HOLLOW);
 
 	(this->*fp)(hDC);
 }

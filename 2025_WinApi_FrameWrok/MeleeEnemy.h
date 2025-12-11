@@ -15,6 +15,4 @@ private:
 		Enemy::Update();
 	};
 
-private:
-    float _attackRange;
 };

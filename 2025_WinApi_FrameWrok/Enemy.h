@@ -5,12 +5,13 @@
 #include "Animator.h"
 #include "Entity.h"
 #include "EntityStateMachine.h"
+#include "EntityHealthComponent.h"
+
 
 class Enemy :
     public Entity
 {
 public:
-
     Enemy();
     virtual ~Enemy();
 
@@ -18,16 +19,9 @@ public:
     void SetTarget(Player* player) { _player = player; };
 	Player* GetTarget() const { return _player; }
 
-    void UpdateHP(int value) {
-        _hp += value;
-        if (_hp < 0)
-            _hp = 0;
-        if (_hp > _maxHP)
-            _hp = _maxHP;
-    };
-    int GetHP() { return _hp; };
 	float GetSpeed() const { return _speed; }
 	float GetAttackRange() const { return _attackRange; }
+	int GetDropGold() const { return _dropGold; }
 
     void Update() override;
     void Render(HDC hdc) override;
@@ -41,6 +35,5 @@ protected:
     float _speed;
 	float _attackRange;
 
-    int _hp;
-    int _maxHP;
+    int _dropGold;
 };

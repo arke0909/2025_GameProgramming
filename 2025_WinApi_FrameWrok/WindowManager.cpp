@@ -12,14 +12,18 @@ void WindowManager::Update()
 {
 	for (auto window : _subWindows)
 	{
+		if (!window) continue;
 		window->Update();
 	}
+
+	ProcessRemovals();
 }
 
 void WindowManager::Render(HDC hDC)
 {
 	for (auto window : _subWindows)
 	{
+		if (!window) continue;
 		window->Render(hDC);
 	}
 }
@@ -29,34 +33,44 @@ void WindowManager::CloseAllSubWindows()
 	for (Window* window : _subWindows)
 	{
 		if (window)
-		{
-			::DestroyWindow(window->GetHandle());
-			delete window;
-		}
-		window->GetUI()->Clear();
+			_removeList.push_back(window);
 	}
-	_subWindows.clear();
 }
 
 void WindowManager::CloseSubWindow(Window* target)
 {
 	if (!target) return;
 
-	auto it = std::find(_subWindows.begin(), _subWindows.end(), target);
-	if (it != _subWindows.end())
+	if (std::find(_removeList.begin(), _removeList.end(), target) == _removeList.end())
+		_removeList.push_back(target);
+}
+
+void WindowManager::ProcessRemovals()
+{
+	for (Window* target : _removeList)
 	{
-		::DestroyWindow(target->GetHandle());
-		target->GetUI()->Clear();
-		delete target;
-		_subWindows.erase(it);
+		if (!target) continue;
+
+		auto it = std::find(_subWindows.begin(), _subWindows.end(), target);
+		if (it != _subWindows.end())
+		{
+			::DestroyWindow(target->GetHandle());
+			delete target;
+			_subWindows.erase(it);
+		}
 	}
+	_removeList.clear();
 }
 
 void WindowManager::Release()
 {
 	for (auto window : _subWindows)
 	{
-		::ReleaseDC(window->GetHandle(), window->GetHDC());
+		if (window)
+			::ReleaseDC(window->GetHandle(), window->GetHDC());
 	}
+	CloseAllSubWindows();
+	ProcessRemovals();
+	_subWindows.clear();
 }
 

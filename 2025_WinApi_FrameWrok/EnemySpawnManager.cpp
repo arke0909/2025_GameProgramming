@@ -1,12 +1,13 @@
 #include "pch.h"
 #include "EnemySpawnManager.h"
 #include "SceneManager.h"
+#include "GameManager.h"
 #include "MeleeEnemy.h"
 #include "RangedEnemy.h"
 #include "EnemyBoss.h"
 #include "ArmorEnemy.h"
+#include "CircleShotEnemy.h"
 #include "FastEnemy.h"
-#include "NoneMoveEnemy.h"
 #include "WindowManager.h"
 #include "Window.h"
 #include <cstdlib>
@@ -18,8 +19,8 @@ void EnemySpawnManager::Init(Player* player)
 
     srand(unsigned int(time(nullptr)));
 
-    _mapWidth = WINDOW_WIDTH;
-    _mapHeight = WINDOW_HEIGHT;
+    _mapWidth = SCREEN_WIDTH;
+    _mapHeight = SCREEN_HEIGHT;
 
     _waveDelay = 2.f;
     _noSpawnDistance = 150.f;
@@ -29,17 +30,40 @@ void EnemySpawnManager::Init(Player* player)
     _waveDelayTimer = 0.f;
 
     _waves = {
-        { { {EnemyType::Nonemove, 1}, {EnemyType::Melee, 1} } },
-        { { {EnemyType::Nonemove, 4}, {EnemyType::Ranged, 2} } },
-        { { {EnemyType::Ranged, 6} } },
-        { { {EnemyType::Melee, 4}, {EnemyType::Armor, 2} } },
-        { { {EnemyType::Melee, 6} } },
-        { { {EnemyType::Melee, 3}, {EnemyType::Ranged, 3}, {EnemyType::Armor, 2} } },
-        { { {EnemyType::Melee, 4}, {EnemyType::Ranged, 4}, {EnemyType::Melee, 2} } },
-        { { {EnemyType::Armor, 4}, {EnemyType::Melee, 4} } },
-        { { {EnemyType::Melee, 5}, {EnemyType::Ranged, 5}, {EnemyType::Armor, 5} } },
-        { { {EnemyType::Melee, 0} } }
+        // 1 wave
+        {{ {EnemyType::Melee, 6} }},
+
+        // 2 wave
+        {{ {EnemyType::Melee, 5}, {EnemyType::Ranged, 2}, {EnemyType::Melee, 1} }},
+
+
+        // 3 wave
+        {{ {EnemyType::Melee, 6}, {EnemyType::Ranged, 4}, {EnemyType::Melee, 2} }},
+
+        // 4 wave
+        {{ {EnemyType::Ranged, 6}, {EnemyType::Fast, 3}, {EnemyType::Melee, 1} }},
+
+        // 5 wave
+        {{ {EnemyType::Armor, 3}, {EnemyType::Melee, 5}, {EnemyType::Ranged, 1} }},
+
+        // 6 wave
+        {{ {EnemyType::Fast, 5}, {EnemyType::Ranged, 4}, {EnemyType::Fast, 1} }},
+
+        // 7 wave
+        {{ {EnemyType::CircleShot, 1}, {EnemyType::Fast, 4}, {EnemyType::Melee, 4} }},
+
+        // 8 wave
+        {{ {EnemyType::Melee, 5}, {EnemyType::Ranged, 4}, {EnemyType::CircleShot, 1} }},
+
+        // 9 wave
+        {{ {EnemyType::Ranged, 3}, {EnemyType::CircleShot, 1}, {EnemyType::Fast, 4}, {EnemyType::CircleShot, 1} }},
+
+        // boss
+        {{ {EnemyType::Boss, 1} }}
     };
+
+
+    GET_SINGLE(GameManager)->currentWavwe = _currentWave + 1;
 }
 
 void EnemySpawnManager::Update()
@@ -64,11 +88,31 @@ void EnemySpawnManager::UpdateWave()
         return;
     }
 
-    if (_spawnedEnemies.empty())
+    if (_spawning)
+    {
+        _spawnTimer += fDT;
+        if (_spawnTimer >= _spawnCoolTime)
+        {
+            _spawnTimer = 0.f;
+
+            if (!_spawnQueue.empty())
+            {
+                SpawnEnemy(_spawnQueue.front());
+                _spawnQueue.pop();
+            }
+            else
+            {
+                _spawning = false;
+            }
+        }
+    }
+
+    if (!_spawning && _spawnedEnemies.empty())
     {
         if (_currentWave < (int)_waves.size() - 1)
         {
             _currentWave++;
+            GET_SINGLE(GameManager)->currentWavwe = _currentWave + 1;
             _waveActive = false;
         }
         else
@@ -81,10 +125,23 @@ void EnemySpawnManager::UpdateWave()
 
 void EnemySpawnManager::TrySpawnWave()
 {
-    if (_currentWave == _waves.size() - 1)
-    {
-        EnemyBoss* e = new EnemyBoss();
+    while (!_spawnQueue.empty())
+        _spawnQueue.pop();
 
+    for (auto& info : _waves[_currentWave].enemies)
+    {
+        for (int i = 0; i < info.second; i++)
+            _spawnQueue.push(info.first);
+    }
+
+    _spawning = true;
+    _spawnTimer = 0.f;
+}
+
+void EnemySpawnManager::SpawnEnemy(EnemyType type)
+{
+    if (type == EnemyType::Boss) {
+        EnemyBoss* e = new EnemyBoss();
         e->SetTarget(_player);
         e->SetPos({ SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 });
         e->CreateEnemyWindow();
@@ -94,18 +151,8 @@ void EnemySpawnManager::TrySpawnWave()
         return;
     }
 
-    for (auto& info : _waves[_currentWave].enemies)
-    {
-        for (int i = 0; i < info.second; i++)
-            SpawnEnemy(info.first);
-    }
-}
-
-
-void EnemySpawnManager::SpawnEnemy(EnemyType type)
-{
-    if (type == EnemyType::Nonemove) {
-        NoneMoveEnemy* e = new NoneMoveEnemy();
+    if (type == EnemyType::CircleShot) {
+        CircleShotEnemy* e = new CircleShotEnemy();
         Vec2 pos;
         float fx = static_cast<float>(rand()) / RAND_MAX;
         float fy = static_cast<float>(rand()) / RAND_MAX;
@@ -115,6 +162,7 @@ void EnemySpawnManager::SpawnEnemy(EnemyType type)
         e->SetPos(pos);
         e->SetTarget(_player);
         e->CreateEnemyWindow();
+
         GET_SINGLE(SceneManager)->GetCurScene()->AddObject(e, Layer::ENEMY);
         _spawnedEnemies.push_back(e);
         return;
@@ -138,17 +186,27 @@ void EnemySpawnManager::SpawnEnemy(EnemyType type)
 
 Enemy* EnemySpawnManager::CreateEnemy(EnemyType type)
 {
-    if (type == EnemyType::Melee) 
+    switch (type)
+    {
+    case EnemyType::Melee:
         return new MeleeEnemy();
-
-    if (type == EnemyType::Ranged)
+        break;
+    case EnemyType::Ranged:
         return new RangedEnemy();
-
-    if (type == EnemyType::Armor)
+        break;
+    case EnemyType::Armor:
         return new ArmorEnemy();
-
-    if (type == EnemyType::Nonemove)
-        return new NoneMoveEnemy();
+        break;
+    case EnemyType::Fast:
+        return new FastEnemy();
+        break;
+        break;
+    case EnemyType::CircleShot:
+        return new CircleShotEnemy();
+        break;
+    default:
+        break;
+    }
 
     return nullptr;
 }
@@ -187,25 +245,46 @@ Vec2 EnemySpawnManager::GenerateEdgePosition()
 {
     int side = rand() % 4;
 
+    float x = 0.f;
+    float y = 0.f;
+
     if (side == 0)
-        return Vec2((float)(rand() % _mapWidth), 0.f);
+    {
+        x = static_cast<float>(rand() % (_mapWidth - _spawnMargin * 2) + _spawnMargin);
+        y = static_cast<float>(_spawnMargin);
+    }
+    else if (side == 1)
+    {
+        x = static_cast<float>(rand() % (_mapWidth - _spawnMargin * 2) + _spawnMargin);
+        y = static_cast<float>(_mapHeight - _spawnMargin);
+    }
+    else if (side == 2)
+    {
+        x = static_cast<float>(_spawnMargin);
+        y = static_cast<float>(rand() % (_mapHeight - _spawnMargin * 2) + _spawnMargin);
+    }
+    else
+    {
+        x = static_cast<float>(_mapWidth - _spawnMargin);
+        y = static_cast<float>(rand() % (_mapHeight - _spawnMargin * 2) + _spawnMargin);
+    }
 
-    if (side == 1)
-        return Vec2((float)(rand() % _mapWidth), (float)_mapHeight);
-
-    if (side == 2)
-        return Vec2(0.f, (float)(rand() % _mapHeight));
-
-    return Vec2((float)_mapWidth, (float)(rand() % _mapHeight));
+    return Vec2(x, y);
 }
 
 void EnemySpawnManager::DeadEnemy(Enemy* enemy)
 {
     auto it = std::find(_spawnedEnemies.begin(), _spawnedEnemies.end(), enemy);
+    GET_SINGLE(SceneManager)->RequestDestroy(enemy);
     if (it != _spawnedEnemies.end())
     {
         _spawnedEnemies.erase(it);
         enemy->SetDead();
-        GET_SINGLE(SceneManager)->RequestDestroy(enemy);
+
+		GET_SINGLE(GameManager)->coin += enemy->GetDropGold();
+
+        if (auto cse = dynamic_cast<CircleShotEnemy*>(enemy))
+            cse->RemoveEnemyWindow();
+
     }
 }

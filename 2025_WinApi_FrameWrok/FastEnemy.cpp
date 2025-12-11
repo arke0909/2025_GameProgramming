@@ -1,15 +1,14 @@
 #include "pch.h"
 #include "FastEnemy.h"
-#include "EnemyAttackState.h"
+#include "EnemyMeleeAttackState.h"
 #include "ResourceManager.h"
 #include "EnemyMoveState.h"
 
 FastEnemy::FastEnemy()
 {
     _eTex = GET_SINGLE(ResourceManager)
-        ->GetTexture(L"CloseEnemy");
-    _hp = 100;
-    _maxHP = 100;
+        ->GetTexture(L"FastEnemy");
+    
     Vec2 animSize;
     switch (_eTex->GetHeight())
     {
@@ -35,7 +34,7 @@ FastEnemy::FastEnemy()
         animSize,
         { 0.f, 0.f },
         1, 1);
-    animator->CreateAnimation(L"AROMORMOVE",
+    animator->CreateAnimation(L"ATTACK",
         _eTex,
         { 0.f, 0.f },
         animSize,
@@ -43,10 +42,11 @@ FastEnemy::FastEnemy()
         1, 1);
 
     _speed = 200.f;
-    _attackRange = 0.f;
+    _attackRange = 16.f;
+    _dropGold = 30;
 
     _stateMachine = new EntityStateMachine();
     _stateMachine->AddState("MOVE", new EnemyMoveState(this, L"MOVE"));
-    _stateMachine->AddState("ATTACK", new EnemyAttackState(this, L"ATTACK"));
+    _stateMachine->AddState("ATTACK", new EnemyMeleeAttackState(this, L"ATTACK"));
     _stateMachine->ChangeState("MOVE");
 }

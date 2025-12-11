@@ -16,9 +16,6 @@ public:
 	void Init(HWND hWnd);
 	void Update();
 	void Render(HDC hDC);
-	void CloseAllSubWindows();
-	void CloseSubWindow(Window* target);
-	void Release();
 	template <typename T>
 	T* CreateSubWindow(LPCWSTR windowName, WindowSet windowSet)
 	{
@@ -28,8 +25,16 @@ public:
 
 		return window;
 	}
+
+	void CloseAllSubWindows();
+	void CloseSubWindow(Window* target);
+	void Release();
+
 private:
+	void ProcessRemovals();
+
 	HWND _mainHwnd;
 	vector<Window*> _subWindows;
+	vector<Window*> _removeList;
 };
 

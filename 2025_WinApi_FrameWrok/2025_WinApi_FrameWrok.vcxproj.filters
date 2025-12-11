@@ -237,9 +237,6 @@
     <ClInclude Include="ArmorEnemy.h">
       <Filter>Engine\03.Object\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="NoneMoveEnemy.h">
-      <Filter>Engine\03.Object\Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyState.h">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClInclude>
@@ -303,9 +300,6 @@
     <ClInclude Include="EnemyBossDeadState.h">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyBossHitState.h">
-      <Filter>Engine\11.FSM\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyBossIdleState.h">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClInclude>
@@ -335,6 +329,36 @@
     </ClInclude>
     <ClInclude Include="FastEnemy.h">
       <Filter>Engine\03.Object\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="BossWindow.h">
+      <Filter>Engine\09.Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="CircleShotEnemy.h">
+      <Filter>Engine\03.Object\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityHealthComponent.h">
+      <Filter>Engine\06.Component</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillComponent.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Engine\03.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectParticle.h">
+      <Filter>Engine\03.Object</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyMeleeAttackState.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="WallForceObject.h">
+    <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverUI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GameClear.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -483,9 +507,6 @@
     <ClCompile Include="ArmorEnemy.cpp">
       <Filter>Engine\03.Object\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="NoneMoveEnemy.cpp">
-      <Filter>Engine\03.Object\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyTestScene.cpp">
       <Filter>Engine\04.Scene</Filter>
     </ClCompile>
@@ -537,9 +558,6 @@
     <ClCompile Include="EnemyBossDeadState.cpp">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBossHitState.cpp">
-      <Filter>Engine\11.FSM\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyBossIdleState.cpp">
       <Filter>Engine\11.FSM\Enemy</Filter>
     </ClCompile>
@@ -566,6 +584,33 @@
     </ClCompile>
     <ClCompile Include="FastEnemy.cpp">
       <Filter>Engine\03.Object\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="BossWindow.cpp">
+      <Filter>Engine\09.Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="CircleShotEnemy.cpp">
+      <Filter>Engine\03.Object\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityHealthComponent.cpp">
+      <Filter>Engine\06.Component</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillComponent.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Engine\03.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="EffectParticle.cpp">
+      <Filter>Engine\03.Object</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyMeleeAttackState.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverUI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="GameClear.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

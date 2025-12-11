@@ -1,22 +1,21 @@
 #pragma once
+
 #include "Scene.h"
-class HpLabel;
-class Window;
-class GameWindow;
-class EnemySpawnManager;
+#include "GameWindow.h"
+#include "Window.h"
+#include "EnemySpawnManager.h"
 
-class GameScene :
-    public Scene
+class GameScene : public Scene
 {
-public:
-    // Scene��(��) ���� ��ӵ�
-    void Init() override;
-    void Update();
 private:
-    GameWindow* _inGameWindow;
-    Window* _informationWindow = nullptr;
+    GameWindow* _inGameWindow = nullptr;
     Window* _storeWindow = nullptr;
-    EnemySpawnManager* _spawn;
-    bool _storeVisible = true;
-};
+    Window* _informationWindow = nullptr;
 
+    EnemySpawnManager* _spawn = nullptr;
+    bool _storeVisible = false;
+
+public:
+    void Init() override;
+    void Update() override;
+};

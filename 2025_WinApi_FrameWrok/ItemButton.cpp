@@ -5,8 +5,10 @@
 #include "ResourceManager.h"
 #include "GameManager.h"
 #include "InputManager.h"
-#include "Texture.h"
 #include "GameEvent.h"
+
+extern std::unordered_map<ItemType, int> ItemPriceMap;
+extern std::unordered_map<ItemType, int> PriceIncreaseMap;
 
 ItemButton::ItemButton(const ItemInfo& info, const Vec2& pos, const Vec2& size)
     : UIElement(pos, size), _info(info)
@@ -23,11 +25,10 @@ ItemButton::ItemButton(const ItemInfo& info, const Vec2& pos, const Vec2& size)
             if (GET_SINGLE(GameManager)->coin >= _info.price)
             {
                 GET_SINGLE(GameManager)->coin -= _info.price;
+
+                ItemPriceMap[_info.type] += PriceIncreaseMap[_info.type];
+
                 GameEvents::OnItemPurchased.Raise(_info);
-            }
-            else
-            {
-                MessageBox(nullptr, L"코인이 부족합니다!", L"구매 실패", MB_OK);
             }
         };
 }
@@ -39,6 +40,7 @@ ItemButton::~ItemButton()
     delete _descLabel;
     delete _priceLabel;
 }
+
 
 void ItemButton::Render(HDC hdc)
 {
@@ -69,11 +71,6 @@ bool ItemButton::ContainsPoint(int x, int y) const
     float t = pos.y - size.y / 2;
     float b = pos.y + size.y / 2;
     return x >= l && x <= r && y >= t && y <= b;
-}
-
-bool ItemButton::IsClicked(POINT pt) const
-{
-    return ContainsPoint(pt.x, pt.y);
 }
 
 void ItemButton::OnClick()

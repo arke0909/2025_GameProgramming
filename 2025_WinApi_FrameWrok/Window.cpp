@@ -5,6 +5,7 @@
 #include "Core.h"
 #include "Resource.h"
 
+#undef max
 
 Window::Window(LPCWSTR windowName, const WindowSet& windowSet)
 {
@@ -125,14 +126,14 @@ LRESULT Window::HandleWnd(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 
-		break;
+	return 0;
 	case WM_PAINT:
 	{
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(hWnd, &ps);
 		EndPaint(hWnd, &ps);
 	}
-	break;
+	return 0;
 	case WM_MOVE:
 	{
 		RECT rt;
@@ -145,7 +146,7 @@ LRESULT Window::HandleWnd(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		_topLeft = { left, top };
 		_pos = { left + _size.x * 0.5f, top + _size.y * 0.5f };
 	}
-	break;
+	return 0;
 
 	case WM_SIZE:
 	{
@@ -159,7 +160,7 @@ LRESULT Window::HandleWnd(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		_size.x = rt.right - rt.left;
 		_size.y = rt.bottom - rt.top;
 	}
-	break;
+	return 0;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}
@@ -169,19 +170,55 @@ void Window::SetSizeAndPos(const Vec2& size, const Vec2& centerPos)
 {
 	auto windowSetting = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
 
-	RECT rect = { 0, 0, size.x, size.y };
-	::AdjustWindowRect(&rect, windowSetting, false);
+	// 클라이언트 영역 기준
+	RECT rect = { 0, 0, (LONG)size.x, (LONG)size.y };
+	AdjustWindowRect(&rect, windowSetting, FALSE);
 
 	int w = rect.right - rect.left;
 	int h = rect.bottom - rect.top;
 
-	int left = centerPos.x - w * 0.5f;
-	int top = centerPos.y - h * 0.5f;
+	w = std::max(w, 1);
+	h = std::max(h, 1);
+
+	float halfW = w * 0.5f;
+	float halfH = h * 0.5f;
+
+	float minX = halfW;
+	float maxX = SCREEN_WIDTH - halfW;
+	float minY = halfH;
+	float maxY = SCREEN_HEIGHT - halfH;
+
+	if (minX > maxX)  minX = maxX = SCREEN_WIDTH * 0.5f;
+	if (minY > maxY)  minY = maxY = SCREEN_HEIGHT * 0.5f;
+
+	float clampedX = std::clamp(centerPos.x, minX, maxX);
+	float clampedY = std::clamp(centerPos.y, minY, maxY);
+
+	int left = (int)(clampedX - halfW);
+	int top = (int)(clampedY - halfH);
+
+	int minLeft = 0;
+	int maxLeft = SCREEN_WIDTH - w;
+
+	if (maxLeft < minLeft)
+		maxLeft = minLeft;
+
+	int minTop = 0;
+	int maxTop = SCREEN_HEIGHT - h;
+
+	if (maxTop < minTop)
+		maxTop = minTop;
+
+	left = std::clamp(left, minLeft, maxLeft);
+	top = std::clamp(top, minTop, maxTop);
+
 
 	_windowSize = size;
-	_size = { w, h };
-	_pos = centerPos;
-	_topLeft = { left, top };
+	_size = { (float)w, (float)h };
+	_pos = { clampedX, clampedY };
+	_topLeft = { (float)left, (float)top };
 
-	::MoveWindow(_hWnd, left, top, w, h, true);
+	if (_hWnd == nullptr) return;
+
+	MoveWindow(_hWnd, left, top, w, h, TRUE);
 }

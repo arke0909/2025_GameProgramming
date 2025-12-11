@@ -3,15 +3,14 @@
 #include "ResourceManager.h"
 #include "EnemyMoveState.h"
 #include "EnemySpawnManager.h"
-#include "EnemyAttackState.h"
+#include "EnemyMeleeAttackState.h"
 #include "SceneManager.h"
 
 ArmorEnemy::ArmorEnemy()
 {
 	_eTex = GET_SINGLE(ResourceManager)
-		->GetTexture(L"CloseEnemy");
-    _hp = 100;
-    _maxHP = 100;
+		->GetTexture(L"Zoombie");
+
     Vec2 animSize;
     switch (_eTex->GetHeight())
     {
@@ -37,7 +36,7 @@ ArmorEnemy::ArmorEnemy()
         animSize,
         { 0.f, 0.f },
         1, 1);
-    animator->CreateAnimation(L"AROMORMOVE",
+    animator->CreateAnimation(L"ATTACK",
         _eTex,
         { 0.f, 0.f },
         animSize,
@@ -46,9 +45,10 @@ ArmorEnemy::ArmorEnemy()
 
     _speed = 50.f;
     _attackRange = 0.f;
+	_dropGold = 70;
 
     _stateMachine = new EntityStateMachine();
     _stateMachine->AddState("MOVE", new EnemyMoveState(this, L"MOVE"));
-    _stateMachine->AddState("ATTACK", new EnemyAttackState(this, L"ATTACK"));
+    _stateMachine->AddState("ATTACK", new EnemyMeleeAttackState(this, L"ATTACK"));
     _stateMachine->ChangeState("MOVE");
 }

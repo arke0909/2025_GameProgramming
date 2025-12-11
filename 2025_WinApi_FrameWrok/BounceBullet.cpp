@@ -14,7 +14,6 @@ BounceBullet::BounceBullet(const Vec2& startPos, const Vec2& targetPos, float sp
 	auto* col = GetComponent<BoxCollider>();
 	col->SetName(L"EnemyBullet");
 	col->SetTrigger(false);
-	_rigidbody = AddComponent<Rigidbody>();
 }
 
 BounceBullet::~BounceBullet()

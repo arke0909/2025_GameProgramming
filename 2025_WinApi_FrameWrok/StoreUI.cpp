@@ -4,63 +4,81 @@
 #include "InputManager.h"
 #include "ResourceManager.h"
 #include "GameEvent.h"
+#include "Window.h"
 #include <random>
+#include <unordered_set>
 
 extern std::vector<ItemInfo> AllItems;
-extern std::unordered_set<ItemType> PurchasedItems;
 extern std::unordered_map<ItemType, int> ItemPriceMap;
+extern std::unordered_map<ItemType, int> PriceIncreaseMap;
 
 StoreUI::StoreUI(const Vec2& pos, const Vec2& size)
     : UIElement(pos, size)
 {
-    GameEvents::OnItemPurchased.Subscribe([this](const ItemInfo& info)
+    GameEvents::OnItemPurchased.Subscribe([this](const ItemInfo& item)
         {
-            PurchasedItems.insert(info.type);
-            ItemPriceMap[info.type] += static_cast<int>(info.value);
-            Reroll();
+            std::wstring msg = item.displayName + L" 을(를) 구매했습니다!";
+            MessageBox(nullptr, msg.c_str(), L"구매 완료", MB_OK);
+
+            Reroll(false);
         });
 
     Init();
 }
 
+StoreUI::~StoreUI()
+{
+    for (auto* btn : _itemSlots)
+        delete btn;
+    _itemSlots.clear();
+
+    delete _rerollButton;
+    delete _coinLabel;
+}
+
+void StoreUI::SetWindowHandle(Window* storeWindow)
+{
+    _storeWindow = storeWindow;
+}
+
 void StoreUI::Init()
 {
-    _itemSlots.clear();
     auto items = GetRandomItems(3);
+    InitWithItems(items);
+}
 
-    for (int i = 0; i < (int)items.size(); ++i)
+void StoreUI::InitWithItems(const std::vector<ItemInfo>& items)
+{
+    _currentItems = items;
+
+    for (auto*& btn : _itemSlots)
+    {
+        delete btn;
+        btn = nullptr;
+    }
+    _itemSlots.clear();
+
+    for (int i = 0; i < 3; ++i)
     {
         Vec2 slotPos = { pos.x - 160 + i * 160, pos.y - 50 };
         Vec2 slotSize = { 140, 200 };
 
-        if (ItemPriceMap.count(items[i].type))
-            items[i].price = ItemPriceMap[items[i].type];
-        else
-            ItemPriceMap[items[i].type] = items[i].price;
+        if (i >= (int)items.size())
+        {
+            _itemSlots.push_back(nullptr);
+            continue;
+        }
 
-        auto* btn = new ItemButton(items[i], slotPos, slotSize);
+        const auto& item = items[i];
+        auto* btn = new ItemButton(item, slotPos, slotSize);
         _itemSlots.push_back(btn);
     }
 
-    Texture* buttonTex = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
-    _rerollButton = new UIButton(L"리롤", { pos.x + 170, pos.y + 130 }, { 100, 40 }, FontType::UI, buttonTex);
-    _rerollButton->SetOnClick([this]() { Reroll(); });
+    auto tex = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
+    _rerollButton = new UIButton(L"리롤", { pos.x + 170, pos.y + 130 }, { 100, 40 }, FontType::UI, tex);
+    _rerollButton->SetOnClick([this]() { Reroll(true); });
 
-    _coinLabel = new UILabel(L"Coin: 0", { pos.x + 150, pos.y + 70 }, { 200, 30 }, FontType::UI);
-}
-
-void StoreUI::Render(HDC hdc)
-{
-    if (!_visible) return;
-
-    for (auto* btn : _itemSlots)
-        btn->Render(hdc);
-
-    _rerollButton->Render(hdc);
-
-    std::wstring coinText = L"Coin: " + std::to_wstring(GET_SINGLE(GameManager)->coin);
-    _coinLabel->SetText(coinText);
-    _coinLabel->Render(hdc);
+    _coinLabel = new UILabel(L"Coin: 0", Vec2(pos.x + 150, pos.y + 70), Vec2(200, 30), FontType::UI);
 }
 
 void StoreUI::Update()
@@ -68,55 +86,83 @@ void StoreUI::Update()
     if (!_visible) return;
 
     for (auto* btn : _itemSlots)
-        btn->Update();
+        if (btn) btn->Update();
 
-    _rerollButton->Update();
+    if (_rerollButton)
+        _rerollButton->Update();
 }
 
-void StoreUI::Reroll()
+void StoreUI::Render(HDC hdc)
+{
+    if (!_visible) return;
+
+    for (auto* btn : _itemSlots)
+        if (btn) btn->Render(hdc);
+
+    if (_rerollButton)
+        _rerollButton->Render(hdc);
+
+    if (_coinLabel)
+    {
+        std::wstring coinText = L"Coin: " + std::to_wstring(GET_SINGLE(GameManager)->coin);
+        _coinLabel->SetText(coinText);
+        _coinLabel->Render(hdc);
+    }
+}
+
+void StoreUI::Reroll(bool charge)
 {
     const int cost = 50;
 
-    if (!_itemSlots.empty() && GET_SINGLE(GameManager)->coin < cost)
+    if (charge && !_itemSlots.empty() && GET_SINGLE(GameManager)->coin < cost)
     {
         MessageBox(nullptr, L"코인이 부족합니다!", L"리롤 실패", MB_OK);
         return;
     }
 
-    if (!_itemSlots.empty())
+    if (charge)
+    {
         GET_SINGLE(GameManager)->coin -= cost;
+        GET_SINGLE(ResourceManager)->Play(L"ReRollSound");
+    }
 
-    for (auto* btn : _itemSlots) delete btn;
+    for (auto*& btn : _itemSlots)
+    {
+        delete btn;
+        btn = nullptr;
+    }
     _itemSlots.clear();
 
-    auto items = GetRandomItems(3);
-    for (int i = 0; i < (int)items.size(); ++i)
-    {
-        Vec2 slotPos = { pos.x - 160 + i * 160, pos.y - 50 };
-        Vec2 slotSize = { 140, 200 };
-
-        if (ItemPriceMap.count(items[i].type))
-            items[i].price = ItemPriceMap[items[i].type];
-
-        auto* btn = new ItemButton(items[i], slotPos, slotSize);
-        _itemSlots.push_back(btn);
-    }
+    auto rerolledItems = GetRandomItems(3);
+    InitWithItems(rerolledItems);
 }
 
 std::vector<ItemInfo> StoreUI::GetRandomItems(int count)
 {
-    std::vector<ItemInfo> candidates;
-
-    for (const auto& item : AllItems)
-    {
-        if (PurchasedItems.count(item.type) == 0)
-            candidates.push_back(item);
-    }
-
+    std::vector<ItemInfo> candidates = AllItems;
     std::shuffle(candidates.begin(), candidates.end(), std::mt19937{ std::random_device{}() });
 
-    if ((int)candidates.size() <= count)
-        return candidates;
+    std::unordered_set<ItemType> selected;
+    std::vector<ItemInfo> result;
 
-    return std::vector<ItemInfo>(candidates.begin(), candidates.begin() + count);
+    for (auto& item : candidates)
+    {
+        if (selected.count(item.type)) continue;
+        selected.insert(item.type);
+
+        if (ItemPriceMap.count(item.type))
+            item.price = ItemPriceMap[item.type];
+
+        result.push_back(item);
+
+        if ((int)result.size() >= count)
+            break;
+    }
+
+    return result;
+}
+
+const std::vector<ItemInfo>& StoreUI::GetCurrentItems() const
+{
+    return _currentItems;
 }

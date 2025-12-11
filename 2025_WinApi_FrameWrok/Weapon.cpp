@@ -3,34 +3,22 @@
 #include "Player.h"
 #include "Rigidbody.h"
 #include "ResourceManager.h"
+#include "SceneManager.h"
 #include "CircleCollider.h"
 #include "Animator.h"
 #include "Wall.h"
+#include "Splash.h"
+#include "Effect.h"
 
 Weapon::Weapon()
 {
-	_wTex = GET_SINGLE(ResourceManager)
-		->GetTexture(L"Player");
 	_rigidbody = AddComponent<Rigidbody>();
 	_rigidbody->SetUseGravity(false);
 	_rigidbody->SetAirDrag(1.f);
 	auto* col = AddComponent<CircleCollider>();
 	col->SetName(L"Weapon");
+	col->SetRadius(_currentRadius);
 	col->SetTrigger(false);
-
-	Vec2 animSize = { (float)_wTex->GetWidth() , (float)_wTex->GetHeight() };
-	auto* animator = AddComponent<Animator>();
-	animator->CreateAnimation
-	(
-		L"Idle",
-		_wTex,
-		{ 0.f,0.f },
-		animSize,//{1024.f,1024.f},
-		{ 0.f,0.f },
-		1, 1
-	);
-
-	animator->Play(L"Idle");
 }
 
 Weapon::~Weapon()
@@ -45,10 +33,22 @@ void Weapon::Update()
 void Weapon::Render(HDC hdc)
 {
 	ComponentRender(hdc);
+	ELLIPSE_RENDER(hdc, _pos.x, _pos.y, _currentRadius * 2, _currentRadius * 2);
 }
 
 void Weapon::EnterCollision(Collider* _other)
 {
+	auto* effect = new Effect();
+	effect->SetPos(_pos);
+	effect->CreateParticle(13, 10, 80, 50, 0.5f, 0.2f, 30, 10);
+	effect->SetColor(Color(255, 255, 255, 255));
+	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(effect, Layer::EFFECT);
+
+
+	if(_other->GetName() == L"Enemy")
+		if (_splashLvl > 0)
+			CreateSplash();
+
 	if (_other->GetName() == L"Wall")
 	{
 		auto* wall = dynamic_cast<Wall*>(_other->GetOwner());
@@ -95,4 +95,18 @@ void Weapon::PullWeapon()
 
 	_rigidbody->SetVelocity({});
 	_rigidbody->AddImpulse(dir * _moveSpeed);
+}
+
+void Weapon::SizeUp(float value)
+{
+	_currentRadius += value;
+	auto* col = GetComponent<CircleCollider>();
+	col->SetRadius(_currentRadius);
+}
+
+void Weapon::CreateSplash()
+{
+	Splash* splash = new Splash(_splashLvl);
+	splash->SetPos(_pos);
+	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(splash, Layer::BULLET);
 }

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "EnemyAttackState.h"
 #include "SceneManager.h"
+#include "ResourceManager.h"
 #include "EnemyBullet.h"
 
 EnemyAttackState::EnemyAttackState(Enemy* owner, std::wstring animetionName)
@@ -53,4 +54,5 @@ void EnemyAttackState::Attack()
 	Vec2 _pos = _enemy->GetPos();
     EnemyBullet* bullet = new EnemyBullet(_pos, playerPos, 200.0f);
     GET_SINGLE(SceneManager)->GetCurScene()->AddObject(bullet, Layer::PROJECTILE);
+    GET_SINGLE(ResourceManager)->Play(L"EnemyShotSound");
 }
