@@ -5,7 +5,7 @@ class UISlider : public UIElement
 {
 public:
     UISlider(const Vec2& pos, const Vec2& size);
-
+    ~UISlider() override = default;
     void SetValue(float value);
     float GetValue() const { return _value; }
 
