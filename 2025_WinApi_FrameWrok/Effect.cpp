@@ -1,32 +1,32 @@
 #include "pch.h"
 #include "Effect.h"
 #include "EffectParticle.h"
-#include <random>
+std::random_device Effect::rd;
+std::mt19937 Effect::gen(Effect::rd());
+using DistributionInt = std::uniform_int_distribution<>;
+using DistributionFloat = std::uniform_real_distribution<float>;
 
-std::uniform_int_distribution<> typedef DistributionInt;
-std::uniform_real_distribution<float> typedef DistributionFloat;
+
 
 Effect::Effect()
 {
 	
 }
 
-void Effect::CreateParticle(float maxParticle, float minParticle, float maxSpeed, float minSpeed, float maxLifeTime, float minLifeTime, float maxSize, float minSize)
+void Effect::CreateParticle(int maxParticle, int minParticle, float maxSpeed, float minSpeed, float maxLifeTime, float minLifeTime, float maxSize, float minSize)
 {
-	std::random_device rd;
-	std::mt19937 gen(rd());
 	DistributionInt cntDist(minParticle, maxParticle);
 	DistributionFloat speedDist(minSpeed, maxSpeed);
 	DistributionFloat lifeTimeDist(minLifeTime, maxLifeTime);
-	DistributionFloat sizeDist(minSize, maxSize);
+	DistributionFloat sizeDist(minSize, maxSize); 
+	DistributionFloat angleDist(0, 2 * PI); 
 	
 	for (int i = 0; i < cntDist(gen); ++i)
 	{
 		EffectParticle* ep = new EffectParticle();
 		ep->SetPos(_pos);
 
-		srand(i * time(NULL));
-		float angle = (rand() % 360) * PI / 180.f;
+		float angle = angleDist(gen);
 		float x = ::cos(angle);
 		float y = ::sin(angle);
 
