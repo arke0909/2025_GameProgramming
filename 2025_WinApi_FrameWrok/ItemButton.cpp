@@ -1,14 +1,11 @@
 #include "pch.h"
 #include "ItemButton.h"
-#include "UIImage.h"
 #include "UILabel.h"
+#include "UIImage.h"
 #include "ResourceManager.h"
 #include "GameManager.h"
-#include "InputManager.h"
 #include "GameEvent.h"
-
-extern std::unordered_map<ItemType, int> ItemPriceMap;
-extern std::unordered_map<ItemType, int> PriceIncreaseMap;
+#include "InputManager.h"
 
 ItemButton::ItemButton(const ItemInfo& info, const Vec2& pos, const Vec2& size)
     : UIElement(pos, size), _info(info)
@@ -20,16 +17,13 @@ ItemButton::ItemButton(const ItemInfo& info, const Vec2& pos, const Vec2& size)
     _descLabel = new UILabel(_info.description, { pos.x, pos.y }, { size.x, 60.0f }, FontType::UI);
     _priceLabel = new UILabel(L"АЁАн: " + std::to_wstring(_info.price), { pos.x, pos.y + 60.0f }, { size.x, 30.0f }, FontType::UI);
 
-    _onClick = [this]()
-        {
-            if (GET_SINGLE(GameManager)->coin >= _info.price)
-            {
-                GET_SINGLE(GameManager)->coin -= _info.price;
+    _onClick = [this]() {
+        if (GET_SINGLE(GameManager)->coin >= _info.price) {
+            GET_SINGLE(GameManager)->coin -= _info.price;
+            ItemPriceMap[_info.type] += PriceIncreaseMap[_info.type];
 
-                ItemPriceMap[_info.type] += PriceIncreaseMap[_info.type];
-
-                GameEvents::OnItemPurchased.Raise(_info);
-            }
+            GameEvents::OnItemPurchased.Raise(ItemInfo(_info));
+        }
         };
 }
 
@@ -40,7 +34,6 @@ ItemButton::~ItemButton()
     delete _descLabel;
     delete _priceLabel;
 }
-
 
 void ItemButton::Render(HDC hdc)
 {
