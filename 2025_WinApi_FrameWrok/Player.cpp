@@ -200,7 +200,7 @@ void Player::AfterInit()
 				{
 					int currentModifyCount = targetStat->GetModifyCnt();
 					wstring str = std::format(L"{0}{1}", item.name, currentModifyCount);
-					targetStat->AddModifier(item.type, item.value);
+						targetStat->AddModifier(item.type, item.value);
 				}
 				else if (item.type == ItemType::Heal20HP)
 				{

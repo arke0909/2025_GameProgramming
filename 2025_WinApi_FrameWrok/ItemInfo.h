@@ -3,8 +3,7 @@
 
 class Texture;
 
-struct ItemInfo
-{
+struct ItemInfo {
     ItemType type;
     std::wstring displayName;
     std::wstring name;
@@ -12,6 +11,19 @@ struct ItemInfo
     int price;
     float value;
     Texture* icon;
+
+    ItemInfo() = default;
+
+    ItemInfo(ItemType type,
+        const std::wstring& displayName,
+        const std::wstring& name,
+        const std::wstring& description,
+        int price,
+        float value,
+        Texture* icon)
+        : type(type), displayName(displayName), name(name), description(description),
+        price(price), value(value), icon(icon) {
+    }
 };
 
 extern std::vector<ItemInfo> AllItems;
