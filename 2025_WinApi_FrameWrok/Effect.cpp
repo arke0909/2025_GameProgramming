@@ -1,13 +1,14 @@
 #include "pch.h"
 #include "Effect.h"
 #include "EffectParticle.h"
-
+std::random_device Effect::rd;
+std::mt19937 Effect::gen(Effect::rd());
 using DistributionInt = std::uniform_int_distribution<>;
 using DistributionFloat = std::uniform_real_distribution<float>;
 
 
 
-Effect::Effect() : gen(rd())
+Effect::Effect()
 {
 	
 }
@@ -18,14 +19,14 @@ void Effect::CreateParticle(int maxParticle, int minParticle, float maxSpeed, fl
 	DistributionFloat speedDist(minSpeed, maxSpeed);
 	DistributionFloat lifeTimeDist(minLifeTime, maxLifeTime);
 	DistributionFloat sizeDist(minSize, maxSize); 
-	srand(time(NULL));
+	DistributionFloat angleDist(0, 2 * PI); 
 	
 	for (int i = 0; i < cntDist(gen); ++i)
 	{
 		EffectParticle* ep = new EffectParticle();
 		ep->SetPos(_pos);
 
-		float angle = (rand() % 360) * PI / 180.f;
+		float angle = angleDist(gen);
 		float x = ::cos(angle);
 		float y = ::sin(angle);
 

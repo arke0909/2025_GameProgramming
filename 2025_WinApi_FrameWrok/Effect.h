@@ -22,7 +22,7 @@ public:
 private:
     Color _color;
     vector<EffectParticle*> _particles;
-    std::random_device rd;
-    std::mt19937 gen;
+    static std::random_device rd;
+    static std::mt19937 gen;
 };
 
