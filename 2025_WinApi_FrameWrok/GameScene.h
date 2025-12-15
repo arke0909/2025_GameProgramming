@@ -18,4 +18,9 @@ private:
 public:
     void Init() override;
     void Update() override;
+	void Render(HDC hdc) override;
+private:
+	void RenderWindowEdge(Graphics& graphics);
+private:
+    float _windowAreaPixel = 10.f;
 };

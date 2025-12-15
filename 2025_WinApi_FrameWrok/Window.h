@@ -23,6 +23,10 @@ public:
 	{
 		return _pos;
 	}
+	Vec2 GetLTPos()
+	{
+		return _topLeft;
+	}
 	Vec2 GetSize()
 	{
 		return _size;
