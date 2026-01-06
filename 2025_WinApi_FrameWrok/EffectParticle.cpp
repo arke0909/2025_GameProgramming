@@ -26,7 +26,7 @@ void EffectParticle::Render(HDC hdc)
 {
 	Graphics graphics(hdc);
 	float alpha = std::lerp(255, 0, _ease);
-	SolidBrush brush(Color(alpha, 255, 255, 255));
+	SolidBrush brush(Color(alpha, _color.GetR(), _color.GetG(), _color.GetB()));
 	RectF rect(
 		(int)(_pos.x - _currentRadius / 2),
 		(int)(_pos.y - _currentRadius / 2),

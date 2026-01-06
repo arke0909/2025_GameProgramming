@@ -367,13 +367,7 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="small.ico">
-      <Filter>리소스 파일</Filter>
-    </Image>
-    <Image Include="2025_WinApi_FrameWrok.ico">
-      <Filter>리소스 파일</Filter>
-    </Image>
-    <Image Include="C:\Users\arke0\Desktop\GameProgramming_Icon.ico">
+    <Image Include="GameProgramming_Icon.ico">
       <Filter>리소스 파일</Filter>
     </Image>
   </ItemGroup>
@@ -615,5 +609,8 @@
     <ClCompile Include="WallForceObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

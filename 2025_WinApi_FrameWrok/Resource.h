@@ -9,11 +9,8 @@
 #define IDD_ABOUTBOX                    103
 #define IDM_ABOUT                       104
 #define IDM_EXIT                        105
-#define IDI_MY2025WINAPIFRAMEWROK       107
-#define IDI_SMALL                       108
 #define IDC_MY2025WINAPIFRAMEWROK       109
 #define IDR_MAINFRAME                   128
-#define IDI_ICON2                       130
 #define IDC_STATIC                      -1
 
 // Next default values for new objects

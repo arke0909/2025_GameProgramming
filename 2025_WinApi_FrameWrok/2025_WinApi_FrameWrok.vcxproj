@@ -330,9 +330,7 @@
     <ResourceCompile Include="2025_WinApi_FrameWrok.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="2025_WinApi_FrameWrok.ico" />
-    <Image Include="C:\Users\arke0\Desktop\GameProgramming_Icon.ico" />
-    <Image Include="small.ico" />
+    <Image Include="GameProgramming_Icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

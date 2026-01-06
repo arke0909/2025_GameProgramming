@@ -37,7 +37,7 @@ public:
         _splashLvl += level;
 	}
 private:
-    void CreateSplash();
+    void CreateSplash(Vec2 pos);
 private:
     Player* _player;
     Rigidbody* _rigidbody;

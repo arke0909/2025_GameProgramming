@@ -61,8 +61,8 @@ void Weapon::EnterCollision(Collider* _other)
 {
 	auto* effect = new Effect();
 	effect->SetPos(_pos);
-	effect->CreateParticle(13, 10, 80, 50, 0.5f, 0.2f, 30, 10);
 	effect->SetColor(Color(255, 255, 255, 255));
+	effect->CreateParticle(13, 10, 80, 50, 0.5f, 0.2f, 30, 10);
 	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(effect, Layer::EFFECT);
 
 
@@ -73,7 +73,7 @@ void Weapon::EnterCollision(Collider* _other)
 
 	if(_other->GetName() == L"Enemy")
 		if (_splashLvl > 0)
-			CreateSplash();
+			CreateSplash(_other->GetUpdatedPos());
 
 	if (_other->GetName() == L"Wall")
 	{
@@ -130,9 +130,9 @@ void Weapon::SizeUp(float value)
 	col->SetRadius(_currentRadius);
 }
 
-void Weapon::CreateSplash()
+void Weapon::CreateSplash(Vec2 pos)
 {
 	Splash* splash = new Splash(_splashLvl);
-	splash->SetPos(_pos);
+	splash->SetPos(pos);
 	GET_SINGLE(SceneManager)->GetCurScene()->AddObject(splash, Layer::BULLET);
 }
