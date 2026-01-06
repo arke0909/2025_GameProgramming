@@ -122,3 +122,39 @@ void GameScene::Update()
         _storeWindow->SetVisible(_storeVisible);
     }
 }
+
+void GameScene::Render(HDC hdc)
+{
+	Scene::Render(hdc);
+	Graphics graphics(hdc);
+	RenderWindowEdge(graphics);
+
+}
+
+void GameScene::RenderWindowEdge(Graphics& graphics)
+{
+    // 윈도우 작업바를 포함한 사이즈
+	Vec2 winSize = _inGameWindow->GetSize();
+    // 작업바를 포함하지 않은 사이즈
+    Vec2 winRectSize = _inGameWindow->GetWindowSize();
+
+    // 작업바를 포함해서 사이즈 기준으로 계산한 윈도우의 위치
+	Vec2 winPos = _inGameWindow->GetPos();
+    for(int i = 1; i <= _windowAreaPixel; ++i)
+    {
+        float alpha = std::lerp(0, 255, (float)((_windowAreaPixel - i) / _windowAreaPixel));
+        Pen pen(Color(alpha, 255, 255, 255));
+
+        // winPos는 작업바를 포함해 계산한 위치이므로 작업바를 포함한 사이즈의 좌상단
+		int x = winPos.x - winSize.x / 2 + i;
+        int y = winPos.y - winSize.y / 2 + i;
+
+        // right, bottom은 좌상단 기준 작업바를 포함하지 않은 사이즈만큼의 크기이므로 차이만큼 빼주기
+        Rect rt = {
+        x, y,
+        (int)(winRectSize.x) - i * 2,
+        (int)(winRectSize.y) - i * 2 };
+
+        graphics.DrawRectangle(&pen, rt);
+	}
+}
