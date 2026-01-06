@@ -6,6 +6,7 @@
 #include "BossWindow.h"
 #include <vector>
 
+class BossWindow;
 class EnemyBoss : public Enemy
 {
 public:
@@ -37,7 +38,7 @@ private:
     void CheckPhaseTransition();
     void TransitionToPhase(int phase);
 
-    BossWindow* _window;
+    BossWindow* _window = nullptr;
     int _currentPhase;
     std::vector<PhaseData> _phases;
 
