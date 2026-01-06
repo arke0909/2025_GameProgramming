@@ -12,20 +12,35 @@
 
 void GameClear::Init()
 {
-	_gameClearWIndow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
-		L"GameClear", { {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2}, {500,500} });
+    _gameClearWIndow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
+        L"GameClear",
+        { {SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2}, {500, 500} }
+    );
 
-	Texture* gameOverTexture = GET_SINGLE(ResourceManager)->GetTexture(L"GameClear");
-	Texture* buttonTexture = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
+    Texture* gameClearTexture = GET_SINGLE(ResourceManager)->GetTexture(L"GameClear");
+    Texture* buttonTexture = GET_SINGLE(ResourceManager)->GetTexture(L"Button");
 
-	UIImage* gameClearImage = new UIImage(gameOverTexture, { 250, 200 }, { 400, 200 });
-	UIButton* exitButton = new UIButton(L"타이틀로", { 250, 300 }, { 200, 50 }, FontType::UI, buttonTexture);
-	exitButton->SetOnClick([]()
-		{
-			GET_SINGLE(SceneManager)->LoadScene(L"TitleScene");
-		});
+    auto gameClearImage = std::make_unique<UIImage>(
+        gameClearTexture,
+        Vec2{ 250, 200 },
+        Vec2{ 400, 200 }
+    );
 
-	SubUIManager* gameClearUI = _gameClearWIndow->GetUI();
-	gameClearUI->Add(gameClearImage);
-	gameClearUI->Add(exitButton);
+    auto exitButton = std::make_unique<UIButton>(
+        L"타이틀로",
+        Vec2{ 250, 300 },
+        Vec2{ 200, 50 },
+        FontType::UI,
+        buttonTexture
+    );
+
+    exitButton->SetOnClick([]()
+        {
+            GET_SINGLE(SceneManager)->LoadScene(L"TitleScene");
+        });
+
+    SubUIManager* gameClearUI = _gameClearWIndow->GetUI();
+    gameClearUI->Add(std::move(gameClearImage));
+    gameClearUI->Add(std::move(exitButton));
 }
+

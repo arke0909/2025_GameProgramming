@@ -1,57 +1,40 @@
 #pragma once
+#include "WindowManager.h"
 #include "SubUIManager.h"
-
-struct WindowSet;
 
 class Window
 {
 public:
-	Window(LPCWSTR windowName, const WindowSet& windowSet);
-	~Window();
-public:
-	virtual void Update();
-	void Render(HDC hDC);
-	HWND GetHandle()
-	{
-		return _hWnd;
-	}
-	HDC GetHDC()
-	{
-		return _hDC;
-	}
-	Vec2 GetPos()
-	{
-		return _pos;
-	}
-	Vec2 GetLTPos()
-	{
-		return _topLeft;
-	}
-	Vec2 GetSize()
-	{
-		return _size;
-	}
-	Vec2 GetWindowSize()
-	{
-		return _windowSize;
-	}
-	void SetVisible(bool visible);   
-	bool IsVisible() const;            
+    Window(LPCWSTR windowName, const WindowSet& windowSet);
+    virtual ~Window();
 
-	SubUIManager* GetUI() { return &_uiManager; }
+    virtual void Update();
+    virtual void Render(HDC hDC);
+
+    HWND GetHandle() const { return _hWnd; }
+    HDC GetHDC() const { return _hDC; }
+    Vec2 GetPos() const { return _pos; }
+    Vec2 GetSize() const { return _size; }
+    Vec2 GetWindowSize() const { return _windowSize; }
+
+    void SetVisible(bool visible);
+    bool IsVisible() const;
+
+    SubUIManager* GetUI() { return &_uiManager; }
 
 protected:
-	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-	virtual LRESULT HandleWnd(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-	void SetSizeAndPos(const Vec2& size, const Vec2& pos);
+    static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+    virtual LRESULT HandleWnd(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+    void SetSizeAndPos(const Vec2& size, const Vec2& centerPos);
+
 protected:
-	HWND _hWnd;
-	HDC _hDC;
-	Vec2 _pos;
-	Vec2 _topLeft;
-	Vec2 _originSize;
-	Vec2 _size;
-	Vec2 _windowSize;
-	SubUIManager _uiManager;
+    HWND _hWnd = nullptr;
+    HDC _hDC = nullptr;
+    Vec2 _pos;
+    Vec2 _topLeft;
+    Vec2 _originSize;
+    Vec2 _size;
+    Vec2 _windowSize;
+
+    SubUIManager _uiManager;
 };
-
