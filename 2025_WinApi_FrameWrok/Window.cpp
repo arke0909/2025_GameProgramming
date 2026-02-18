@@ -148,4 +148,8 @@ void Window::SetSizeAndPos(const Vec2& size, const Vec2& centerPos)
     _size = { (float)w, (float)h };
     _pos = centerPos;
     _topLeft = { (float)left, (float)top };
+
+    if (_hWnd == nullptr) return;
+
+    MoveWindow(_hWnd, left, top, w, h, TRUE);
 }
