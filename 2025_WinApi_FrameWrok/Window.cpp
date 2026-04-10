@@ -1,155 +1,222 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "Window.h"
+#include "WindowManager.h"
+#include "EasingManager.h"
 #include "Core.h"
+#include "Resource.h"
+
+#undef max
 
 Window::Window(LPCWSTR windowName, const WindowSet& windowSet)
 {
-    WNDCLASS wc = {};
-    wc.style = CS_HREDRAW | CS_VREDRAW;
-    wc.lpfnWndProc = WndProc;
-    wc.hInstance = GET_SINGLE(Core)->GetInstance();
-    wc.lpszClassName = L"Window";
+	WNDCLASS wcex = { 0 };
 
-    RegisterClass(&wc);
+	wcex.style = CS_HREDRAW | CS_VREDRAW;
+	wcex.lpfnWndProc = WndProc;
+	wcex.cbClsExtra = 0;
+	wcex.cbWndExtra = 0;
+	wcex.hInstance = GET_SINGLE(Core)->GetInstance();
+	wcex.lpszMenuName = nullptr;
+	wcex.lpszClassName = L"Window";
 
-    _originSize = windowSet.size;
-    SetSizeAndPos(windowSet.size, windowSet.pos);
+	::RegisterClass(&wcex);
 
-    _hWnd = CreateWindowW(
-        wc.lpszClassName,
-        windowName,
-        WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU,
-        (int)_topLeft.x,
-        (int)_topLeft.y,
-        (int)_size.x,
-        (int)_size.y,
-        nullptr,
-        nullptr,
-        GET_SINGLE(Core)->GetInstance(),
-        this);
+	_originSize = windowSet.size;
 
-    _hDC = GetDC(_hWnd);
-    ShowWindow(_hWnd, SW_SHOW);
+	SetSizeAndPos(windowSet.size, windowSet.pos);
+
+	_hWnd = ::CreateWindowW(
+		L"Window",
+		windowName,
+		WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU,
+		_topLeft.x, _topLeft.y,
+		_size.x, _size.y,
+		nullptr,
+		nullptr,
+		GET_SINGLE(Core)->GetInstance(),
+		this);
+
+	_hDC = ::GetDC(_hWnd);
+	::ShowWindow(_hWnd, SW_SHOW);
 }
 
 Window::~Window()
 {
-    // »èÁ¦´Â WindowManager¿¡¼­ Ã¥ÀÓÁü
 }
 
 void Window::SetVisible(bool visible)
 {
-    ShowWindow(_hWnd, visible ? SW_SHOW : SW_HIDE);
+	ShowWindow(_hWnd, visible ? SW_SHOW : SW_HIDE);
 }
 
 bool Window::IsVisible() const
 {
-    return IsWindowVisible(_hWnd);
+	return IsWindowVisible(_hWnd) != FALSE;
 }
+
 
 void Window::Update()
 {
-    _uiManager.Update(_hWnd);
+	_uiManager.Update(_hWnd);
 }
 
 void Window::Render(HDC hDC)
 {
-    int w = _windowSize.x;
-    int h = _windowSize.y;
+	int w = _windowSize.x;
+	int h = _windowSize.y;
 
-    HDC memDC = CreateCompatibleDC(hDC);
-    HBITMAP memBitmap = CreateCompatibleBitmap(hDC, w, h);
-    HBITMAP oldBitmap = (HBITMAP)SelectObject(memDC, memBitmap);
+	HDC memDC = ::CreateCompatibleDC(hDC);
+	HBITMAP memBitmap = ::CreateCompatibleBitmap(hDC, w, h);
+	HBITMAP oldBitmap = (HBITMAP)::SelectObject(memDC, memBitmap);
 
-    BitBlt(memDC, 0, 0, w, h, hDC, (int)_topLeft.x, (int)_topLeft.y, SRCCOPY);
+	::BitBlt(memDC, 0, 0, w, h, hDC, _topLeft.x, _topLeft.y, SRCCOPY);
 
-    if (_uiManager.Count() > 0)
-        _uiManager.Render(memDC);
+	if (_uiManager.Count() > 0)
+		_uiManager.Render(memDC);
+	::BitBlt(_hDC, 0, 0, w, h, memDC, 0, 0, SRCCOPY);
 
-    BitBlt(_hDC, 0, 0, w, h, memDC, 0, 0, SRCCOPY);
-
-    SelectObject(memDC, oldBitmap);
-    DeleteObject(memBitmap);
-    DeleteDC(memDC);
+	::SelectObject(memDC, oldBitmap);
+	::DeleteObject(memBitmap);
+	::DeleteDC(memDC);
 }
 
-LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    Window* window = nullptr;
+	Window* window;
 
-    if (msg == WM_CREATE)
-    {
-        CREATESTRUCT* cs = (CREATESTRUCT*)lParam;
-        window = (Window*)cs->lpCreateParams;
-        SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)window);
-        window->_hWnd = hWnd;
-    }
-    else
-    {
-        window = (Window*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
-    }
+	if (message == WM_CREATE)
+	{
+		CREATESTRUCT* cs = (CREATESTRUCT*)lParam;
+		window = (Window*)cs->lpCreateParams;
 
-    if (window)
-        return window->HandleWnd(hWnd, msg, wParam, lParam);
+		SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)window);
+		window->_hWnd = hWnd;
+	}
+	else
+	{
+		window = (Window*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+	}
 
-    return DefWindowProc(hWnd, msg, wParam, lParam);
+	if (window)
+		return window->HandleWnd(hWnd, message, wParam, lParam);
+
+	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-LRESULT Window::HandleWnd(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+
+LRESULT Window::HandleWnd(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    switch (msg)
-    {
-    case WM_PAINT:
-    {
-        PAINTSTRUCT ps;
-        BeginPaint(hWnd, &ps);
-        EndPaint(hWnd, &ps);
-        return 0;
-    }
 
-    case WM_MOVE:
-    {
-        RECT rect;
-        GetWindowRect(hWnd, &rect);
-        _topLeft = { (float)rect.left, (float)rect.top };
-        _pos = { _topLeft.x + _size.x * 0.5f, _topLeft.y + _size.y * 0.5f };
-        return 0;
-    }
+	switch (message)
+	{
+	case WM_NCHITTEST:
+	{
+		LRESULT hit = DefWindowProc(hWnd, message, wParam, lParam);
+		if (hit == HTCAPTION)
+			return HTCLIENT;   
+		return hit;
+	}
+	case WM_SYSCOMMAND:
 
-    case WM_SIZE:
-    {
-        RECT rect;
-        GetWindowRect(hWnd, &rect);
-        _topLeft = { (float)rect.left, (float)rect.top };
-        _size = { (float)(rect.right - rect.left), (float)(rect.bottom - rect.top) };
-        return 0;
-    }
+		switch (wParam & 0xFFF0)
+		{
+		case SC_MOVE:
+		case SC_SIZE:
+		case SC_MAXIMIZE:
+			return 0;
+		}
 
-    default:
-        return DefWindowProc(hWnd, msg, wParam, lParam);
-    }
+		return 0;
+	case WM_PAINT:
+	{
+		PAINTSTRUCT ps;
+		HDC hdc = BeginPaint(hWnd, &ps);
+		EndPaint(hWnd, &ps);
+	}
+	return 0;
+	case WM_MOVE:
+	{
+		RECT rt;
+		::GetWindowRect(hWnd, &rt);
+
+		int left = rt.left;
+		int top = rt.top;
+
+		_topLeft = { left, top };
+		_pos = { left + _size.x * 0.5f, top + _size.y * 0.5f };
+	}
+	return 0;
+
+	case WM_SIZE:
+	{
+		RECT rt;
+		::GetWindowRect(hWnd, &rt);
+
+		int left = rt.left;
+		int top = rt.top;
+		_topLeft = { left, top };
+
+		_size.x = rt.right - rt.left;
+		_size.y = rt.bottom - rt.top;
+	}
+	return 0;
+	default:
+		return DefWindowProc(hWnd, message, wParam, lParam);
+	}
 }
 
 void Window::SetSizeAndPos(const Vec2& size, const Vec2& centerPos)
 {
-    RECT rect = { 0, 0, (LONG)size.x, (LONG)size.y };
-    AdjustWindowRect(&rect, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU, FALSE);
+	auto windowSetting = WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU;
 
-    int w = rect.right - rect.left;
-    int h = rect.bottom - rect.top;
+	RECT rect = { 0, 0, (LONG)size.x, (LONG)size.y };
+	AdjustWindowRect(&rect, windowSetting, FALSE);
 
-    float halfW = w * 0.5f;
-    float halfH = h * 0.5f;
+	int w = rect.right - rect.left;
+	int h = rect.bottom - rect.top;
 
-    int left = (int)(centerPos.x - halfW);
-    int top = (int)(centerPos.y - halfH);
+	w = std::max(w, 1);
+	h = std::max(h, 1);
 
-    _windowSize = size;
-    _size = { (float)w, (float)h };
-    _pos = centerPos;
-    _topLeft = { (float)left, (float)top };
+	float halfW = w * 0.5f;
+	float halfH = h * 0.5f;
 
-    if (_hWnd == nullptr) return;
+	float minX = halfW;
+	float maxX = SCREEN_WIDTH - halfW;
+	float minY = halfH;
+	float maxY = SCREEN_HEIGHT - halfH;
 
-    MoveWindow(_hWnd, left, top, w, h, TRUE);
+	if (minX > maxX)  minX = maxX = SCREEN_WIDTH * 0.5f;
+	if (minY > maxY)  minY = maxY = SCREEN_HEIGHT * 0.5f;
+
+	float clampedX = std::clamp(centerPos.x, minX, maxX);
+	float clampedY = std::clamp(centerPos.y, minY, maxY);
+
+	int left = (int)(clampedX - halfW);
+	int top = (int)(clampedY - halfH);
+
+	int minLeft = 0;
+	int maxLeft = SCREEN_WIDTH - w;
+
+	if (maxLeft < minLeft)
+		maxLeft = minLeft;
+
+	int minTop = 0;
+	int maxTop = SCREEN_HEIGHT - h;
+
+	if (maxTop < minTop)
+		maxTop = minTop;
+
+	left = std::clamp(left, minLeft, maxLeft);
+	top = std::clamp(top, minTop, maxTop);
+
+
+	_windowSize = size;
+	_size = { (float)w, (float)h };
+	_pos = { clampedX, clampedY };
+	_topLeft = { (float)left, (float)top };
+
+	if (_hWnd == nullptr) return;
+
+	MoveWindow(_hWnd, left, top, w, h, TRUE);
 }

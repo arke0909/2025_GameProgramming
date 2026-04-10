@@ -30,7 +30,7 @@ void GameScene::Init()
     );
 
     _informationWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
-        L"Information", { {SCREEN_WIDTH - 500, 300.0f }, {120, 85} });
+        L"Information", { {SCREEN_WIDTH * 0.85f, 300.0f}, {120, 85}});
 
     _storeWindow = GET_SINGLE(WindowManager)->CreateSubWindow<Window>(
         L"Store", { {SCREEN_WIDTH - 300, SCREEN_HEIGHT / 2 + 150}, {500, 300} });
