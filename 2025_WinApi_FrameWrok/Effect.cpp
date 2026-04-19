@@ -21,7 +21,9 @@ void Effect::CreateParticle(int maxParticle, int minParticle, float maxSpeed, fl
 	DistributionFloat sizeDist(minSize, maxSize); 
 	DistributionFloat angleDist(0, 2 * PI); 
 	
-	for (int i = 0; i < cntDist(gen); ++i)
+	int particleCount = cntDist(gen);
+
+	for (int i = 0; i < particleCount; ++i)
 	{
 		EffectParticle* ep = new EffectParticle();
 		ep->SetPos(_pos);
@@ -64,6 +66,7 @@ void Effect::Render(HDC hdc)
 {
 	for (auto* particle : _particles)
 	{
-		particle->Render(hdc);
+		if(!particle->GetIsDead())
+			particle->Render(hdc);
 	}
 }
