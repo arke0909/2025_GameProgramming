@@ -18,6 +18,7 @@ public:
     Vec2 GetWindowSize() const { return _windowSize; }
 
     void SetVisible(bool visible);
+    void SetTop();
     bool IsVisible() const;
 
     SubUIManager* GetUI() { return &_uiManager; }

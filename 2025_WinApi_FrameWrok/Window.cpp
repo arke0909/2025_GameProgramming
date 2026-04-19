@@ -49,6 +49,11 @@ void Window::SetVisible(bool visible)
 	ShowWindow(_hWnd, visible ? SW_SHOW : SW_HIDE);
 }
 
+void Window::SetTop()
+{
+	SetWindowPos(_hWnd, HWND_TOP, _topLeft.x, _topLeft.y, _pos.x, _pos.y,NULL);
+}
+
 bool Window::IsVisible() const
 {
 	return IsWindowVisible(_hWnd) != FALSE;
