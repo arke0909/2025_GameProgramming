@@ -51,7 +51,26 @@ void Window::SetVisible(bool visible)
 
 void Window::SetTop()
 {
-	SetWindowPos(_hWnd, HWND_TOP, _topLeft.x, _topLeft.y, _pos.x, _pos.y,NULL);
+	if (_hWnd == nullptr)
+		return;
+
+	SetWindowPos(
+		_hWnd,
+		HWND_TOP,
+		0, 0, 0, 0,
+		SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+}
+
+void Window::SetTopMost(bool topMost)
+{
+	if (_hWnd == nullptr)
+		return;
+
+	SetWindowPos(
+		_hWnd,
+		topMost ? HWND_TOPMOST : HWND_NOTOPMOST,
+		0, 0, 0, 0,
+		SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 }
 
 bool Window::IsVisible() const

@@ -19,6 +19,7 @@ public:
 
     void SetVisible(bool visible);
     void SetTop();
+    void SetTopMost(bool topMost);
     bool IsVisible() const;
 
     SubUIManager* GetUI() { return &_uiManager; }
