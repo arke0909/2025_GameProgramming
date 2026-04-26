@@ -37,11 +37,20 @@ Window::Window(LPCWSTR windowName, const WindowSet& windowSet)
 		this);
 
 	_hDC = ::GetDC(_hWnd);
+	CreateBackBuffer();
+
 	::ShowWindow(_hWnd, SW_SHOW);
 }
 
 Window::~Window()
 {
+	ReleaseBackBuffer();
+
+	if (_hWnd != nullptr && _hDC != nullptr)
+	{
+		::ReleaseDC(_hWnd, _hDC);
+		_hDC = nullptr;
+	}
 }
 
 void Window::SetVisible(bool visible)
@@ -86,22 +95,20 @@ void Window::Update()
 
 void Window::Render(HDC hDC)
 {
-	int w = _windowSize.x;
-	int h = _windowSize.y;
+	if (_hDC == nullptr || _memDC == nullptr || _memBitmap == nullptr)
+		return;
 
-	HDC memDC = ::CreateCompatibleDC(hDC);
-	HBITMAP memBitmap = ::CreateCompatibleBitmap(hDC, w, h);
-	HBITMAP oldBitmap = (HBITMAP)::SelectObject(memDC, memBitmap);
+	Vec2 clientLT = GetClientTopLeft();
+	int l = clientLT.x;
+	int t = clientLT.y;
+	int w = std::max((int)_windowSize.x, 1);
+	int h = std::max((int)_windowSize.y, 1);
 
-	::BitBlt(memDC, 0, 0, w, h, hDC, _topLeft.x, _topLeft.y, SRCCOPY);
+	::BitBlt(_memDC, 0, 0, w, h, hDC, l, t, SRCCOPY);
 
 	if (_uiManager.Count() > 0)
-		_uiManager.Render(memDC);
-	::BitBlt(_hDC, 0, 0, w, h, memDC, 0, 0, SRCCOPY);
-
-	::SelectObject(memDC, oldBitmap);
-	::DeleteObject(memBitmap);
-	::DeleteDC(memDC);
+		_uiManager.Render(_memDC);
+	::BitBlt(_hDC, 0, 0, w, h, _memDC, 0, 0, SRCCOPY);
 }
 
 LRESULT Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -182,6 +189,7 @@ LRESULT Window::HandleWnd(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		_size.x = rt.right - rt.left;
 		_size.y = rt.bottom - rt.top;
+		CreateBackBuffer();
 	}
 	return 0;
 	default:
@@ -243,4 +251,50 @@ void Window::SetSizeAndPos(const Vec2& size, const Vec2& centerPos)
 	if (_hWnd == nullptr) return;
 
 	MoveWindow(_hWnd, left, top, w, h, TRUE);
+}
+
+void Window::CreateBackBuffer()
+{
+	if (_hDC == nullptr)
+		return;
+
+	ReleaseBackBuffer();
+
+	_memDC = ::CreateCompatibleDC(_hDC);
+	if (_memDC == nullptr)
+		return;
+
+	int width = std::max((int)_windowSize.x, 1);
+	int height = std::max((int)_windowSize.y, 1);
+
+	_memBitmap = ::CreateCompatibleBitmap(_hDC, width, height);
+	if (_memBitmap == nullptr)
+	{
+		::DeleteDC(_memDC);
+		_memDC = nullptr;
+		return;
+	}
+
+	_oldBitmap = (HBITMAP)::SelectObject(_memDC, _memBitmap);
+}
+
+void Window::ReleaseBackBuffer()
+{
+	if (_memDC != nullptr && _oldBitmap != nullptr)
+	{
+		::SelectObject(_memDC, _oldBitmap);
+		_oldBitmap = nullptr;
+	}
+
+	if (_memBitmap != nullptr)
+	{
+		::DeleteObject(_memBitmap);
+		_memBitmap = nullptr;
+	}
+
+	if (_memDC != nullptr)
+	{
+		::DeleteDC(_memDC);
+		_memDC = nullptr;
+	}
 }
