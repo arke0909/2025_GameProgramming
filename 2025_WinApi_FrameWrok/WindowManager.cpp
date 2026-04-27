@@ -53,7 +53,6 @@ void WindowManager::ProcessRemovals()
         auto it = std::find(_subWindows.begin(), _subWindows.end(), window);
         if (it != _subWindows.end())
         {
-            ::ReleaseDC(window->GetHandle(), window->GetHDC());
             ::DestroyWindow(window->GetHandle());
             delete window;
             _subWindows.erase(it);
